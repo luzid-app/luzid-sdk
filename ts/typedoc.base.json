@@ -5,6 +5,5 @@
   "categorizeByGroup": true,
   "defaultCategory": "Other",
   "categoryOrder": ["*"],
-  "navigation": true,
-  "cname": "luzid.app"
+  "navigation": true
 }
