@@ -4,5 +4,6 @@
   "includeVersion": false,
   "out": "../gh-pages/docs/ts",
   "readme": "README.md",
-  "name": "Luzid — Application API References"
+  "name": "Luzid — Application API References",
+  "cname": "luzid.app"
 }
