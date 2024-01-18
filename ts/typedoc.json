@@ -1,9 +1,11 @@
 {
+  "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["packages/*"],
   "entryPointStrategy": "packages",
   "includeVersion": false,
   "out": "../gh-pages/docs/ts",
   "readme": "README.md",
   "name": "Luzid — Application API References",
-  "cname": "luzid.app"
+  "cname": "luzid.app",
+  "plugin": ["typedoc-material-theme"]
 }
