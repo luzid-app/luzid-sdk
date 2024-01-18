@@ -1,0 +1,8 @@
+{
+  "entryPoints": ["packages/*"],
+  "entryPointStrategy": "packages",
+  "includeVersion": false,
+  "out": "../gh-pages/docs/ts",
+  "readme": "README.md",
+  "name": "Luzid — Application API References"
+}

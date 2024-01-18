@@ -2,7 +2,8 @@
   "name": "luzid-ts-workspace",
   "version": "0.0.0",
   "scripts": {
-    "build": "yarn workspaces run build"
+    "build": "yarn workspaces run build",
+    "doc": "typedoc"
   },
   "description": "Luzid TypeScript package workspace.",
   "repository": "git@github.com:luzid-app/luzid.git",
@@ -17,6 +18,7 @@
   "devDependencies": {
     "esbuild": "^0.19.11",
     "esbuild-runner": "^2.2.2",
+    "typedoc": "^0.25.7",
     "typescript": "^5.3.3"
   }
 }

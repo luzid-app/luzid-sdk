@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+cd $DIR/..
+COMMIT_HASH=$(git rev-parse --short HEAD)
+
+cd $DIR/../gh-pages                                          && \
+rm -rf .git                                                  && \
+git init -b gh-pages                                         && \
+git remote add origin git@github.com:luzid-app/luzid-sdk.git && \
+git add .                                                    && \
+git commit -m "chore: deploy docs at ${COMMIT_HASH}"         && \
+git push -f origin gh-pages

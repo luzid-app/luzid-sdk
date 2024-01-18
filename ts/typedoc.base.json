@@ -1,0 +1,9 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "includeVersion": true,
+  "excludeNotDocumented": false,
+  "categorizeByGroup": true,
+  "defaultCategory": "Other",
+  "categoryOrder": ["*"],
+  "navigation": true
+}
