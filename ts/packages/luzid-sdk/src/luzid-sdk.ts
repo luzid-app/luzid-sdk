@@ -14,15 +14,16 @@ export class LuzidSdk {
   private readonly client: LuzidGrpcClient
   private readonly _app: LuzidApp
   private readonly _mutator: LuzidMutator
-  private readonly _rpc?: LuzidRpc
-  private _snapshot?: LuzidSnapshot
-  private _store?: LuzidStore
-  private _validator?: LuzidValidator
+  private readonly _rpc: LuzidRpc
+  private readonly _snapshot: LuzidSnapshot
+  private readonly _store: LuzidStore
+  private readonly _validator: LuzidValidator
 
   constructor(opts?: LuzidSdkOpts) {
     this.client = new LuzidGrpcClient(opts?.client)
     this._app = new LuzidApp(this.client)
     this._mutator = new LuzidMutator(this.client)
+    this._rpc = new LuzidRpc(this.client)
     this._snapshot = new LuzidSnapshot(this.client)
     this._store = new LuzidStore(this.client)
     this._validator = new LuzidValidator(this.client)
