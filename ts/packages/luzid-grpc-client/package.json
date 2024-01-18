@@ -1,0 +1,19 @@
+{
+  "name": "@luzid/grpc-client",
+  "version": "0.0.0",
+  "description": "The GRPC client interface to the Luzid Validator service.",
+  "main": "dist/esm/grpc-client.js",
+  "types": "dist/types/grpc-client.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": "git@github.com:luzid-app/luzid.git",
+  "author": "Thorsten Lorenz <thlorenz@gmx.de>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "@luzid/grpc": "*",
+    "nice-grpc": "^2.1.7",
+    "nice-grpc-web": "^3.3.2"
+  }
+}

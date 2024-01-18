@@ -1,0 +1,20 @@
+{
+  "name": "@luzid/grpc",
+  "version": "0.0.0",
+  "description": "The GRPC interface to the Luzid Validator service.",
+  "main": "dist/esm/grpc.js",
+  "types": "dist/types/grpc.d.ts",
+  "scripts": {
+    "build": "./sh/proto-gen && tsc"
+  },
+  "repository": "git@github.com:luzid-app/luzid.git",
+  "author": "Thorsten Lorenz <thlorenz@gmx.de>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "ts-proto": "^1.166.2"
+  },
+  "dependencies": {
+    "long": "^5.2.3"
+  }
+}

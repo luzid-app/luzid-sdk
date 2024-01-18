@@ -1,0 +1,22 @@
+{
+  "name": "luzid-ts-workspace",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "yarn workspaces run build"
+  },
+  "description": "Luzid TypeScript package workspace.",
+  "repository": "git@github.com:luzid-app/luzid.git",
+  "author": "Thorsten Lorenz <thlorenz@gmx.de>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/luzid-grpc",
+    "packages/luzid-grpc-client",
+    "packages/luzid-sdk"
+  ],
+  "devDependencies": {
+    "esbuild": "^0.19.11",
+    "esbuild-runner": "^2.2.2",
+    "typescript": "^5.3.3"
+  }
+}
