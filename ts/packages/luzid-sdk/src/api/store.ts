@@ -6,6 +6,7 @@ import {
 } from '@luzid/grpc'
 
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
+import { Successful, maybeThrow } from '../core/utils'
 
 export class LuzidStore {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -17,16 +18,10 @@ export class LuzidStore {
    */
   async getAccountData(
     pubkey: string
-  ): Promise<Omit<StoreGetAccountDataResponse, 'error'>> {
+  ): Promise<Successful<StoreGetAccountDataResponse>> {
     const req: StoreGetAccountDataRequest = { pubkey }
     const res = await this.client.store.getAccountData(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid store.getAccountData returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid store.getAccountData')
   }
 
   /**
@@ -38,18 +33,12 @@ export class LuzidStore {
   async getDiffedAccountUpdate(
     pubkey: string,
     transactionSignature: string
-  ): Promise<Omit<StoreGetDiffedAccountUpdateResponse, 'error'>> {
+  ): Promise<Successful<StoreGetDiffedAccountUpdateResponse>> {
     const req: StoreGetDiffedAccountUpdateRequest = {
       pubkey,
       transactionSignature,
     }
     const res = await this.client.store.getDiffedAccountUpdate(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid store.getDiffedAccountUpdate returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid store.getDiffedAccountUpdate')
   }
 }

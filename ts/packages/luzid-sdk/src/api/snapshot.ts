@@ -9,6 +9,7 @@ import {
   SnapshotRestoreRetrieveAccountsInSnapshotResponse,
 } from '@luzid/grpc'
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
+import { Successful, maybeThrow } from '../core/utils'
 
 export class LuzidSnapshot {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -20,18 +21,12 @@ export class LuzidSnapshot {
    */
   async getSnaphotableAccounts(
     includeProgramAccounts: boolean = false
-  ): Promise<Omit<SnapshotManagementGetSnaphotableAccountsResponse, 'error'>> {
+  ): Promise<Successful<SnapshotManagementGetSnaphotableAccountsResponse>> {
     const req: SnapshotManagementGetSnaphotableAccountsRequest = {
       includeProgramAccounts,
     }
     const res = await this.client.snapshot.getSnaphotableAccounts(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid snapshot.getSnaphotableAccounts returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid snapshot.getSnaphotableAccounts')
   }
 
   /**
@@ -40,13 +35,7 @@ export class LuzidSnapshot {
   async listSnapshots(): Promise<SnapshotRestoreListSnapshotsResponse> {
     const req: SnapshotRestoreListSnapshotsRequest = {}
     const res = await this.client.snapshot.listSnapshots(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid snapshot.listSnapshots returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid snapshot.listSnapshots')
   }
 
   /**
@@ -65,16 +54,10 @@ export class LuzidSnapshot {
    */
   async retrieveAccountsInSnapshot(
     snapshotId: string
-  ): Promise<SnapshotRestoreRetrieveAccountsInSnapshotResponse> {
+  ): Promise<Successful<SnapshotRestoreRetrieveAccountsInSnapshotResponse>> {
     const req: SnapshotRestoreRetrieveAccountsInSnapshotRequest = { snapshotId }
     const res = await this.client.snapshot.retrieveAccountsInSnapshot(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid snapshot.retrieveAccountsInSnapshot returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid snapshot.retrieveAccountsInSnapshot')
   }
 
   /**
@@ -86,18 +69,12 @@ export class LuzidSnapshot {
   async restoreAccountsFromSnapshot(
     snapshotId: string,
     accounts: string[]
-  ): Promise<SnapshotRestoreRestoreAccountsFromSnapshotResponse> {
+  ): Promise<Successful<SnapshotRestoreRestoreAccountsFromSnapshotResponse>> {
     const req: SnapshotRestoreRestoreAccountsFromSnapshotRequest = {
       snapshotId,
       accounts,
     }
     const res = await this.client.snapshot.restoreAccountsFromSnapshot(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid snapshot.restoreAccountsFromSnapshot returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid snapshot.restoreAccountsFromSnapshot')
   }
 }

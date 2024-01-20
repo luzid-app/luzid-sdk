@@ -8,6 +8,7 @@ import {
 } from '@luzid/grpc'
 import { LuzidGrpcClient } from '@luzid/grpc-client'
 import { assert } from '../core/assert'
+import { Successful, maybeThrow } from '../core/utils'
 
 export class LuzidRpc {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -29,16 +30,10 @@ export class LuzidRpc {
   async getAccountInfo(
     cluster: Cluster,
     address: string
-  ): Promise<Omit<RpcGetAccountInfoResponse, 'error'>> {
+  ): Promise<Successful<RpcGetAccountInfoResponse>> {
     const req: RpcGetAccountInfoRequest = { cluster, address }
     const res = await this.client.rpc.getAccountInfo(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid rpc.getAccountInfo returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid rpc.getAccountInfo')
   }
 
   /**
@@ -52,7 +47,7 @@ export class LuzidRpc {
     cluster: Cluster,
     address: string,
     solAmount: number
-  ): Promise<Omit<RpcRequestAirdropResponse, 'error'>> {
+  ): Promise<Successful<RpcRequestAirdropResponse>> {
     assert(
       cluster == Cluster.Development,
       `Invalid cluster ${clusterToJSON(
@@ -61,12 +56,6 @@ export class LuzidRpc {
     )
     const req: RpcRequestAirdropRequest = { cluster, address, solAmount }
     const res = await this.client.rpc.requestAirdrop(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid rpc.requestAirdrop returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid rpc.requestAirdrop')
   }
 }

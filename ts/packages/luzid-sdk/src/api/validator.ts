@@ -5,6 +5,7 @@ import {
 } from '@luzid/grpc'
 
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
+import { Successful, maybeThrow } from '../core/utils'
 
 export class LuzidValidator {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -16,15 +17,9 @@ export class LuzidValidator {
    */
   async validatorOps(
     op: ValidatorOpsOperation
-  ): Promise<Omit<ValidatorOpsResponse, 'error'>> {
+  ): Promise<Successful<ValidatorOpsResponse>> {
     const req: ValidatorOpsRequest = { op }
     const res = await this.client.validator.validatorOps(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid validator.validatorOps returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return maybeThrow(res, 'Luzid validator.validatorOps')
   }
 }

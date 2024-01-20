@@ -6,6 +6,13 @@ import { LuzidSnapshot } from './api/snapshot'
 import { LuzidStore } from './api/store'
 import { LuzidValidator } from './api/validator'
 
+export * from './api/app'
+export * from './api/mutator'
+export * from './api/rpc'
+export * from './api/snapshot'
+export * from './api/store'
+export * from './api/validator'
+
 export type LuzidSdkOpts = {
   client?: LuzidGrpcClientOpts
 }
