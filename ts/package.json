@@ -13,7 +13,8 @@
   "workspaces": [
     "packages/luzid-grpc",
     "packages/luzid-grpc-client",
-    "packages/luzid-sdk"
+    "packages/luzid-sdk",
+    "examples"
   ],
   "devDependencies": {
     "esbuild": "^0.19.11",
