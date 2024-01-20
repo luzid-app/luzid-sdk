@@ -12,6 +12,10 @@ export {
 } from './proto/types/data_source'
 
 export { RpcDiffedAccountUpdate } from './proto/types/diffed_account_update'
+export {
+  RpcAccountModification,
+  RpcModifyAccountOpts,
+} from './proto/types/account_modification'
 
 export { RpcSnapshotAccount } from './proto/types/snapshot_account'
 
@@ -36,6 +40,14 @@ export {
   MutatorCloneAccountServiceImplementation,
   MutatorCloneAccountServiceClient,
 } from './proto/requests/mutator_clone_account'
+
+export {
+  UpdateRequest as MutatorModifyAccountRequest,
+  UpdateResponse as MutatorModifyAccountResponse,
+  MutatorModifyAccountServiceDefinition,
+  MutatorModifyAccountServiceImplementation,
+  MutatorModifyAccountServiceClient,
+} from './proto/requests/mutator_modify_account'
 
 export {
   RpcContext,

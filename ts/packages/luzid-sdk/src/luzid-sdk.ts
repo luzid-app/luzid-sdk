@@ -42,6 +42,7 @@ export class LuzidSdk {
    * Provides access to the Luzid Mutator service with the following methods:
    *
    * - **cloneAccount**: Clones an account.
+   * - **modifyAccount**: Modifies an account.
    */
   get mutator() {
     return this._mutator
