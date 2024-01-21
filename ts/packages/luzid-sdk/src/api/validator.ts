@@ -14,12 +14,35 @@ export class LuzidValidator {
    * Performs an operation on the validator.
    *
    * @param **op**: The operation to perform (start|stop|restart)
+   *
+   * @private
    */
-  async validatorOps(
+  private async validatorOps(
     op: ValidatorOpsOperation
   ): Promise<Successful<ValidatorOpsResponse>> {
     const req: ValidatorOpsRequest = { op }
     const res = await this.client.validator.validatorOps(req)
     return maybeThrow(res, 'Luzid validator.validatorOps')
+  }
+
+  /**
+   * Starts the validator.
+   */
+  start(): Promise<Successful<ValidatorOpsResponse>> {
+    return this.validatorOps(ValidatorOpsOperation.Start)
+  }
+
+  /**
+   * Stops the validator.
+   */
+  stop(): Promise<Successful<ValidatorOpsResponse>> {
+    return this.validatorOps(ValidatorOpsOperation.Stop)
+  }
+
+  /**
+   * Restarts the validator.
+   */
+  restart(): Promise<Successful<ValidatorOpsResponse>> {
+    return this.validatorOps(ValidatorOpsOperation.Restart)
   }
 }
