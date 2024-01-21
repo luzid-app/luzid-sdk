@@ -12,6 +12,7 @@ export * from './api/rpc'
 export * from './api/snapshot'
 export * from './api/store'
 export * from './api/validator'
+export { SolanaEndpoint, LuzidCluster, Cluster } from './api-types/cluster'
 
 export type LuzidSdkOpts = {
   client?: LuzidGrpcClientOpts

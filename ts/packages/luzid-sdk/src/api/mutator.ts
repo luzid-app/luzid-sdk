@@ -1,16 +1,15 @@
 import {
-  Cluster,
   MutatorCloneAccountRequest,
   MutatorCloneAccountResponse,
   MutatorModifyAccountRequest,
   MutatorModifyAccountResponse,
   RpcAccountModification,
   RpcModifyAccountOpts,
-  clusterToJSON,
 } from '@luzid/grpc'
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
 import { assert } from '../core/assert'
 import { Successful, maybeThrow } from '../core/utils'
+import { Cluster, LuzidCluster, intoGrpcCluster } from '../api-types/cluster'
 
 type AccountModificationBuilder = {
   setLamports(lamports: bigint): AccountModificationBuilder
@@ -84,16 +83,17 @@ export class LuzidMutator {
    * @param **address**: the pubkey of the account to clone
    */
   async cloneAccount(
-    cluster: Cluster,
+    cluster: LuzidCluster,
     address: string
   ): Promise<Successful<MutatorCloneAccountResponse>> {
     assert(
       cluster == Cluster.Devnet || cluster == Cluster.MainnetBeta,
-      `Invalid cluster ${clusterToJSON(
-        cluster
-      )}.\nAt this point accounts can only be cloned from MainnetBeta or Devnet.`
+      `Invalid cluster ${cluster.toJSON()}.\nAt this point accounts can only be cloned from MainnetBeta or Devnet.`
     )
-    const req: MutatorCloneAccountRequest = { cluster, address }
+    const req: MutatorCloneAccountRequest = {
+      cluster: intoGrpcCluster(cluster),
+      address,
+    }
     const res = await this.client.mutator.cloneAccount(req)
     return maybeThrow(res, 'Luzid mutator.cloneAccount')
   }

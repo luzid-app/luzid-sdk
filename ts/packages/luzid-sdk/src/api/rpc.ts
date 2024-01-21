@@ -4,11 +4,11 @@ import {
   RpcGetAccountInfoResponse,
   RpcRequestAirdropRequest,
   RpcRequestAirdropResponse,
-  clusterToJSON,
 } from '@luzid/grpc'
 import { LuzidGrpcClient } from '@luzid/grpc-client'
 import { assert } from '../core/assert'
 import { Successful, maybeThrow } from '../core/utils'
+import { LuzidCluster, intoGrpcCluster } from '../api-types/cluster'
 
 export class LuzidRpc {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -28,10 +28,13 @@ export class LuzidRpc {
    * - **rentEpoch**: the rent epoch of the account
    */
   async getAccountInfo(
-    cluster: Cluster,
+    cluster: LuzidCluster,
     address: string
   ): Promise<Successful<RpcGetAccountInfoResponse>> {
-    const req: RpcGetAccountInfoRequest = { cluster, address }
+    const req: RpcGetAccountInfoRequest = {
+      cluster: intoGrpcCluster(cluster),
+      address,
+    }
     const res = await this.client.rpc.getAccountInfo(req)
     return maybeThrow(res, 'Luzid rpc.getAccountInfo')
   }
@@ -44,17 +47,20 @@ export class LuzidRpc {
    * @param **solAmount**: the amount of SOL to drop
    */
   async requestAirdrop(
-    cluster: Cluster,
+    cluster: LuzidCluster,
     address: string,
     solAmount: number
   ): Promise<Successful<RpcRequestAirdropResponse>> {
+    const grpcCluster = intoGrpcCluster(cluster)
     assert(
-      cluster == Cluster.Development,
-      `Invalid cluster ${clusterToJSON(
-        cluster
-      )}. Luzid can only airdrop to the Development cluster.`
+      grpcCluster == Cluster.Development,
+      `Invalid cluster ${cluster.toJSON()}. Luzid can only airdrop to the Development cluster.`
     )
-    const req: RpcRequestAirdropRequest = { cluster, address, solAmount }
+    const req: RpcRequestAirdropRequest = {
+      cluster: grpcCluster,
+      address,
+      solAmount,
+    }
     const res = await this.client.rpc.requestAirdrop(req)
     return maybeThrow(res, 'Luzid rpc.requestAirdrop')
   }
