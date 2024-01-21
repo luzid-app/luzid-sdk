@@ -3,13 +3,13 @@ import { sleep } from './helpers'
 import * as web3 from '@solana/web3.js'
 
 async function main() {
-  const sdk = new LuzidSdk()
+  const luzid = new LuzidSdk()
   const conn = new web3.Connection(Cluster.Development.apiUrl, 'confirmed')
 
   // 1. Stop the validator (it is starts automatically when you launch Luzid)
   {
     console.log('\nStopping validator...')
-    await sdk.validator.stop()
+    await luzid.validator.stop()
     try {
       // This now throws an error because the validator is stopped
       await conn.getVersion()
@@ -22,7 +22,7 @@ async function main() {
   // 2. Start the validator
   {
     console.log('\nStarting validator...')
-    await sdk.validator.start()
+    await luzid.validator.start()
 
     const version = await conn.getVersion()
     console.log(
@@ -37,7 +37,7 @@ async function main() {
   // 3. Restart the validator
   {
     console.log('\nRestarting validator...')
-    await sdk.validator.restart()
+    await luzid.validator.restart()
 
     const version = await conn.getVersion()
     console.log(

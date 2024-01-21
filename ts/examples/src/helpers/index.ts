@@ -1,5 +1,5 @@
 import * as web3 from '@solana/web3.js'
-import readline from 'readline'
+import * as readline from 'readline'
 
 export function assert(expr: boolean, message?: string): asserts expr {
   if (!expr) {
