@@ -4,10 +4,11 @@ import {
   RpcGetAccountInfoResponse,
   RpcRequestAirdropRequest,
   RpcRequestAirdropResponse,
-  clusterToJSON,
 } from '@luzid/grpc'
 import { LuzidGrpcClient } from '@luzid/grpc-client'
 import { assert } from '../core/assert'
+import { Successful, unwrap } from '../core/utils'
+import { LuzidCluster, intoGrpcCluster } from '../api-types/cluster'
 
 export class LuzidRpc {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -27,18 +28,15 @@ export class LuzidRpc {
    * - **rentEpoch**: the rent epoch of the account
    */
   async getAccountInfo(
-    cluster: Cluster,
+    cluster: LuzidCluster,
     address: string
-  ): Promise<Omit<RpcGetAccountInfoResponse, 'error'>> {
-    const req: RpcGetAccountInfoRequest = { cluster, address }
-    const res = await this.client.rpc.getAccountInfo(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid rpc.getAccountInfo returned an error:\n${res.error}`
-      )
-    } else {
-      return res
+  ): Promise<Successful<RpcGetAccountInfoResponse>> {
+    const req: RpcGetAccountInfoRequest = {
+      cluster: intoGrpcCluster(cluster),
+      address,
     }
+    const res = await this.client.rpc.getAccountInfo(req)
+    return unwrap(res, 'Luzid rpc.getAccountInfo')
   }
 
   /**
@@ -49,24 +47,21 @@ export class LuzidRpc {
    * @param **solAmount**: the amount of SOL to drop
    */
   async requestAirdrop(
-    cluster: Cluster,
+    cluster: LuzidCluster,
     address: string,
     solAmount: number
-  ): Promise<Omit<RpcRequestAirdropResponse, 'error'>> {
+  ): Promise<Successful<RpcRequestAirdropResponse>> {
+    const grpcCluster = intoGrpcCluster(cluster)
     assert(
-      cluster == Cluster.Development,
-      `Invalid cluster ${clusterToJSON(
-        cluster
-      )}. Luzid can only airdrop to the Development cluster.`
+      grpcCluster == Cluster.Development,
+      `Invalid cluster ${cluster.toJSON()}. Luzid can only airdrop to the Development cluster.`
     )
-    const req: RpcRequestAirdropRequest = { cluster, address, solAmount }
-    const res = await this.client.rpc.requestAirdrop(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid rpc.requestAirdrop returned an error:\n${res.error}`
-      )
-    } else {
-      return res
+    const req: RpcRequestAirdropRequest = {
+      cluster: grpcCluster,
+      address,
+      solAmount,
     }
+    const res = await this.client.rpc.requestAirdrop(req)
+    return unwrap(res, 'Luzid rpc.requestAirdrop')
   }
 }

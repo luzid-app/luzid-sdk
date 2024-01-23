@@ -6,32 +6,43 @@ import {
   SnapshotGetAccountResponse,
   SnapshotGetAccountServiceDefinition,
   SnapshotGetAccountServiceClient,
-  SnapshotManagementGetSnaphotableAccountsRequest,
-  SnapshotManagementGetSnaphotableAccountsResponse,
+  SnapshotGetSnaphotableAccountsRequest,
+  SnapshotGetSnaphotableAccountsResponse,
   SnapshotManagementServiceDefinition,
   SnapshotManagementServiceClient,
-  SnapshotRestoreListSnapshotsRequest,
-  SnapshotRestoreListSnapshotsResponse,
-  SnapshotRestoreRetrieveAccountsInSnapshotRequest,
-  SnapshotRestoreRetrieveAccountsInSnapshotResponse,
-  SnapshotRestoreRestoreAccountsFromSnapshotRequest,
-  SnapshotRestoreRestoreAccountsFromSnapshotResponse,
+  SnapshotListSnapshotsRequest,
+  SnapshotListSnapshotsResponse,
+  SnapshotRetrieveAccountsInSnapshotRequest,
+  SnapshotRetrieveAccountsInSnapshotResponse,
+  SnapshotRestoreAccountsFromSnapshotRequest,
+  SnapshotRestoreAccountsFromSnapshotResponse,
   SnapshotRestoreServiceDefinition,
   SnapshotRestoreServiceClient,
+  SnapshotCreateSnapshotRequest,
+  SnapshotCreateSnapshotResponse,
+  SnapshotDeleteSnapshotRequest,
+  SnapshotDeleteSnapshotResponse,
 } from '@luzid/grpc'
 
 export {
   SnapshotGetAccountRequest,
   SnapshotGetAccountResponse,
-  SnapshotManagementGetSnaphotableAccountsRequest,
-  SnapshotManagementGetSnaphotableAccountsResponse,
-  RpcSnapshotMetadata,
-  SnapshotRestoreListSnapshotsRequest,
-  SnapshotRestoreListSnapshotsResponse,
-  SnapshotRestoreRetrieveAccountsInSnapshotRequest,
-  SnapshotRestoreRetrieveAccountsInSnapshotResponse,
-  SnapshotRestoreRestoreAccountsFromSnapshotRequest,
-  SnapshotRestoreRestoreAccountsFromSnapshotResponse,
+  SnapshotGetSnaphotableAccountsRequest,
+  SnapshotGetSnaphotableAccountsResponse,
+  SnapshotMetadata,
+  SnapshotCreateSnapshotRequest,
+  SnapshotCreateSnapshotResponse,
+  SnapshotSnapshotableAccount,
+  SnapshotCreateSnapshotResult,
+  SnapshotDeleteSnapshotRequest,
+  SnapshotDeleteSnapshotResponse,
+  SnapshotDeleteSnapshotResult,
+  SnapshotListSnapshotsRequest,
+  SnapshotListSnapshotsResponse,
+  SnapshotRetrieveAccountsInSnapshotRequest,
+  SnapshotRetrieveAccountsInSnapshotResponse,
+  SnapshotRestoreAccountsFromSnapshotRequest,
+  SnapshotRestoreAccountsFromSnapshotResponse,
 } from '@luzid/grpc'
 
 // -----------------
@@ -62,9 +73,21 @@ class SnapshotManagementClient {
   }
 
   getSnaphotableAccounts(
-    request: SnapshotManagementGetSnaphotableAccountsRequest
-  ): Promise<SnapshotManagementGetSnaphotableAccountsResponse> {
+    request: SnapshotGetSnaphotableAccountsRequest
+  ): Promise<SnapshotGetSnaphotableAccountsResponse> {
     return this.client.getSnaphotableAccounts(request)
+  }
+
+  createSnapshot(
+    request: SnapshotCreateSnapshotRequest
+  ): Promise<SnapshotCreateSnapshotResponse> {
+    return this.client.createSnapshot(request)
+  }
+
+  deleteSnapshot(
+    request: SnapshotDeleteSnapshotRequest
+  ): Promise<SnapshotDeleteSnapshotResponse> {
+    return this.client.deleteSnapshot(request)
   }
 }
 
@@ -79,20 +102,20 @@ class SnapshotRestoreClient {
   }
 
   listSnapshots(
-    request: SnapshotRestoreListSnapshotsRequest
-  ): Promise<SnapshotRestoreListSnapshotsResponse> {
+    request: SnapshotListSnapshotsRequest
+  ): Promise<SnapshotListSnapshotsResponse> {
     return this.client.listSnapshots(request)
   }
 
   retrieveAccountsInSnapshot(
-    request: SnapshotRestoreRetrieveAccountsInSnapshotRequest
-  ): Promise<SnapshotRestoreRetrieveAccountsInSnapshotResponse> {
+    request: SnapshotRetrieveAccountsInSnapshotRequest
+  ): Promise<SnapshotRetrieveAccountsInSnapshotResponse> {
     return this.client.retrieveAccountsInSnapshot(request)
   }
 
   restoreAccountsFromSnapshot(
-    request: SnapshotRestoreRestoreAccountsFromSnapshotRequest
-  ): Promise<SnapshotRestoreRestoreAccountsFromSnapshotResponse> {
+    request: SnapshotRestoreAccountsFromSnapshotRequest
+  ): Promise<SnapshotRestoreAccountsFromSnapshotResponse> {
     return this.client.restoreAccountsFromSnapshot(request)
   }
 }
@@ -118,26 +141,38 @@ export class SnapshotClient {
   }
 
   getSnaphotableAccounts(
-    request: SnapshotManagementGetSnaphotableAccountsRequest
-  ): Promise<SnapshotManagementGetSnaphotableAccountsResponse> {
+    request: SnapshotGetSnaphotableAccountsRequest
+  ): Promise<SnapshotGetSnaphotableAccountsResponse> {
     return this.managementClient.getSnaphotableAccounts(request)
   }
 
+  createSnapshot(
+    request: SnapshotCreateSnapshotRequest
+  ): Promise<SnapshotCreateSnapshotResponse> {
+    return this.managementClient.createSnapshot(request)
+  }
+
+  deleteSnapshot(
+    request: SnapshotDeleteSnapshotRequest
+  ): Promise<SnapshotDeleteSnapshotResponse> {
+    return this.managementClient.deleteSnapshot(request)
+  }
+
   listSnapshots(
-    request: SnapshotRestoreListSnapshotsRequest
-  ): Promise<SnapshotRestoreListSnapshotsResponse> {
+    request: SnapshotListSnapshotsRequest
+  ): Promise<SnapshotListSnapshotsResponse> {
     return this.restoreClient.listSnapshots(request)
   }
 
   retrieveAccountsInSnapshot(
-    request: SnapshotRestoreRetrieveAccountsInSnapshotRequest
-  ): Promise<SnapshotRestoreRetrieveAccountsInSnapshotResponse> {
+    request: SnapshotRetrieveAccountsInSnapshotRequest
+  ): Promise<SnapshotRetrieveAccountsInSnapshotResponse> {
     return this.restoreClient.retrieveAccountsInSnapshot(request)
   }
 
   restoreAccountsFromSnapshot(
-    request: SnapshotRestoreRestoreAccountsFromSnapshotRequest
-  ): Promise<SnapshotRestoreRestoreAccountsFromSnapshotResponse> {
+    request: SnapshotRestoreAccountsFromSnapshotRequest
+  ): Promise<SnapshotRestoreAccountsFromSnapshotResponse> {
     return this.restoreClient.restoreAccountsFromSnapshot(request)
   }
 }

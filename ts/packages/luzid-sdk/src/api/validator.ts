@@ -5,6 +5,7 @@ import {
 } from '@luzid/grpc'
 
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
+import { Successful, unwrap } from '../core/utils'
 
 export class LuzidValidator {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -13,18 +14,35 @@ export class LuzidValidator {
    * Performs an operation on the validator.
    *
    * @param **op**: The operation to perform (start|stop|restart)
+   *
+   * @private
    */
-  async validatorOps(
+  private async validatorOps(
     op: ValidatorOpsOperation
-  ): Promise<Omit<ValidatorOpsResponse, 'error'>> {
+  ): Promise<Successful<ValidatorOpsResponse>> {
     const req: ValidatorOpsRequest = { op }
     const res = await this.client.validator.validatorOps(req)
-    if (res.error != null) {
-      throw new Error(
-        `Luzid validator.validatorOps returned an error:\n${res.error}`
-      )
-    } else {
-      return res
-    }
+    return unwrap(res, 'Luzid validator.validatorOps')
+  }
+
+  /**
+   * Starts the validator.
+   */
+  start(): Promise<Successful<ValidatorOpsResponse>> {
+    return this.validatorOps(ValidatorOpsOperation.Start)
+  }
+
+  /**
+   * Stops the validator.
+   */
+  stop(): Promise<Successful<ValidatorOpsResponse>> {
+    return this.validatorOps(ValidatorOpsOperation.Stop)
+  }
+
+  /**
+   * Restarts the validator.
+   */
+  restart(): Promise<Successful<ValidatorOpsResponse>> {
+    return this.validatorOps(ValidatorOpsOperation.Restart)
   }
 }
