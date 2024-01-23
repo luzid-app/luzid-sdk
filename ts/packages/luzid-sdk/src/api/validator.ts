@@ -5,7 +5,7 @@ import {
 } from '@luzid/grpc'
 
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
-import { Successful, maybeThrow } from '../core/utils'
+import { Successful, unwrap } from '../core/utils'
 
 export class LuzidValidator {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -22,7 +22,7 @@ export class LuzidValidator {
   ): Promise<Successful<ValidatorOpsResponse>> {
     const req: ValidatorOpsRequest = { op }
     const res = await this.client.validator.validatorOps(req)
-    return maybeThrow(res, 'Luzid validator.validatorOps')
+    return unwrap(res, 'Luzid validator.validatorOps')
   }
 
   /**

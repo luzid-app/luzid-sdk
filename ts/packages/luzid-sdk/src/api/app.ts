@@ -1,6 +1,6 @@
 import { AppOpsOperation, AppOpsRequest, AppOpsResponse } from '@luzid/grpc'
 import { LuzidGrpcClient } from '@luzid/grpc-client'
-import { Successful, maybeThrow } from '../core/utils'
+import { Successful, unwrap } from '../core/utils'
 
 export class LuzidApp {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -13,6 +13,6 @@ export class LuzidApp {
   async appOps(op: AppOpsOperation): Promise<Successful<AppOpsResponse>> {
     const req: AppOpsRequest = { op }
     const res = await this.client.app.appOps(req)
-    return maybeThrow(res, 'Luzid app.appOps')
+    return unwrap(res, 'Luzid app.appOps')
   }
 }

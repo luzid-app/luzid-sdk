@@ -6,7 +6,7 @@ import {
 } from '@luzid/grpc'
 
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
-import { Successful, maybeThrow } from '../core/utils'
+import { Successful, unwrap } from '../core/utils'
 
 export class LuzidStore {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -21,7 +21,7 @@ export class LuzidStore {
   ): Promise<Successful<StoreGetAccountDataResponse>> {
     const req: StoreGetAccountDataRequest = { pubkey }
     const res = await this.client.store.getAccountData(req)
-    return maybeThrow(res, 'Luzid store.getAccountData')
+    return unwrap(res, 'Luzid store.getAccountData')
   }
 
   /**
@@ -39,6 +39,6 @@ export class LuzidStore {
       transactionSignature,
     }
     const res = await this.client.store.getDiffedAccountUpdate(req)
-    return maybeThrow(res, 'Luzid store.getDiffedAccountUpdate')
+    return unwrap(res, 'Luzid store.getDiffedAccountUpdate')
   }
 }

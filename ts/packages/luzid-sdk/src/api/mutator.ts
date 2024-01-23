@@ -8,7 +8,7 @@ import {
 } from '@luzid/grpc'
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
 import { assert } from '../core/assert'
-import { Successful, maybeThrow } from '../core/utils'
+import { Successful, unwrap } from '../core/utils'
 import { Cluster, LuzidCluster, intoGrpcCluster } from '../api-types/cluster'
 
 type AccountModificationBuilder = {
@@ -95,7 +95,7 @@ export class LuzidMutator {
       address,
     }
     const res = await this.client.mutator.cloneAccount(req)
-    return maybeThrow(res, 'Luzid mutator.cloneAccount')
+    return unwrap(res, 'Luzid mutator.cloneAccount')
   }
 
   /**
@@ -133,6 +133,6 @@ export class LuzidMutator {
       opts,
     }
     const res = await this.client.mutator.modifyAccount(req)
-    return maybeThrow(res, 'Luzid mutator.modifyAccount')
+    return unwrap(res, 'Luzid mutator.modifyAccount')
   }
 }

@@ -7,7 +7,7 @@ import {
 } from '@luzid/grpc'
 import { LuzidGrpcClient } from '@luzid/grpc-client'
 import { assert } from '../core/assert'
-import { Successful, maybeThrow } from '../core/utils'
+import { Successful, unwrap } from '../core/utils'
 import { LuzidCluster, intoGrpcCluster } from '../api-types/cluster'
 
 export class LuzidRpc {
@@ -36,7 +36,7 @@ export class LuzidRpc {
       address,
     }
     const res = await this.client.rpc.getAccountInfo(req)
-    return maybeThrow(res, 'Luzid rpc.getAccountInfo')
+    return unwrap(res, 'Luzid rpc.getAccountInfo')
   }
 
   /**
@@ -62,6 +62,6 @@ export class LuzidRpc {
       solAmount,
     }
     const res = await this.client.rpc.requestAirdrop(req)
-    return maybeThrow(res, 'Luzid rpc.requestAirdrop')
+    return unwrap(res, 'Luzid rpc.requestAirdrop')
   }
 }

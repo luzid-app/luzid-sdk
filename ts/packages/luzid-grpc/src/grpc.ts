@@ -75,21 +75,29 @@ export {
 } from './proto/requests/snapshot_get_account'
 
 export {
-  ReadRequest as SnapshotManagementGetSnaphotableAccountsRequest,
-  ReadResponse as SnapshotManagementGetSnaphotableAccountsResponse,
+  CreateRequest as SnapshotCreateSnapshotRequest,
+  CreateResponse as SnapshotCreateSnapshotResponse,
+  RpcSnapshotableAccount as SnapshotSnapshotableAccount,
+  RpcCreateSnapshotResult as SnapshotCreateSnapshotResult,
+  DeleteRequest as SnapshotDeleteSnapshotRequest,
+  DeleteResponse as SnapshotDeleteSnapshotResponse,
+  RpcDeleteSnapshotResult as SnapshotDeleteSnapshotResult,
+  ReadRequest as SnapshotGetSnaphotableAccountsRequest,
+  ReadResponse as SnapshotGetSnaphotableAccountsResponse,
   SnapshotManagementServiceDefinition,
   SnapshotManagementServiceImplementation,
   SnapshotManagementServiceClient,
 } from './proto/requests/snapshot_management'
 
 export {
-  RpcSnapshotMetadata,
-  ReadRequest as SnapshotRestoreListSnapshotsRequest,
-  ReadResponse as SnapshotRestoreListSnapshotsResponse,
-  UpdateRequest as SnapshotRestoreRetrieveAccountsInSnapshotRequest,
-  UpdateResponse as SnapshotRestoreRetrieveAccountsInSnapshotResponse,
-  CreateRequest as SnapshotRestoreRestoreAccountsFromSnapshotRequest,
-  CreateResponse as SnapshotRestoreRestoreAccountsFromSnapshotResponse,
+  ReadRequest as SnapshotListSnapshotsRequest,
+  ReadResponse as SnapshotListSnapshotsResponse,
+  RpcSnapshotMetadata as SnapshotMetadata,
+  UpdateRequest as SnapshotRetrieveAccountsInSnapshotRequest,
+  UpdateResponse as SnapshotRetrieveAccountsInSnapshotResponse,
+  CreateRequest as SnapshotRestoreAccountsFromSnapshotRequest,
+  CreateResponse as SnapshotRestoreAccountsFromSnapshotResponse,
+  RpcRestoreResult as SnapshotRestoreResult,
   SnapshotRestoreServiceDefinition,
   SnapshotRestoreServiceImplementation,
   SnapshotRestoreServiceClient,
