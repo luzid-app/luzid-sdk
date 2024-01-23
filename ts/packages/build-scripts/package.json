@@ -1,0 +1,16 @@
+{
+  "name": "build-scripts",
+  "version": "0.0.0",
+  "private": true,
+  "files": [
+    "add-js-extension-to-types.mjs",
+    "env-shim.ts",
+    "tsup.config.library.ts",
+    "tsup.config.package.ts"
+  ],
+  "devDependencies": {
+    "@types/node": "18.11.19",
+    "browserslist-to-esbuild": "^1.2.0",
+    "tsup": "^8.0.1"
+  }
+}
