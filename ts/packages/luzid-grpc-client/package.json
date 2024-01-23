@@ -2,10 +2,35 @@
   "name": "@luzid/grpc-client",
   "version": "0.0.0",
   "description": "The GRPC client interface to the Luzid Validator service.",
-  "main": "dist/esm/grpc-client.js",
+  "exports": {
+    "browser": {
+      "import": "./dist/grpc-client.browser.js",
+      "require": "./dist/grpc-client.browser.cjs"
+    },
+    "node": {
+      "import": "./dist/grpc-client.node.js",
+      "require": "./dist/grpc-client.node.cjs"
+    },
+    "react-native": "./dist/grpc-client.native.js"
+  },
+  "browser": {
+    "./dist/grpc-client.node.cjs": "./dist/grpc-client.browser.cjs",
+    "./dist/grpc-client.node.js": "./dist/grpc-client.browser.js"
+  },
+  "main": "./dist/grpc-client.node.cjs",
+  "module": "./dist/grpc-client.node.js",
   "types": "dist/types/grpc-client.d.ts",
+  "react-native": "./dist/grpc-client.native.js",
+  "type": "module",
+  "files": [
+    "./dist/"
+  ],
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "compile": "yarn run compile:js && yarn run compile:typedefs",
+    "compile:js": "ENTRY_FILE='grpc-client.ts' tsup --config build-scripts/tsup.config.package.ts",
+    "compile:typedefs": "tsc -p ./tsconfig.declarations.json && node ../../node_modules/@luzid/build-scripts/add-js-extension-to-types.mjs"
   },
   "repository": "git@github.com:luzid-app/luzid.git",
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",

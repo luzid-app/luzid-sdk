@@ -3,6 +3,7 @@ import { env } from 'node:process'
 import browsersListToEsBuild from 'browserslist-to-esbuild'
 import path from 'path'
 import { Format, Options } from 'tsup'
+import assert from 'node:assert'
 
 type Platform =
   | 'browser'
@@ -13,6 +14,10 @@ type Platform =
 const BROWSERSLIST_TARGETS = browsersListToEsBuild()
   // FIXME(https://github.com/evanw/esbuild/issues/3501) Have to filter out versions like `safariTP`
   .filter((v) => !v.endsWith('TP')) as Options['target']
+
+const entryFile = process.env.ENTRY_FILE
+assert(entryFile != null, 'Missing ENTRY_FILE environment variable')
+const entry = path.join('src', entryFile)
 
 export function getBaseConfig(
   platform: Platform,
@@ -31,7 +36,7 @@ export function getBaseConfig(
                 __REACTNATIVE__: `${platform === 'native'}`,
                 __VERSION__: `"${env.npm_package_version}"`,
               },
-              entry: [`./src/index.ts`],
+              entry: [entry],
               esbuildOptions(options, context) {
                 const { format } = context
                 options.minify = format === 'iife' && !isDebugBuild
@@ -53,20 +58,22 @@ export function getBaseConfig(
                 'ws',
               ],
               format,
-              globalName: 'globalThis.solanaWeb3',
+              globalName: 'globalThis.luzid',
               name: platform,
               // Inline private, non-published packages.
               // WARNING: This inlines packages recursively. Make sure these don't have deep dep trees.
               noExternal: [
+                /*
                 // @noble/ed25519 is an ESM-only module, so we have to inline it in CJS builds.
                 ...(format === 'cjs' ? ['@noble/ed25519'] : []),
                 'crypto-impl',
                 'fetch-impl',
                 'text-encoding-impl',
                 'ws-impl',
+                */
               ],
               outExtension({ format }) {
-                let extension
+                let extension: string
                 if (format === 'iife') {
                   extension = `.${
                     isDebugBuild ? 'development' : 'production.min'

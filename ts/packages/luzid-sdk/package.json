@@ -2,10 +2,35 @@
   "name": "@luzid/sdk",
   "version": "0.0.0",
   "description": "The SDK to control Luzid from Node.js and the Browser.",
-  "main": "dist/esm/luzid-sdk.js",
+  "exports": {
+    "browser": {
+      "import": "./dist/luzid-sdk.browser.js",
+      "require": "./dist/luzid-sdk.browser.cjs"
+    },
+    "node": {
+      "import": "./dist/luzid-sdk.node.js",
+      "require": "./dist/luzid-sdk.node.cjs"
+    },
+    "react-native": "./dist/luzid-sdk.native.js"
+  },
+  "browser": {
+    "./dist/luzid-sdk.node.cjs": "./dist/luzid-sdk.browser.cjs",
+    "./dist/luzid-sdk.node.js": "./dist/luzid-sdk.browser.js"
+  },
+  "main": "./dist/luzid-sdk.node.cjs",
   "types": "dist/types/luzid-sdk.d.ts",
+  "module": "./dist/luzid-sdk.node.js",
+  "react-native": "./dist/luzid-sdk.native.js",
+  "type": "module",
+  "files": [
+    "./dist/"
+  ],
+  "sideEffects": false,
   "scripts": {
-    "build": "tsc"
+    "build": "./sh/proto-gen && tsc",
+    "compile": "yarn run compile:js && yarn run compile:typedefs",
+    "compile:js": "ENTRY_FILE='luzid-sdk.ts' tsup --config build-scripts/tsup.config.package.ts",
+    "compile:typedefs": "tsc -p ./tsconfig.declarations.json && node ../../node_modules/@luzid/build-scripts/add-js-extension-to-types.mjs"
   },
   "repository": "git@github.com:luzid-app/luzid.git",
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",
