@@ -1,6 +1,7 @@
 import { Cluster, LuzidSdk } from '@luzid/sdk'
-import { sleep } from './helpers'
+import { readKey } from './helpers'
 import * as web3 from '@solana/web3.js'
+import * as c from 'ansi-colors'
 
 async function main() {
   const luzid = new LuzidSdk()
@@ -8,7 +9,7 @@ async function main() {
 
   // 1. Stop the validator (it is starts automatically when you launch Luzid)
   {
-    console.log('\nStopping validator...')
+    console.log(c.bold('\n1. Stopping validator...'))
     await luzid.validator.stop()
     try {
       // This now throws an error because the validator is stopped
@@ -21,7 +22,7 @@ async function main() {
 
   // 2. Start the validator
   {
-    console.log('\nStarting validator...')
+    console.log(c.bold('\n2. Starting validator...'))
     await luzid.validator.start()
 
     const version = await conn.getVersion()
@@ -30,13 +31,12 @@ async function main() {
     )
     console.log('* Have a look at the toggle in the UI to see it is up again')
 
-    // Giving a chance to see it up in UI before we restart it
-    await sleep(5000)
+    await readKey()
   }
 
   // 3. Restart the validator
   {
-    console.log('\nRestarting validator...')
+    console.log(c.bold('\n3. Restarting validator...'))
     await luzid.validator.restart()
 
     const version = await conn.getVersion()
