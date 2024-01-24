@@ -1,6 +1,8 @@
 # luzid-sdk
 
-The different SDKs for interacting with the [Luzid Application](https://luzid.app).
+[![Build+Test+Lint](https://github.com/luzid-app/luzid-sdk/actions/workflows/build-test-lint.yml/badge.svg)](https://github.com/luzid-app/luzid-sdk/actions/workflows/build-test-lint.yml)
+
+The different SDKs to interact with the [Luzid Application](https://luzid.app).
 
 ## TypeScript
 
