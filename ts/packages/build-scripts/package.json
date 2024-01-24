@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "echo 'We do not build the build-scripts'",
-    "compile": "echo 'We do not compile the build-scripts'"
+    "build": "echo 'We do not build the build-scripts'"
   },
   "files": [
     "add-js-extension-to-types.mjs",

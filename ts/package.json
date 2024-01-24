@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "scripts": {
     "build": "yarn workspaces run build",
-    "compile": "yarn workspaces run compile",
     "doc": "typedoc"
   },
   "description": "Luzid TypeScript package workspace.",

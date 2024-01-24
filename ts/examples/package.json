@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "description": "Examples demonstrating how to control Luzid via the @luzid/sdk.",
   "scripts": {
-    "build": "echo 'We do not build the examples'",
-    "compile": "echo 'We do not compile the examples'"
+    "build": "echo 'We do not build the examples'"
   },
   "dependencies": {
     "@luzid/sdk": "*",

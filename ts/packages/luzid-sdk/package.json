@@ -27,8 +27,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "./sh/proto-gen && tsc",
-    "compile": "yarn run compile:js && yarn run compile:typedefs",
+    "build": "rm -rf ./dist && yarn run compile:js && yarn run compile:typedefs",
     "compile:js": "ENTRY_FILE='luzid-sdk.ts' tsup --config build-scripts/tsup.config.package.ts",
     "compile:typedefs": "tsc -p ./tsconfig.declarations.json && node ../../node_modules/@luzid/build-scripts/add-js-extension-to-types.mjs"
   },
