@@ -41,7 +41,7 @@
     "prettier": "prettier \"{src,test}/**/*.ts\" --check",
     "prettier:fix": "prettier --write src/"
   },
-  "repository": "git@github.com:luzid-app/luzid.git",
+  "repository": "git@github.com:luzid-app/luzid-sdk.git",
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",
   "license": "MIT",
   "private": false,

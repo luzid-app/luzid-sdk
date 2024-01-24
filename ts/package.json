@@ -9,7 +9,7 @@
     "doc": "typedoc"
   },
   "description": "Luzid TypeScript package workspace.",
-  "repository": "git@github.com:luzid-app/luzid.git",
+  "repository": "git@github.com:luzid-app/luzid-sdk.git",
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",
   "license": "MIT",
   "private": true,
