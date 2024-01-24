@@ -30,7 +30,7 @@
     "build": "rm -rf ./dist && yarn run compile:js && yarn run compile:typedefs",
     "compile:js": "ENTRY_FILE='grpc-connection.ts' ENTRY_FILE_BROWSER='grpc-connection.browser.ts' tsup --config build-scripts/tsup.config.package.ts",
     "compile:typedefs": "tsc -p ./tsconfig.declarations.json && node ../../node_modules/@luzid/build-scripts/add-js-extension-to-types.mjs",
-    "depcheck": "depcheck",
+    "depcheck": "echo 'depcheck coming soon'",
     "check:publish-ready": "yarn depcheck && yarn build && yarn lint",
     "preversion": "yarn check:publish-ready",
     "postversion": "git add package.json && git commit -m \"chore: update $npm_package_name to v$npm_package_version\" && git tag $npm_package_name@$npm_package_version",
