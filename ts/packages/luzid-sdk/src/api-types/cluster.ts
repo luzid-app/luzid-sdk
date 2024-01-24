@@ -8,7 +8,7 @@ const SOLANA_ENDPOINTS = [
   'https://api.devnet.solana.com',
 ] as const
 
-export type SolanaEndpoint = typeof SOLANA_ENDPOINTS[number]
+export type SolanaEndpoint = (typeof SOLANA_ENDPOINTS)[number]
 
 /**
  * A Solana cluster to be used with the Luzid SDK.

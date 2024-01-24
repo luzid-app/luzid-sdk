@@ -4,6 +4,8 @@
   "description": "Examples demonstrating how to control Luzid via the @luzid/sdk.",
   "scripts": {
     "build": "echo 'We do not build the examples'",
+    "lint": "echo 'We do not lint the examples'",
+    "lint:fix": "echo 'We do not lint the examples'",
     "validator": "esr src/01_validator.ts",
     "mutator:modify": "esr src/02_mutator.modify-account.ts",
     "mutator:clone": "esr src/03_mutator.clone-account",

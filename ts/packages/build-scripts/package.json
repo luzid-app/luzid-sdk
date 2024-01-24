@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "echo 'We do not build the build-scripts'"
+    "build": "echo 'We do not build the build-scripts'",
+    "lint": "echo 'We do not lint the build-scripts'",
+    "lint:fix": "echo 'We do not lint the build-scripts'"
   },
   "files": [
     "add-js-extension-to-types.mjs",
