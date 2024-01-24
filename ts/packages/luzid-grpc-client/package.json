@@ -38,7 +38,6 @@
   "private": false,
   "dependencies": {
     "@luzid/grpc": "*",
-    "nice-grpc": "^2.1.7",
-    "nice-grpc-web": "^3.3.2"
+    "@luzid/grpc-connection": "*"
   }
 }

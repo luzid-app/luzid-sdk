@@ -1,0 +1,43 @@
+{
+  "name": "@luzid/grpc-connection",
+  "version": "0.0.0",
+  "description": "The GRPC Connection abstraction which allows use to provide a browser and Node.js version.",
+  "exports": {
+    "browser": {
+      "import": "./dist/grpc-connection.browser.js",
+      "require": "./dist/grpc-connection.browser.cjs"
+    },
+    "node": {
+      "import": "./dist/grpc-connection.node.js",
+      "require": "./dist/grpc-connection.node.cjs"
+    },
+    "react-native": "./dist/grpc-connection.native.js"
+  },
+  "browser": {
+    "./dist/grpc-connection.node.cjs": "./dist/grpc-connection.browser.cjs",
+    "./dist/grpc-connection.node.js": "./dist/grpc-connection.browser.js"
+  },
+  "main": "./dist/grpc-connection.node.cjs",
+  "module": "./dist/grpc-connection.node.js",
+  "types": "dist/types/grpc-connection.d.ts",
+  "react-native": "./dist/grpc-connection.native.js",
+  "type": "module",
+  "files": [
+    "./dist/"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsc",
+    "compile": "yarn run compile:js && yarn run compile:typedefs",
+    "compile:js": "ENTRY_FILE='grpc-connection.ts' ENTRY_FILE_BROWSER='grpc-connection.browser.ts' tsup --config build-scripts/tsup.config.package.ts",
+    "compile:typedefs": "tsc -p ./tsconfig.declarations.json && node ../../node_modules/@luzid/build-scripts/add-js-extension-to-types.mjs"
+  },
+  "repository": "git@github.com:luzid-app/luzid.git",
+  "author": "Thorsten Lorenz <thlorenz@gmx.de>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "nice-grpc": "^2.1.7",
+    "nice-grpc-web": "^3.3.2"
+  }
+}

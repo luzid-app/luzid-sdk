@@ -13,6 +13,7 @@
   "private": true,
   "workspaces": [
     "packages/luzid-grpc",
+    "packages/luzid-grpc-connection",
     "packages/luzid-grpc-client",
     "packages/luzid-sdk",
     "packages/build-scripts",

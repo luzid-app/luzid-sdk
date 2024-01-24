@@ -4,7 +4,11 @@ import { RpcClient } from './client/rpc'
 import { SnapshotClient } from './client/snapshot'
 import { StoreClient } from './client/store'
 import { ValidatorClient } from './client/validator'
-import { Channel, createChannel, createLocalChannel } from './connection'
+import {
+  Channel,
+  createChannel,
+  createLocalChannel,
+} from '@luzid/grpc-connection'
 import { assert } from './core/assert'
 
 const DEFAULT_GRPC_SERVER_PORT = 50051
