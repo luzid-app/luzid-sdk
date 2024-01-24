@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "build": "yarn workspaces run build",
+    "depcheck": "yarn workspaces run depcheck",
+    "lint": "yarn workspaces run lint",
+    "lint:fix": "yarn workspaces run lint:fix",
     "doc": "typedoc"
   },
   "description": "Luzid TypeScript package workspace.",
@@ -12,13 +15,17 @@
   "private": true,
   "workspaces": [
     "packages/luzid-grpc",
+    "packages/luzid-grpc-connection",
     "packages/luzid-grpc-client",
     "packages/luzid-sdk",
+    "packages/build-scripts",
     "examples"
   ],
   "devDependencies": {
     "esbuild": "^0.19.11",
     "esbuild-runner": "^2.2.2",
+    "prettier": "^3.2.4",
+    "tsup": "^8.0.1",
     "typedoc": "^0.25.7",
     "typedoc-material-theme": "^1.0.2",
     "typescript": "^5.3.3"

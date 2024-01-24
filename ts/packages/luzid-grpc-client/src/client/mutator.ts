@@ -1,5 +1,5 @@
-import { createClient } from '../connection'
-import type { Channel } from '../connection'
+import { createClient } from '@luzid/grpc-connection'
+import type { Channel } from '@luzid/grpc-connection'
 import {
   MutatorCloneAccountRequest,
   MutatorCloneAccountResponse,

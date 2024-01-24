@@ -1,35 +1,34 @@
 {
-  "name": "@luzid/grpc",
+  "name": "@luzid/grpc-connection",
   "version": "0.0.0",
-  "description": "The GRPC interface to the Luzid Validator service.",
+  "description": "The GRPC Connection abstraction which allows use to provide a browser and Node.js version.",
   "exports": {
     "browser": {
-      "import": "./dist/grpc.browser.js",
-      "require": "./dist/grpc.browser.cjs"
+      "import": "./dist/grpc-connection.browser.browser.js",
+      "require": "./dist/grpc-connection.browser.browser.cjs"
     },
     "node": {
-      "import": "./dist/grpc.node.js",
-      "require": "./dist/grpc.node.cjs"
+      "import": "./dist/grpc-connection.node.js",
+      "require": "./dist/grpc-connection.node.cjs"
     },
-    "react-native": "./dist/grpc.native.js"
+    "react-native": "./dist/grpc-connection.browser.native.js"
   },
   "browser": {
-    "./dist/grpc.node.cjs": "./dist/grpc.browser.cjs",
-    "./dist/grpc.node.js": "./dist/grpc.browser.js"
+    "./dist/grpc-connection.node.cjs": "./dist/grpc-connection.browser.browser.cjs",
+    "./dist/grpc-connection.node.js": "./dist/grpc-connection.browser.browser.js"
   },
-  "main": "./dist/grpc.node.cjs",
-  "module": "./dist/grpc.node.js",
-  "types": "dist/types/grpc.d.ts",
-  "react-native": "./dist/grpc.native.js",
+  "main": "./dist/grpc-connection.node.cjs",
+  "module": "./dist/grpc-connection.node.js",
+  "types": "./dist/types/grpc-connection.browser.d.ts",
+  "react-native": "./dist/grpc-connection.browser.native.js",
   "type": "module",
   "files": [
     "./dist/"
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "./sh/proto-gen && yarn run compile",
-    "compile": "rm -rf ./dist && yarn run compile:js && yarn run compile:typedefs",
-    "compile:js": "ENTRY_FILE='grpc.ts' tsup --config build-scripts/tsup.config.package.ts",
+    "build": "rm -rf ./dist && yarn run compile:js && yarn run compile:typedefs",
+    "compile:js": "ENTRY_FILE='grpc-connection.ts' ENTRY_FILE_BROWSER='grpc-connection.browser.ts' tsup --config build-scripts/tsup.config.package.ts",
     "compile:typedefs": "tsc -p ./tsconfig.declarations.json && node ../../node_modules/@luzid/build-scripts/add-js-extension-to-types.mjs",
     "depcheck": "depcheck",
     "check:publish-ready": "yarn depcheck && yarn build && yarn lint",
@@ -46,10 +45,8 @@
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",
   "license": "MIT",
   "private": false,
-  "devDependencies": {
-    "ts-proto": "^1.166.2"
-  },
   "dependencies": {
-    "long": "^5.2.3"
+    "nice-grpc": "^2.1.7",
+    "nice-grpc-web": "^3.3.2"
   }
 }

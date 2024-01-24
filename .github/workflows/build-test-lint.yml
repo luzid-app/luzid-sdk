@@ -1,0 +1,43 @@
+name: Build+Test+Lint
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-test-lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        node-version: [18.x]
+
+    steps:
+      - name: Checkout Luzid SDK
+        uses: actions/checkout@v4
+        with:
+          path: luzid-sdk
+
+      - name: Checkout Luzid
+        uses: actions/checkout@v4
+        with:
+          repository: luzid-app/luzid
+          path: luzid
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build+Test+Lint
+        uses: ./luzid-sdk/.github/actions/build-test-lint
+        with:
+          node-version: ${{ matrix.node-version }}
+          working-directory: ./luzid-sdk/ts/
+          test: false
+
