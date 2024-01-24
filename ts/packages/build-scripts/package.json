@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "echo 'We do not build the build-scripts'",
+    "depcheck": "depcheck",
     "lint": "echo 'We do not lint the build-scripts'",
     "lint:fix": "echo 'We do not lint the build-scripts'"
   },

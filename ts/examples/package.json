@@ -4,6 +4,7 @@
   "description": "Examples demonstrating how to control Luzid via the @luzid/sdk.",
   "scripts": {
     "build": "echo 'We do not build the examples'",
+    "depcheck": "depcheck",
     "lint": "echo 'We do not lint the examples'",
     "lint:fix": "echo 'We do not lint the examples'",
     "validator": "esr src/01_validator.ts",

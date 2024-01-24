@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "build": "yarn workspaces run build",
+    "depcheck": "yarn workspaces run depcheck",
     "lint": "yarn workspaces run lint",
     "lint:fix": "yarn workspaces run lint:fix",
     "doc": "typedoc"
