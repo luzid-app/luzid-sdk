@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "The GRPC interface to the Luzid Validator service.",
   "exports": {
+    "types": "dist/types/grpc.d.ts",
     "browser": {
       "import": "./dist/grpc.browser.js",
       "require": "./dist/grpc.browser.cjs"

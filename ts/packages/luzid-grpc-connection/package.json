@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "The GRPC Connection abstraction which allows use to provide a browser and Node.js version.",
   "exports": {
+    "types": "./dist/types/grpc-connection.browser.d.ts",
     "browser": {
       "import": "./dist/grpc-connection.browser.browser.js",
       "require": "./dist/grpc-connection.browser.browser.cjs"
