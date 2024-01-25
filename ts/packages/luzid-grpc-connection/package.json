@@ -45,6 +45,9 @@
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "nice-grpc": "^2.1.7",
     "nice-grpc-web": "^3.3.2"

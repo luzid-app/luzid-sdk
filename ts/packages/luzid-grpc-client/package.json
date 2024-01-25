@@ -45,6 +45,9 @@
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@luzid/grpc": "^0.0.0",
     "@luzid/grpc-connection": "^0.0.0"
