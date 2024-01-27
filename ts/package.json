@@ -18,8 +18,7 @@
     "packages/luzid-grpc-connection",
     "packages/luzid-grpc-client",
     "packages/luzid-sdk",
-    "packages/build-scripts",
-    "examples"
+    "packages/build-scripts"
   ],
   "devDependencies": {
     "esbuild": "^0.19.11",
