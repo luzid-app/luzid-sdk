@@ -22,6 +22,8 @@ import {
   SnapshotCreateSnapshotResponse,
   SnapshotDeleteSnapshotRequest,
   SnapshotDeleteSnapshotResponse,
+  SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest,
+  SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse,
 } from '@luzid/grpc'
 
 export {
@@ -118,6 +120,12 @@ class SnapshotRestoreClient {
   ): Promise<SnapshotRestoreAccountsFromSnapshotResponse> {
     return this.client.restoreAccountsFromSnapshot(request)
   }
+
+  restoreAccountsFromLastUpdatedSnapshot(
+    request: SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest
+  ): Promise<SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse> {
+    return this.client.restoreAccountsFromLastUpdatedSnapshot(request)
+  }
 }
 
 // -----------------
@@ -174,5 +182,11 @@ export class SnapshotClient {
     request: SnapshotRestoreAccountsFromSnapshotRequest
   ): Promise<SnapshotRestoreAccountsFromSnapshotResponse> {
     return this.restoreClient.restoreAccountsFromSnapshot(request)
+  }
+
+  restoreAccountsFromLastUpdatedSnapshot(
+    request: SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest
+  ): Promise<SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse> {
+    return this.restoreClient.restoreAccountsFromLastUpdatedSnapshot(request)
   }
 }
