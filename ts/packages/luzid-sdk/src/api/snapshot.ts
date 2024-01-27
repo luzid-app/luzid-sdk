@@ -9,16 +9,15 @@ import {
   SnapshotRestoreResult,
   SnapshotRetrieveAccountsInSnapshotRequest,
   SnapshotSnapshotableAccount,
+  SnapshotDeleteSnapshotsMatchingRequest,
 } from '@luzid/grpc'
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
 import { Successful, unwrap } from '../core/utils'
 import { SnapshotAccountSummary } from '@luzid/grpc'
 import { SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest } from '@luzid/grpc'
+import { SnapshotFilter } from '@luzid/grpc'
 
-export type SnapshotDeletedSnapshot = Omit<
-  SnapshotMetadata,
-  'createdAt' | 'updatedAt'
->
+export { SnapshotFilter }
 
 export class LuzidSnapshot {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -26,7 +25,7 @@ export class LuzidSnapshot {
   /**
    * Returns the pubkeys of accounts that can be snapshotted.
    *
-   * @param **includeProgramAccounts**: whether to include program accounts
+   * @param includeProgramAccounts - whether to include program accounts
    */
   async getSnaphotableAccounts(
     includeProgramAccounts: boolean = false
@@ -40,9 +39,11 @@ export class LuzidSnapshot {
 
   /**
    * Lists all snapshots that have been created with Luzid.
+   *
+   * @param filter - optional filter to apply to the snapshots returned
    */
-  async listSnapshots(): Promise<SnapshotMetadata[]> {
-    const req: SnapshotListSnapshotsRequest = {}
+  async listSnapshots(filter?: SnapshotFilter): Promise<SnapshotMetadata[]> {
+    const req: SnapshotListSnapshotsRequest = { filter }
     const res = await this.client.snapshot.listSnapshots(req)
     return unwrap(res, 'Luzid snapshot.listSnapshots').snapshots
   }
@@ -50,11 +51,11 @@ export class LuzidSnapshot {
   /**
    * Creates a snapshot of the accounts specified.
    *
-   * @param **snapshotName**: the name to give the snapshot
-   * @param **accounts**: the accounts to include in the snapshot
-   * @param **opts**: optional parameters to control the snapshot creation
-   * @param **opts.description**: description of the snapshot
-   * @param **opts.group**: group of the snapshot
+   * @param snapshotName - the name to give the snapshot
+   * @param accounts - the accounts to include in the snapshot
+   * @param opts - optional parameters to control the snapshot creation
+   * @param opts.description - description of the snapshot
+   * @param opts.group - group of the snapshot
    *
    * @returns the id of the snapshot and the number of accounts included
    */
@@ -76,7 +77,7 @@ export class LuzidSnapshot {
   /**
    * Deletes the snapshot with the given id if it exists.
    *
-   * @param **snapshotId**: the id of the snapshot to delete
+   * @param snapshotId - the id of the snapshot to delete
    *
    * @returns the id of the deleted snapshot
    */
@@ -91,33 +92,29 @@ export class LuzidSnapshot {
   /**
    * Deletes all globally stored snaphots.
    *
-   * @returns the metadata of each deleted snapshot
+   * @param filter - optional filter to apply to the snapshots returned
+   * @returns the ids of the deleted snapshots
    */
-  async deleteAllSnapshots(): Promise<SnapshotDeletedSnapshot[]> {
-    const snapshots = await this.listSnapshots()
-    for (const snapshot of snapshots) {
-      await this.deleteSnapshot(snapshot.snapshotId)
-    }
-    return snapshots.map((s) => ({
-      ...s,
-      createdAt: undefined,
-      updatedAt: undefined,
-    }))
+  async deleteSnapshotsMatching(filter?: SnapshotFilter): Promise<string[]> {
+    const request: SnapshotDeleteSnapshotsMatchingRequest = { filter }
+    const res = await this.client.snapshot.deleteSnapshotsMatching(request)
+    return unwrap(res, 'Luzid snapshot.deleteSnapshotsMatching').result
+      .snapshotIds
   }
 
   /**
    * Returns the information of all accounts that are in a snapshot.
    *
-   * - **snapshotId**: the id of the snapshot to retrieve accounts from
+   * - **snapshotId - the id of the snapshot to retrieve accounts from
    *
    * The returned accounts have the following properties:
    *
-   * @param **address**: the pubkey of the account
-   * @param **lamports**: the balance of the account
-   * @param **owner**: the owner of the account
-   * @param **bytes**: the number of bytes in the account
-   * @param **executable**: whether the account is executable
-   * @param **slot**: the slot in which the account was created
+   * @param address - the pubkey of the account
+   * @param lamports - the balance of the account
+   * @param owner - the owner of the account
+   * @param bytes - the number of bytes in the account
+   * @param executable - whether the account is executable
+   * @param slot - the slot in which the account was created
    */
   async retrieveAccountsInSnapshot(
     snapshotId: string
@@ -130,16 +127,16 @@ export class LuzidSnapshot {
   /**
    * Restores accounts from a snapshot.
    *
-   * @param **snapshotId**: the id of the snapshot to retrieve accounts from
-   * @param **opts**: optional parameters to control the restore process
-   * @param **opts.accounts**: the accounts to restore, not provided all accounts inside the snapshot will be restored
-   * @param **opts.deleteSnapshotAfterRestore**: whether to delete the snapshot after it was restored
+   * @param snapshotId - the id of the snapshot to retrieve accounts from
+   * @param opts - optional parameters to control the restore process
+   * @param opts.accounts - the accounts to restore, not provided all accounts inside the snapshot will be restored
+   * @param opts.deleteSnapshotAfterRestore - whether to delete the snapshot after it was restored (default: false)
    */
   async restoreAccountsFromSnapshot(
     snapshotId: string,
     opts?: {
       accounts?: string[]
-      deleteSnapshotAfterRestore: boolean
+      deleteSnapshotAfterRestore?: boolean
     }
   ): Promise<Successful<SnapshotRestoreResult>> {
     const { deleteSnapshotAfterRestore = false, accounts } = opts ?? {}
@@ -162,19 +159,22 @@ export class LuzidSnapshot {
   /**
    * Restores accounts from the snapshot that was updated most recently.
    *
-   * @param **snapshotId**: the id of the snapshot to retrieve accounts from
-   * @param **opts**: optional parameters to control the restore process
-   * @param **opts.accounts**: the accounts to restore, not provided all accounts inside the snapshot will be restored
-   * @param **opts.deleteSnapshotAfterRestore**: whether to delete the snapshot after it was restored
+   * @param snapshotId - the id of the snapshot to retrieve accounts from
+   * @param opts - optional parameters to control the restore process
+   * @param opts.accounts - the accounts to restore, not provided all accounts inside the snapshot will be restored
+   * @param opts.filter - optional filter to limit the snapshots that are considered when finding the last updated snapshot
+   * @param opts.deleteSnapshotAfterRestore - whether to delete the snapshot after it was restored (default: false)
    */
   async restoreAccountsFromLastUpdatedSnapshot(opts?: {
     accounts?: string[]
-    deleteSnapshotAfterRestore: boolean
+    deleteSnapshotAfterRestore?: boolean
+    filter?: SnapshotFilter
   }): Promise<Successful<SnapshotRestoreResult>> {
-    const { deleteSnapshotAfterRestore = false, accounts } = opts ?? {}
+    const { deleteSnapshotAfterRestore = false, accounts, filter } = opts ?? {}
 
     const req: SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest = {
       accounts: accounts != null ? { items: accounts } : undefined,
+      filter,
     }
     const res =
       await this.client.snapshot.restoreAccountsFromLastUpdatedSnapshot(req)

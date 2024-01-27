@@ -24,6 +24,8 @@ import {
   SnapshotDeleteSnapshotResponse,
   SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest,
   SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse,
+  SnapshotDeleteSnapshotsMatchingRequest,
+  SnapshotDeleteSnapshotsMatchingResponse,
 } from '@luzid/grpc'
 
 export {
@@ -90,6 +92,12 @@ class SnapshotManagementClient {
     request: SnapshotDeleteSnapshotRequest
   ): Promise<SnapshotDeleteSnapshotResponse> {
     return this.client.deleteSnapshot(request)
+  }
+
+  deleteSnapshotsMatching(
+    request: SnapshotDeleteSnapshotsMatchingRequest
+  ): Promise<SnapshotDeleteSnapshotsMatchingResponse> {
+    return this.client.deleteSnapshotsMatching(request)
   }
 }
 
@@ -164,6 +172,12 @@ export class SnapshotClient {
     request: SnapshotDeleteSnapshotRequest
   ): Promise<SnapshotDeleteSnapshotResponse> {
     return this.managementClient.deleteSnapshot(request)
+  }
+
+  deleteSnapshotsMatching(
+    request: SnapshotDeleteSnapshotsMatchingRequest
+  ): Promise<SnapshotDeleteSnapshotsMatchingResponse> {
+    return this.managementClient.deleteSnapshotsMatching(request)
   }
 
   listSnapshots(

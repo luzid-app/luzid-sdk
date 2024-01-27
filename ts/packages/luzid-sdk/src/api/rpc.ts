@@ -16,8 +16,8 @@ export class LuzidRpc {
   /**
    * Returns the info for an account.
    *
-   * @param **cluster**: the cluster to query
-   * @param **address**: the pubkey of the account
+   * @param cluster - the cluster to query
+   * @param address - the pubkey of the account
    *
    * The returned account has the following properties:
    *
@@ -42,9 +42,9 @@ export class LuzidRpc {
   /**
    * Requests to drop SOL to an account.
    *
-   * @param **cluster**: the cluster to drop SOL to
-   * @param **address**: the pubkey of the account to fund
-   * @param **solAmount**: the amount of SOL to drop
+   * @param cluster - the cluster to drop SOL to
+   * @param address - the pubkey of the account to fund
+   * @param solAmount - the amount of SOL to drop
    */
   async requestAirdrop(
     cluster: LuzidCluster,
