@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "The GRPC interface to the Luzid Validator service.",
   "exports": {
-    "types": "dist/types/grpc.d.ts",
+    "types": "./dist/types/grpc.d.ts",
     "browser": {
       "import": "./dist/grpc.browser.js",
       "require": "./dist/grpc.browser.cjs"
@@ -20,7 +20,7 @@
   },
   "main": "./dist/grpc.node.cjs",
   "module": "./dist/grpc.node.js",
-  "types": "dist/types/grpc.d.ts",
+  "types": "./dist/types/grpc.d.ts",
   "react-native": "./dist/grpc.native.js",
   "type": "module",
   "files": [

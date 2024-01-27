@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "The SDK to control Luzid from Node.js and the Browser.",
   "exports": {
-    "types": "dist/types/luzid-sdk.d.ts",
+    "types": "./dist/types/luzid-sdk.d.ts",
     "browser": {
       "import": "./dist/luzid-sdk.browser.js",
       "require": "./dist/luzid-sdk.browser.cjs"
@@ -19,7 +19,7 @@
     "./dist/luzid-sdk.node.js": "./dist/luzid-sdk.browser.js"
   },
   "main": "./dist/luzid-sdk.node.cjs",
-  "types": "dist/types/luzid-sdk.d.ts",
+  "types": "./dist/types/luzid-sdk.d.ts",
   "module": "./dist/luzid-sdk.node.js",
   "react-native": "./dist/luzid-sdk.native.js",
   "type": "module",
