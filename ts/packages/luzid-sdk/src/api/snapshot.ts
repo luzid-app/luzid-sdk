@@ -52,19 +52,22 @@ export class LuzidSnapshot {
    *
    * @param **snapshotName**: the name to give the snapshot
    * @param **accounts**: the accounts to include in the snapshot
-   * @param **snapshotDescription**: an optional description of the snapshot
+   * @param **opts**: optional parameters to control the snapshot creation
+   * @param **opts.description**: description of the snapshot
+   * @param **opts.group**: group of the snapshot
    *
    * @returns the id of the snapshot and the number of accounts included
    */
   async createSnapshot(
     snapshotName: string,
     accounts: string[],
-    snapshotDescription?: string
+    opts: { description?: string; group?: string } = {}
   ): Promise<SnapshotCreateSnapshotResult> {
     const request: SnapshotCreateSnapshotRequest = {
       name: snapshotName,
       accounts,
-      description: snapshotDescription,
+      description: opts.description,
+      group: opts.group,
     }
     const res = await this.client.snapshot.createSnapshot(request)
     return unwrap(res, 'Luzid snapshot.createSnapshot').result
