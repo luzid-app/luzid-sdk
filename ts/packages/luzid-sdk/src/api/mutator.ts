@@ -11,37 +11,11 @@ import { assert } from '../core/assert'
 import { Successful, unwrap } from '../core/utils'
 import { Cluster, LuzidCluster, intoGrpcCluster } from '../api-types/cluster'
 
-export type AccountModificationBuilder = {
+type AccountModificationBuilder = {
   setLamports(lamports: bigint): AccountModificationBuilder
   setOwner(owner: string): AccountModificationBuilder
   setExecutable(executable: boolean): AccountModificationBuilder
 
-  /**
-   * Sets the data for the account.
-   *
-   * In some cases it is important to ensure the data has a specific size.
-   * As an example anchor's `program.coder.encode()` will encode the data but not ensure
-   * it has a compatible size
-   *
-   * In that case one has to do the following, assuming we're encoding a `Game` account that
-   * is defined at index `0` in the IDL accounts array:
-   *
-   * ```typescript
-   * const data = await program.coder.accounts.encode('Game', gameState)
-   * const gameAccountDef = program.idl.accounts[0]
-   * const size = program.coder.accounts.size(gameAccountDef)
-   * return luzid.mutator.modifyAccount(
-   *   AccountModification.forAddr(gameKeypair.publicKey.toBase58()).setData(
-   *     data,
-   *     { size }
-   *   )
-   * )
-   * ```
-   *
-   * @param data - the data to set
-   * @param opts - optional parameters
-   * @param opts -ze**: the size of the data to set. If not provided, the data will be set as is.
-   */
   setData(
     data: Uint8Array,
     opts?: { size?: number }
@@ -90,6 +64,32 @@ export class AccountModification implements RpcAccountModification {
     return this._data
   }
 
+  /**
+   * Sets the data for the account.
+   *
+   * In some cases it is important to ensure the data has a specific size.
+   * As an example anchor's `program.coder.encode()` will encode the data but not ensure
+   * it has a compatible size
+   *
+   * In that case one has to do the following, assuming we're encoding a `Game` account that
+   * is defined at index `0` in the IDL accounts array:
+   *
+   * ```typescript
+   * const data = await program.coder.accounts.encode('Game', gameState)
+   * const gameAccountDef = program.idl.accounts[0]
+   * const size = program.coder.accounts.size(gameAccountDef)
+   * return luzid.mutator.modifyAccount(
+   *   AccountModification.forAddr(gameKeypair.publicKey.toBase58()).setData(
+   *     data,
+   *     { size }
+   *   )
+   * )
+   * ```
+   *
+   * @param data - the data to set
+   * @param opts - optional parameters
+   * @param opts -ze**: the size of the data to set. If not provided, the data will be set as is.
+   */
   setData(
     data: Uint8Array,
     opts?: { size?: number }
@@ -143,32 +143,6 @@ export class LuzidMutator {
     return unwrap(res, 'Luzid mutator.cloneAccount')
   }
 
-  /**
-   * Modifies an account by overriding the fields specified in the modification.
-   * The non-specified fields will be left untouched.
-   *
-   * Create an AccountModification via the `create` and override the desired fields.
-   *
-   * ### Example
-   *
-   * ```typescript
-   * const modification = AccountModification.forAddr('<pubkey>')
-   *   .setLamports(2n)
-   *   .setOwner('<owner pubkey>')
-   *   .setExecutable(false)
-   * ```
-   *
-   * **IMPORTANT**:
-   *
-   * In some cases, i.e. when using anchor, you need to ensure that the account data size
-   * doesn't change due to a modification by passing a `{size: number}` to `AccountModification.setData`.
-   *
-   * @see {@link AccountModificationBuilder.setData}
-   *
-   * @param modification - the account modification to apply
-   * @param ensureRentExempt - whether to ensure the account is rent exempt
-   *                           even if the provided lamports would not be enough
-   */
   async modifyAccount(
     modification: AccountModification | AccountModificationBuilder,
     ensureRentExempt = true
