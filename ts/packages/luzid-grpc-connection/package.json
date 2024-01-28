@@ -1,6 +1,6 @@
 {
   "name": "@luzid/grpc-connection",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "The GRPC Connection abstraction which allows use to provide a browser and Node.js version.",
   "exports": {
     "types": "./dist/types/grpc-connection.browser.d.ts",
