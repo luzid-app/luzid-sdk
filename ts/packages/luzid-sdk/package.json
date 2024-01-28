@@ -50,7 +50,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@luzid/grpc": "^0.0.0",
-    "@luzid/grpc-client": "^0.0.0"
+    "@luzid/grpc": "^0.0.1",
+    "@luzid/grpc-client": "^0.0.1"
   }
 }
