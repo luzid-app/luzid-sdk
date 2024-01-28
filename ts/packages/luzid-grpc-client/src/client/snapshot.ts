@@ -22,6 +22,10 @@ import {
   SnapshotCreateSnapshotResponse,
   SnapshotDeleteSnapshotRequest,
   SnapshotDeleteSnapshotResponse,
+  SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest,
+  SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse,
+  SnapshotDeleteSnapshotsMatchingRequest,
+  SnapshotDeleteSnapshotsMatchingResponse,
 } from '@luzid/grpc'
 
 export {
@@ -89,6 +93,12 @@ class SnapshotManagementClient {
   ): Promise<SnapshotDeleteSnapshotResponse> {
     return this.client.deleteSnapshot(request)
   }
+
+  deleteSnapshotsMatching(
+    request: SnapshotDeleteSnapshotsMatchingRequest
+  ): Promise<SnapshotDeleteSnapshotsMatchingResponse> {
+    return this.client.deleteSnapshotsMatching(request)
+  }
 }
 
 // -----------------
@@ -117,6 +127,12 @@ class SnapshotRestoreClient {
     request: SnapshotRestoreAccountsFromSnapshotRequest
   ): Promise<SnapshotRestoreAccountsFromSnapshotResponse> {
     return this.client.restoreAccountsFromSnapshot(request)
+  }
+
+  restoreAccountsFromLastUpdatedSnapshot(
+    request: SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest
+  ): Promise<SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse> {
+    return this.client.restoreAccountsFromLastUpdatedSnapshot(request)
   }
 }
 
@@ -158,6 +174,12 @@ export class SnapshotClient {
     return this.managementClient.deleteSnapshot(request)
   }
 
+  deleteSnapshotsMatching(
+    request: SnapshotDeleteSnapshotsMatchingRequest
+  ): Promise<SnapshotDeleteSnapshotsMatchingResponse> {
+    return this.managementClient.deleteSnapshotsMatching(request)
+  }
+
   listSnapshots(
     request: SnapshotListSnapshotsRequest
   ): Promise<SnapshotListSnapshotsResponse> {
@@ -174,5 +196,11 @@ export class SnapshotClient {
     request: SnapshotRestoreAccountsFromSnapshotRequest
   ): Promise<SnapshotRestoreAccountsFromSnapshotResponse> {
     return this.restoreClient.restoreAccountsFromSnapshot(request)
+  }
+
+  restoreAccountsFromLastUpdatedSnapshot(
+    request: SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest
+  ): Promise<SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse> {
+    return this.restoreClient.restoreAccountsFromLastUpdatedSnapshot(request)
   }
 }

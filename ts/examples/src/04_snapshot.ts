@@ -50,7 +50,10 @@ async function main() {
     const res = await luzid.snapshot.createSnapshot(
       'Luzid Snapshot Example',
       [accAddr],
-      'Snapshotting the account we just cloned'
+      {
+        group: 'example:snapshot',
+        description: 'Snapshotting the account we just cloned',
+      }
     )
     console.log('\nCreated snapshot', res)
     snapshotId = res.snapshotId
@@ -106,9 +109,9 @@ async function main() {
     console.log(c.bold('\n6. Restoring snapshot...\n'))
 
     // Restore
-    const res = await luzid.snapshot.restoreAccountsFromSnapshot(snapshotId, [
-      accAddr,
-    ])
+    const res = await luzid.snapshot.restoreAccountsFromSnapshot(snapshotId, {
+      accounts: [accAddr],
+    })
     console.log('Restored Snapshot:', res)
 
     // Inspect account

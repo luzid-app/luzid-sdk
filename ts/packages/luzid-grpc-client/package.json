@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "The GRPC client interface to the Luzid Validator service.",
   "exports": {
+    "types": "./dist/types/grpc-client.d.ts",
     "browser": {
       "import": "./dist/grpc-client.browser.js",
       "require": "./dist/grpc-client.browser.cjs"
@@ -19,7 +20,7 @@
   },
   "main": "./dist/grpc-client.node.cjs",
   "module": "./dist/grpc-client.node.js",
-  "types": "dist/types/grpc-client.d.ts",
+  "types": "./dist/types/grpc-client.d.ts",
   "react-native": "./dist/grpc-client.native.js",
   "type": "module",
   "files": [
@@ -45,6 +46,9 @@
   "author": "Thorsten Lorenz <thlorenz@gmx.de>",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@luzid/grpc": "^0.0.0",
     "@luzid/grpc-connection": "^0.0.0"

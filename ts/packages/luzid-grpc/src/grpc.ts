@@ -18,6 +18,7 @@ export {
 } from './proto/types/account_modification'
 
 export { RpcSnapshotAccount } from './proto/types/snapshot_account'
+export { RpcSnapshotFilter as SnapshotFilter } from './proto/types/snapshot_filter'
 
 // -----------------
 // Requests
@@ -82,6 +83,9 @@ export {
   DeleteRequest as SnapshotDeleteSnapshotRequest,
   DeleteResponse as SnapshotDeleteSnapshotResponse,
   RpcDeleteSnapshotResult as SnapshotDeleteSnapshotResult,
+  UpdateRequest as SnapshotDeleteSnapshotsMatchingRequest,
+  UpdateResponse as SnapshotDeleteSnapshotsMatchingResponse,
+  RpcUpdateSnapshotResult as SnapshotDeleteSnapshotsMatchingResult,
   ReadRequest as SnapshotGetSnaphotableAccountsRequest,
   ReadResponse as SnapshotGetSnaphotableAccountsResponse,
   SnapshotManagementServiceDefinition,
@@ -93,8 +97,11 @@ export {
   ReadRequest as SnapshotListSnapshotsRequest,
   ReadResponse as SnapshotListSnapshotsResponse,
   RpcSnapshotMetadata as SnapshotMetadata,
+  RpcAccountSummary as SnapshotAccountSummary,
   UpdateRequest as SnapshotRetrieveAccountsInSnapshotRequest,
   UpdateResponse as SnapshotRetrieveAccountsInSnapshotResponse,
+  DeleteRequest as SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest,
+  DeleteResponse as SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse,
   CreateRequest as SnapshotRestoreAccountsFromSnapshotRequest,
   CreateResponse as SnapshotRestoreAccountsFromSnapshotResponse,
   RpcRestoreResult as SnapshotRestoreResult,

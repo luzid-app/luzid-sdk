@@ -13,7 +13,7 @@ export class LuzidValidator {
   /**
    * Performs an operation on the validator.
    *
-   * @param **op**: The operation to perform (start|stop|restart)
+   * @param op - The operation to perform (start|stop|restart)
    *
    * @private
    */

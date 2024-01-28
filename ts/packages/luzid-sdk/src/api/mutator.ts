@@ -15,7 +15,11 @@ type AccountModificationBuilder = {
   setLamports(lamports: bigint): AccountModificationBuilder
   setOwner(owner: string): AccountModificationBuilder
   setExecutable(executable: boolean): AccountModificationBuilder
-  setData(data: Uint8Array): AccountModificationBuilder
+
+  setData(
+    data: Uint8Array,
+    opts?: { size?: number }
+  ): AccountModificationBuilder
   setRentEpoch(rentEpoch: bigint): AccountModificationBuilder
 }
 
@@ -59,8 +63,49 @@ export class AccountModification implements RpcAccountModification {
   get data() {
     return this._data
   }
-  setData(data: Uint8Array): AccountModificationBuilder {
-    this._data = data
+
+  /**
+   * Sets the data for the account.
+   *
+   * In some cases it is important to ensure the data has a specific size.
+   * As an example anchor's `program.coder.encode()` will encode the data but not ensure
+   * it has a compatible size
+   *
+   * In that case one has to do the following, assuming we're encoding a `Game` account that
+   * is defined at index `0` in the IDL accounts array:
+   *
+   * ```typescript
+   * const data = await program.coder.accounts.encode('Game', gameState)
+   * const gameAccountDef = program.idl.accounts[0]
+   * const size = program.coder.accounts.size(gameAccountDef)
+   * return luzid.mutator.modifyAccount(
+   *   AccountModification.forAddr(gameKeypair.publicKey.toBase58()).setData(
+   *     data,
+   *     { size }
+   *   )
+   * )
+   * ```
+   *
+   * @param data - the data to set
+   * @param opts - optional parameters
+   * @param opts -ze**: the size of the data to set. If not provided, the data will be set as is.
+   */
+  setData(
+    data: Uint8Array,
+    opts?: { size?: number }
+  ): AccountModificationBuilder {
+    if (opts?.size != null && opts.size !== data.length) {
+      assert(
+        data.length <= opts.size,
+        `When providing opts.size it has to be smaller or equal to data.length.\n` +
+          `However opts.size: ${opts.size} is smaller than the data size: ${data.length} bytes.`
+      )
+      const buf = new Uint8Array(opts.size)
+      buf.set(data, 0)
+      this._data = buf
+    } else {
+      this._data = data
+    }
     return this
   }
 
@@ -79,8 +124,8 @@ export class LuzidMutator {
   /**
    * Clones an account.
    *
-   * @param **cluster**: the cluster to clone the account from (MainnetBeta or Devnet)
-   * @param **address**: the pubkey of the account to clone
+   * @param cluster - the cluster to clone the account from (MainnetBeta or Devnet)
+   * @param address - the pubkey of the account to clone
    */
   async cloneAccount(
     cluster: LuzidCluster,
@@ -98,25 +143,6 @@ export class LuzidMutator {
     return unwrap(res, 'Luzid mutator.cloneAccount')
   }
 
-  /**
-   * Modifies an account by overriding the fields specified in the modification.
-   * The non-specified fields will be left untouched.
-   *
-   * Create an AccountModification via the `create` and override the desired fields.
-   *
-   * ### Example
-   *
-   * ```typescript
-   * const modification = AccountModification.forAddr('<pubkey>')
-   *   .setLamports(2n)
-   *   .setOwner('<owner pubkey>')
-   *   .setExecutable(false)
-   * ```
-   *
-   * @param **modification**: the account modification to apply
-   * @param **ensureRentExempt**: whether to ensure the account is rent exempt
-   *                              even if the provided lamports would not be enough
-   */
   async modifyAccount(
     modification: AccountModification | AccountModificationBuilder,
     ensureRentExempt = true
@@ -128,7 +154,7 @@ export class LuzidMutator {
     const req: MutatorModifyAccountRequest = {
       // Using `as` here so that the user can pass in an AccountModificationBuilder which we know
       // is always an AccountModification exposed via the builder interface.
-      // The other option would be to have the user call `build` which is now quite as nice.
+      // The other option would be to have the user call `build` which is not quite as nice.
       modification: modification as AccountModification,
       opts,
     }

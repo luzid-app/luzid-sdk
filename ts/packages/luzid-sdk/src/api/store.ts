@@ -14,7 +14,7 @@ export class LuzidStore {
   /**
    * Returns the data for an account.
    *
-   * - **pubkey**: The pubkey of the account we are intrested in
+   * @param pubkey - The pubkey of the account we are intrested in
    */
   async getAccountData(
     pubkey: string
@@ -27,8 +27,8 @@ export class LuzidStore {
   /**
    * Returns the update to an account resulting from a specific transaction.
    *
-   * - **pubkey**: The pubkey of the account we are intrested in
-   * - **transactionSignature**: The transaction that caused the account update
+   * @param pubkey - The pubkey of the account we are intrested in
+   * @param transactionSignature - The transaction that caused the account update
    */
   async getDiffedAccountUpdate(
     pubkey: string,

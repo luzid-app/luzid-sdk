@@ -8,7 +8,7 @@ export class LuzidApp {
   /**
    * Controls the Luzid App, i.e to shut it down.
    *
-   * @param **op**: The operation to perform {@link AppOpsOperation.shutdown}
+   * @param op - The operation to perform {@link AppOpsOperation.shutdown}
    */
   async appOps(op: AppOpsOperation): Promise<Successful<AppOpsResponse>> {
     const req: AppOpsRequest = { op }

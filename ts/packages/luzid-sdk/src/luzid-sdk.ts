@@ -40,7 +40,7 @@ export class LuzidSdk {
   /**
    * Provides access to the Luzid App service with the following methods:
    *
-   * - **appOps**: Controls the Luzid App, i.e to shut it down.
+   * @param appOps - Controls the Luzid App, i.e to shut it down.
    */
   get app() {
     return this._app
@@ -49,8 +49,8 @@ export class LuzidSdk {
   /**
    * Provides access to the Luzid Mutator service with the following methods:
    *
-   * - **cloneAccount**: Clones an account.
-   * - **modifyAccount**: Modifies an account.
+   * @param cloneAccount - Clones an account.
+   * @param modifyAccount - Modifies an account.
    */
   get mutator() {
     return this._mutator
@@ -59,8 +59,8 @@ export class LuzidSdk {
   /**
    * Provides access to the Luzid RPC service with the following methods:
    *
-   * - **getAccountInfo**: Returns the info for an account.
-   *  - **requestAirdrop**: Requests to drop SOL to an account.
+   * @param getAccountInfo - Returns the info for an account.
+   * @param requestAirdrop - Requests to drop SOL to an account.
    */
   get rpc() {
     return this._rpc
@@ -69,10 +69,10 @@ export class LuzidSdk {
   /**
    * Provides access to the Luzid Snapshot service with the following methods:
    *
-   * - **getSnaphotableAccounts**: Returns a list of accounts that can be snapshotted.
-   * - **listSnapshots**: Returns a list of snapshots created previously.
-   * - **retrieveAccountsInSnapshot**: Returns a list of accounts in a snapshot.
-   * - **restoreAccountsFromSnapshot**: Restores specific accounts from a snapshot.
+   * @param getSnaphotableAccounts - Returns a list of accounts that can be snapshotted.
+   * @param listSnapshots - Returns a list of snapshots created previously.
+   * @param retrieveAccountsInSnapshot - Returns a list of accounts in a snapshot.
+   * @param restoreAccountsFromSnapshot - Restores specific accounts from a snapshot.
    */
   get snapshot() {
     return this._snapshot
@@ -81,8 +81,8 @@ export class LuzidSdk {
   /**
    * Provides access to the Luzid Store service with the following methods:
    *
-   * - **getAccountData**: Returns the data for an account.
-   * - **getDiffedAccountUpdate**: Returns the diffed account update for an account related to a transaction.
+   * @param getAccountData - Returns the data for an account.
+   * @param getDiffedAccountUpdate - Returns the diffed account update for an account related to a transaction.
    */
   get store() {
     return this._store
@@ -91,7 +91,7 @@ export class LuzidSdk {
   /**
    * Provides access to the Luzid Validator service with the following methods:
    *
-   * - **validatorOps**: Allows to Start/Stop/Restart the validator.
+   * @param validatorOps - Allows to Start/Stop/Restart the validator.
    */
   get validator() {
     return this._validator
