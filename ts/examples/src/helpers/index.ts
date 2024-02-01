@@ -34,6 +34,19 @@ export function printSolanaExplorerAccountUrl(
     )
   )
 }
+export function printSolanaExplorerTransactionUrl(
+  signature: string,
+  opts?: { tab?: string }
+) {
+  const { tab = null } = opts ?? {}
+  let url = `https://explorer.solana.com/tx/${signature}`
+  if (tab != null) url += `/${tab}`
+  console.log(
+    c.bold.underline.blue(
+      `${url}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`
+    )
+  )
+}
 
 export function readKey(): Promise<void> {
   readline.emitKeypressEvents(process.stdin)
