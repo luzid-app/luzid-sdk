@@ -1,0 +1,83 @@
+name: 'Luzid: Release MacOS'
+on:
+  push:
+    tags:
+      - "macos-v*.*.*"
+
+jobs:
+  release-macos-m1:
+    runs-on: macos-14
+    timeout-minutes: 90
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Checkout Luzid
+        uses: actions/checkout@v4
+        with:
+          repository: luzid-app/luzid
+          path: luzid
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Checkout Solana and Install Deps
+        uses: ./luzid/.github/actions/checkout-solana-and-install-deps
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          gh-personal-access-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: 'build-release-macos-m1'
+          workspaces: |
+            luzid -> build/macos/Build/Intermediates.noindex/Pods.build/Release/rinf.build
+          cache-targets: true
+          cache-all-crates: true
+          cache-on-failure: true
+
+      - name: Flutter create Macos (to get xcodeproj)
+        run: flutter create --platforms=macos .
+        working-directory: luzid
+        shell: bash
+
+      - name: Rinf Message Generation
+        run: dart run rinf message
+        working-directory: luzid
+        shell: bash
+
+      - name: Flutter Build
+        run: make ci-flutter-build-macos-release
+        working-directory: luzid
+        shell: bash
+        env:
+          RINF: 1
+
+      ## Prepare Flutter Assets
+      - name: Show Fultter Assets
+        run: ls -la build/macos/Build
+        working-directory: luzid
+
+      - name: Move Flutter Assets to Luzid Root
+        run: mv build/macos/Build/Products/Release/luzid.app Luzid.app
+        working-directory: luzid
+        shell: bash
+
+      - name: Packup Flutter Assets
+        run: |
+          tar czvf luzid.tar.gz Luzid.app
+        working-directory: luzid
+        shell: bash
+
+      ## Publish Release
+      - name: Resolve version
+        id: vars
+        run: |
+          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            luzid/luzid.tar.gz
+          body: ${{ github.event.head_commit.message }}
+          draft: true
+          tag_name: ${{ env.TAG_NAME }}
