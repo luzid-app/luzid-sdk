@@ -1,9 +1,8 @@
 name: 'Luzid: Release Linux'
 on:
-  # push:
-  #   tags:
-  #     - "linux-v*.*.*"
-  workflow_dispatch:
+  push:
+    tags:
+      - "linux-v*.*.*"
 
 jobs:
   release-linux:
@@ -67,7 +66,7 @@ jobs:
         shell: bash
 
       - name: Move Headless Asset to Luzid Root
-        run: mv target/release/luzid lzd
+        run: mv target/release/luzid_server lzd
         working-directory: luzid
         shell: bash
 
