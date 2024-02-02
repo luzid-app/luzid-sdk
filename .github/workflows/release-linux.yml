@@ -1,8 +1,9 @@
 name: 'Luzid: Release Linux'
 on:
-  push:
-    tags:
-      - "linux-v*.*.*"
+  # push:
+  #   tags:
+  #     - "linux-v*.*.*"
+  workflow_dispatch:
 
 jobs:
   release-linux:
