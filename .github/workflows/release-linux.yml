@@ -1,0 +1,110 @@
+name: 'Luzid: Release Linux'
+on:
+  push:
+    tags:
+      - "linux-v*.*.*"
+
+jobs:
+  release-linux:
+    runs-on: ubuntu-latest
+    timeout-minutes: 200
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Checkout Luzid
+        uses: actions/checkout@v4
+        with:
+          repository: luzid-app/luzid
+          path: luzid
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Checkout Solana and Install Deps
+        uses: ./luzid/.github/actions/checkout-solana-and-install-deps
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          gh-personal-access-token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          shared-key: 'build-release-linux'
+          workspaces: |
+            luzid -> target
+            luzid -> build
+          cache-targets: true
+          cache-all-crates: true
+          cache-on-failure: true
+
+      - name: Install Flutter build Deps
+        run: sudo apt-get install clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev
+        working-directory: luzid
+        shell: bash
+
+      - name: Install Prost
+        run: cargo install protoc-gen-prost
+        working-directory: luzid
+        shell: bash
+
+      - name: Cargo Build
+        run: make ci-build-linux-release
+        working-directory: luzid
+        shell: bash
+        env:
+          RINF: 1
+
+      - name: Flutter Build
+        run: make ci-flutter-build-linux-release
+        working-directory: luzid
+        shell: bash
+        env:
+          RINF: 1
+
+      ## Prepare Headless Asset
+      - name: Show Headless Asset
+        run: ls -la target/release
+        working-directory: luzid
+        shell: bash
+
+      - name: Move Headless Asset to Luzid Root
+        run: mv target/release/luzid_server lzd
+        working-directory: luzid
+        shell: bash
+
+      - name: Packup Headless Asset
+        run: |
+          tar czvf lzd.tar.gz lzd
+        working-directory: luzid
+        shell: bash
+
+      ## Prepare Flutter Assets
+      - name: Show Flutter Assets
+        run: ls -la build/linux/x64/release/bundle
+        working-directory: luzid
+        shell: bash
+
+      - name: Move Flutter Assets to Luzid Root
+        run: mv build/linux/x64/release/bundle luzid-bundle
+        working-directory: luzid
+        shell: bash
+
+      - name: Packup Flutter Assets
+        run: |
+          tar czvf luzid.tar.gz  luzid-bundle
+        working-directory: luzid
+        shell: bash
+
+      ## Publish Release
+      - name: Resolve version
+        id: vars
+        run: |
+          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            luzid/lzd.tar.gz
+            luzid/luzid.tar.gz
+          body: ${{ github.event.head_commit.message }}
+          draft: true
+          tag_name: ${{ env.TAG_NAME }}
