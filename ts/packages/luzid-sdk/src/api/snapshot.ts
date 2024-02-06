@@ -10,6 +10,7 @@ import {
   SnapshotRetrieveAccountsInSnapshotRequest,
   SnapshotSnapshotableAccount,
   SnapshotDeleteSnapshotsMatchingRequest,
+  Commitment,
 } from '@luzid/grpc'
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
 import { Successful, unwrap } from '../core/utils'
@@ -25,13 +26,20 @@ export class LuzidSnapshot {
   /**
    * Returns the pubkeys of accounts that can be snapshotted.
    *
-   * @param includeProgramAccounts - whether to include program accounts
+   * @param opts - optional parameters to configure which accounts are included
+   * @param opts.includeProgramAccounts - whether to include program accounts
+   * @param opts.commitment - the commitment the accounts must have reached
    */
   async getSnaphotableAccounts(
-    includeProgramAccounts: boolean = false
+    opts: {
+      includeProgramAccounts?: boolean
+      commitment?: Commitment
+    } = {}
   ): Promise<SnapshotSnapshotableAccount[]> {
+    const { includeProgramAccounts = false, commitment } = opts
     const req: SnapshotGetSnaphotableAccountsRequest = {
       includeProgramAccounts,
+      commitment,
     }
     const res = await this.client.snapshot.getSnaphotableAccounts(req)
     return unwrap(res, 'Luzid snapshot.getSnaphotableAccounts').accounts
@@ -56,19 +64,22 @@ export class LuzidSnapshot {
    * @param opts - optional parameters to control the snapshot creation
    * @param opts.description - description of the snapshot
    * @param opts.group - group of the snapshot
+   * @param opts.commitment - the commitment used to determine the account
+   * state included in the snapshot
    *
    * @returns the id of the snapshot and the number of accounts included
    */
   async createSnapshot(
     snapshotName: string,
     accounts: string[],
-    opts: { description?: string; group?: string } = {}
+    opts: { description?: string; group?: string; commitment?: Commitment } = {}
   ): Promise<SnapshotCreateSnapshotResult> {
     const request: SnapshotCreateSnapshotRequest = {
       name: snapshotName,
       accounts,
       description: opts.description,
       group: opts.group,
+      commitment: opts.commitment,
     }
     const res = await this.client.snapshot.createSnapshot(request)
     return unwrap(res, 'Luzid snapshot.createSnapshot').result
@@ -131,12 +142,14 @@ export class LuzidSnapshot {
    * @param opts - optional parameters to control the restore process
    * @param opts.accounts - the accounts to restore, not provided all accounts inside the snapshot will be restored
    * @param opts.deleteSnapshotAfterRestore - whether to delete the snapshot after it was restored (default: false)
+   * @param opts.commitment - the commitment the restore transaction must reach before this method returns
    */
   async restoreAccountsFromSnapshot(
     snapshotId: string,
     opts?: {
       accounts?: string[]
       deleteSnapshotAfterRestore?: boolean
+      commitment?: Commitment
     }
   ): Promise<Successful<SnapshotRestoreResult>> {
     const { deleteSnapshotAfterRestore = false, accounts } = opts ?? {}
@@ -144,6 +157,7 @@ export class LuzidSnapshot {
     const req: SnapshotRestoreAccountsFromSnapshotRequest = {
       snapshotId,
       accounts: accounts != null ? { items: accounts } : undefined,
+      commitment: opts?.commitment,
     }
     const res = await this.client.snapshot.restoreAccountsFromSnapshot(req)
     const result = unwrap(
@@ -164,17 +178,20 @@ export class LuzidSnapshot {
    * @param opts.accounts - the accounts to restore, not provided all accounts inside the snapshot will be restored
    * @param opts.filter - optional filter to limit the snapshots that are considered when finding the last updated snapshot
    * @param opts.deleteSnapshotAfterRestore - whether to delete the snapshot after it was restored (default: false)
+   * @param opts.commitment - the commitment the restore transaction must reach before this method returns
    */
   async restoreAccountsFromLastUpdatedSnapshot(opts?: {
     accounts?: string[]
     deleteSnapshotAfterRestore?: boolean
     filter?: SnapshotFilter
+    commitment?: Commitment
   }): Promise<Successful<SnapshotRestoreResult>> {
     const { deleteSnapshotAfterRestore = false, accounts, filter } = opts ?? {}
 
     const req: SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest = {
       accounts: accounts != null ? { items: accounts } : undefined,
       filter,
+      commitment: opts?.commitment,
     }
     const res =
       await this.client.snapshot.restoreAccountsFromLastUpdatedSnapshot(req)

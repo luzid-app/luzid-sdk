@@ -20,6 +20,8 @@ export {
 export { RpcSnapshotAccount } from './proto/types/snapshot_account'
 export { RpcSnapshotFilter as SnapshotFilter } from './proto/types/snapshot_filter'
 
+export { RpcCommitment as Commitment } from './proto/types/commitment'
+
 // -----------------
 // Requests
 // -----------------

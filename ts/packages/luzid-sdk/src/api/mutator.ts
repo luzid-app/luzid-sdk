@@ -10,6 +10,7 @@ import type { LuzidGrpcClient } from '@luzid/grpc-client'
 import { assert } from '../core/assert'
 import { Successful, unwrap } from '../core/utils'
 import { Cluster, LuzidCluster, intoGrpcCluster } from '../api-types/cluster'
+import { Commitment } from '@luzid/grpc'
 
 type AccountModificationBuilder = {
   setLamports(lamports: bigint): AccountModificationBuilder
@@ -126,10 +127,14 @@ export class LuzidMutator {
    *
    * @param cluster - the cluster to clone the account from (MainnetBeta or Devnet)
    * @param address - the pubkey of the account to clone
+   * @param opts - optional parameters to further configure how the account is cloned
+   * @param opts.commitment - the commitment that the clone operation should
+   * reach before `cloneAccount` returns, default is `confirmed`
    */
   async cloneAccount(
     cluster: LuzidCluster,
-    address: string
+    address: string,
+    opts: { commitment?: Commitment } = {}
   ): Promise<Successful<MutatorCloneAccountResponse>> {
     assert(
       cluster == Cluster.Devnet || cluster == Cluster.MainnetBeta,
@@ -138,19 +143,24 @@ export class LuzidMutator {
     const req: MutatorCloneAccountRequest = {
       cluster: intoGrpcCluster(cluster),
       address,
+      commitment: opts.commitment,
     }
     const res = await this.client.mutator.cloneAccount(req)
     return unwrap(res, 'Luzid mutator.cloneAccount')
   }
 
+  /**
+   * Modifies an account.
+   *
+   * @param modification - the modification to apply to the account
+   * @param opts - optional parameters to further configure how the account is modified
+   * @param opts.commitment - the commitment that the modify operation should
+   * reach before `modifyAccount` returns, default is `confirmed`
+   */
   async modifyAccount(
     modification: AccountModification | AccountModificationBuilder,
-    ensureRentExempt = true
+    opts?: RpcModifyAccountOpts
   ): Promise<Successful<MutatorModifyAccountResponse>> {
-    const opts: RpcModifyAccountOpts = {
-      ensureRentExempt,
-      createPseudoTransaction: true,
-    }
     const req: MutatorModifyAccountRequest = {
       // Using `as` here so that the user can pass in an AccountModificationBuilder which we know
       // is always an AccountModification exposed via the builder interface.

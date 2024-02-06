@@ -3,6 +3,7 @@ import {
   StoreGetAccountDataResponse,
   StoreGetDiffedAccountUpdateRequest,
   StoreGetDiffedAccountUpdateResponse,
+  Commitment,
 } from '@luzid/grpc'
 
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
@@ -15,11 +16,18 @@ export class LuzidStore {
    * Returns the data for an account.
    *
    * @param pubkey - The pubkey of the account we are intrested in
+   * @param opts - optional parameters to further configure how the account data is queried
+   * @param opts.commitment - the commitment that the for which the account
+   * data is returned, default is `confirmed`
    */
   async getAccountData(
-    pubkey: string
+    pubkey: string,
+    opts: { commitment?: Commitment } = {}
   ): Promise<Successful<StoreGetAccountDataResponse>> {
-    const req: StoreGetAccountDataRequest = { pubkey }
+    const req: StoreGetAccountDataRequest = {
+      pubkey,
+      commitment: opts.commitment,
+    }
     const res = await this.client.store.getAccountData(req)
     return unwrap(res, 'Luzid store.getAccountData')
   }
