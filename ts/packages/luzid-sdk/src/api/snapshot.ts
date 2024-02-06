@@ -11,6 +11,7 @@ import {
   SnapshotSnapshotableAccount,
   SnapshotDeleteSnapshotsMatchingRequest,
   Commitment,
+  rpcCommitmentFromCommitment,
 } from '@luzid/grpc'
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
 import { Successful, unwrap } from '../core/utils'
@@ -157,7 +158,7 @@ export class LuzidSnapshot {
     const req: SnapshotRestoreAccountsFromSnapshotRequest = {
       snapshotId,
       accounts: accounts != null ? { items: accounts } : undefined,
-      commitment: opts?.commitment,
+      commitment: rpcCommitmentFromCommitment(opts?.commitment),
     }
     const res = await this.client.snapshot.restoreAccountsFromSnapshot(req)
     const result = unwrap(
@@ -191,7 +192,7 @@ export class LuzidSnapshot {
     const req: SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest = {
       accounts: accounts != null ? { items: accounts } : undefined,
       filter,
-      commitment: opts?.commitment,
+      commitment: rpcCommitmentFromCommitment(opts?.commitment),
     }
     const res =
       await this.client.snapshot.restoreAccountsFromLastUpdatedSnapshot(req)

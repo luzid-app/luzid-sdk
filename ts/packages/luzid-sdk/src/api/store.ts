@@ -4,6 +4,7 @@ import {
   StoreGetDiffedAccountUpdateRequest,
   StoreGetDiffedAccountUpdateResponse,
   Commitment,
+  rpcCommitmentFromCommitment,
 } from '@luzid/grpc'
 
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
@@ -26,7 +27,7 @@ export class LuzidStore {
   ): Promise<Successful<StoreGetAccountDataResponse>> {
     const req: StoreGetAccountDataRequest = {
       pubkey,
-      commitment: opts.commitment,
+      commitment: rpcCommitmentFromCommitment(opts?.commitment),
     }
     const res = await this.client.store.getAccountData(req)
     return unwrap(res, 'Luzid store.getAccountData')

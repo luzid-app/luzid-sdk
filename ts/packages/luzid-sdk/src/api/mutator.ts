@@ -5,6 +5,7 @@ import {
   MutatorModifyAccountResponse,
   RpcAccountModification,
   RpcModifyAccountOpts,
+  rpcCommitmentFromCommitment,
 } from '@luzid/grpc'
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
 import { assert } from '../core/assert'
@@ -143,7 +144,7 @@ export class LuzidMutator {
     const req: MutatorCloneAccountRequest = {
       cluster: intoGrpcCluster(cluster),
       address,
-      commitment: opts.commitment,
+      commitment: rpcCommitmentFromCommitment(opts.commitment),
     }
     const res = await this.client.mutator.cloneAccount(req)
     return unwrap(res, 'Luzid mutator.cloneAccount')
@@ -154,19 +155,18 @@ export class LuzidMutator {
    *
    * @param modification - the modification to apply to the account
    * @param opts - optional parameters to further configure how the account is modified
-   * @param opts.commitment - the commitment that the modify operation should
-   * reach before `modifyAccount` returns, default is `confirmed`
+   * @param opts.commitment - the commitment that the modify operation should reach before `modifyAccount` returns, default is `confirmed`
    */
   async modifyAccount(
     modification: AccountModification | AccountModificationBuilder,
-    opts?: RpcModifyAccountOpts
+    opts: { commitment?: Commitment } = {}
   ): Promise<Successful<MutatorModifyAccountResponse>> {
     const req: MutatorModifyAccountRequest = {
       // Using `as` here so that the user can pass in an AccountModificationBuilder which we know
       // is always an AccountModification exposed via the builder interface.
       // The other option would be to have the user call `build` which is not quite as nice.
       modification: modification as AccountModification,
-      opts,
+      opts: { commitment: rpcCommitmentFromCommitment(opts.commitment) },
     }
     const res = await this.client.mutator.modifyAccount(req)
     return unwrap(res, 'Luzid mutator.modifyAccount')
