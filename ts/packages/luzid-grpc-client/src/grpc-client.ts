@@ -10,6 +10,7 @@ import {
   createLocalChannel,
 } from '@luzid/grpc-connection'
 import { assert } from './core/assert'
+import { TransactionClient } from './client/transaction'
 
 const DEFAULT_GRPC_SERVER_PORT = 50051
 
@@ -26,6 +27,7 @@ export class LuzidGrpcClient {
   private _snapshot?: SnapshotClient
   private _store?: StoreClient
   private _validator?: ValidatorClient
+  private _transaction?: TransactionClient
 
   constructor(opts?: LuzidGrpcClientOpts) {
     if (opts?.url != null) {
@@ -112,5 +114,17 @@ export class LuzidGrpcClient {
       this._validator = new ValidatorClient(this.channel)
     }
     return this._validator
+  }
+
+  /**
+   * Provides access to the Luzid Transaction service with the following methods:
+   *
+   * - **labelTransaction**: Labels a transaction
+   */
+  get transaction() {
+    if (this._transaction == null) {
+      this._transaction = new TransactionClient(this.channel)
+    }
+    return this._transaction
   }
 }

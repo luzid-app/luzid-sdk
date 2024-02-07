@@ -40,7 +40,7 @@ export class LuzidSnapshot {
     const { includeProgramAccounts = false, commitment } = opts
     const req: SnapshotGetSnaphotableAccountsRequest = {
       includeProgramAccounts,
-      commitment,
+      commitment: rpcCommitmentFromCommitment(commitment),
     }
     const res = await this.client.snapshot.getSnaphotableAccounts(req)
     return unwrap(res, 'Luzid snapshot.getSnaphotableAccounts').accounts
@@ -80,7 +80,7 @@ export class LuzidSnapshot {
       accounts,
       description: opts.description,
       group: opts.group,
-      commitment: opts.commitment,
+      commitment: rpcCommitmentFromCommitment(opts.commitment),
     }
     const res = await this.client.snapshot.createSnapshot(request)
     return unwrap(res, 'Luzid snapshot.createSnapshot').result

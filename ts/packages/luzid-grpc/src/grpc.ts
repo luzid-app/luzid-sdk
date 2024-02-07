@@ -176,6 +176,14 @@ export {
   ValidatorOpsServiceClient,
 } from './proto/requests/validator_ops'
 
+export {
+  UpdateRequest as LabelTransactionRequest,
+  UpdateResponse as LabelTransactionResponse,
+  TransactionServiceDefinition,
+  TransactionServiceImplementation,
+  TransactionServiceClient,
+} from './proto/requests/transaction'
+
 // -----------------
 // Signals
 // -----------------

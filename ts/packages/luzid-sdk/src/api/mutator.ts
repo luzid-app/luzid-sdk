@@ -4,7 +4,6 @@ import {
   MutatorModifyAccountRequest,
   MutatorModifyAccountResponse,
   RpcAccountModification,
-  RpcModifyAccountOpts,
   rpcCommitmentFromCommitment,
 } from '@luzid/grpc'
 import type { LuzidGrpcClient } from '@luzid/grpc-client'
