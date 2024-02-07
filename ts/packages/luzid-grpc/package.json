@@ -1,6 +1,6 @@
 {
   "name": "@luzid/grpc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The GRPC interface to the Luzid Validator service.",
   "exports": {
     "types": "./dist/types/grpc.d.ts",
