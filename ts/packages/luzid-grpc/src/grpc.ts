@@ -32,7 +32,7 @@ import { RpcCommitment } from './proto/types/commitment'
 // Commitment
 // -----------------
 const COMMITMENTS = ['processed', 'confirmed', 'finalized'] as const
-export type Commitment = typeof COMMITMENTS[number]
+export type Commitment = (typeof COMMITMENTS)[number]
 
 export function isValidCommitment(
   commitment: string
