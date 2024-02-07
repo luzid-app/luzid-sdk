@@ -1,6 +1,6 @@
 {
   "name": "@luzid/sdk",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The SDK to control Luzid from Node.js and the Browser.",
   "exports": {
     "types": "./dist/types/luzid-sdk.d.ts",
