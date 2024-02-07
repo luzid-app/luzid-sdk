@@ -19,7 +19,9 @@ async function main() {
       c.bold('\n1. Cloning an account of the SolX program from devnet...')
     )
 
-    await luzid.mutator.cloneAccount(Cluster.Devnet, accAddr)
+    await luzid.mutator.cloneAccount(Cluster.Devnet, accAddr, {
+      commitment: 'confirmed',
+    })
     const acc = await conn.getAccountInfo(new web3.PublicKey(accAddr))
     printAccountInfo(acc)
 
@@ -35,7 +37,10 @@ async function main() {
   // 2. Get snapshotable accounts
   {
     console.log(c.bold('\n2. Getting snapshotable accounts...'))
-    const accounts = await luzid.snapshot.getSnaphotableAccounts()
+    const accounts = await luzid.snapshot.getSnaphotableAccounts({
+      commitment: 'confirmed',
+    })
+
     console.log('\nSnapshotable accounts:', accounts)
 
     assert(accounts.map((a) => a.pubkey).includes(accAddr))
@@ -53,6 +58,7 @@ async function main() {
       {
         group: 'example:snapshot',
         description: 'Snapshotting the account we just cloned',
+        commitment: 'confirmed',
       }
     )
     console.log('\nCreated snapshot', res)
@@ -111,6 +117,7 @@ async function main() {
     // Restore
     const res = await luzid.snapshot.restoreAccountsFromSnapshot(snapshotId, {
       accounts: [accAddr],
+      commitment: 'confirmed',
     })
     console.log('Restored Snapshot:', res)
 

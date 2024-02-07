@@ -5,6 +5,7 @@ import { LuzidRpc } from './api/rpc'
 import { LuzidSnapshot } from './api/snapshot'
 import { LuzidStore } from './api/store'
 import { LuzidValidator } from './api/validator'
+import { LuzidTransaction } from './api/transaction'
 
 export * from './api/app'
 export * from './api/mutator'
@@ -25,6 +26,7 @@ export class LuzidSdk {
   private readonly _rpc: LuzidRpc
   private readonly _snapshot: LuzidSnapshot
   private readonly _store: LuzidStore
+  private readonly _transaction: LuzidTransaction
   private readonly _validator: LuzidValidator
 
   constructor(opts?: LuzidSdkOpts) {
@@ -34,6 +36,7 @@ export class LuzidSdk {
     this._rpc = new LuzidRpc(this.client)
     this._snapshot = new LuzidSnapshot(this.client)
     this._store = new LuzidStore(this.client)
+    this._transaction = new LuzidTransaction(this.client)
     this._validator = new LuzidValidator(this.client)
   }
 
@@ -86,6 +89,15 @@ export class LuzidSdk {
    */
   get store() {
     return this._store
+  }
+
+  /**
+   * Provides access to the Luzid Transaction service with the following methods:
+   *
+   * @param labelTransaction - Labels a transaction.
+   */
+  get transaction() {
+    return this._transaction
   }
 
   /**

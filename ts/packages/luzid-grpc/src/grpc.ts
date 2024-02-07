@@ -1,3 +1,9 @@
+export function assert(expr: boolean, message?: string): asserts expr {
+  if (!expr) {
+    throw new Error(message ?? 'unknown assertion error')
+  }
+}
+
 // -----------------
 // Types
 // -----------------
@@ -19,6 +25,38 @@ export {
 
 export { RpcSnapshotAccount } from './proto/types/snapshot_account'
 export { RpcSnapshotFilter as SnapshotFilter } from './proto/types/snapshot_filter'
+
+import { RpcCommitment } from './proto/types/commitment'
+
+// -----------------
+// Commitment
+// -----------------
+const COMMITMENTS = ['processed', 'confirmed', 'finalized'] as const
+export type Commitment = (typeof COMMITMENTS)[number]
+
+export function isValidCommitment(
+  commitment: string
+): commitment is Commitment {
+  return COMMITMENTS.includes(commitment as Commitment)
+}
+
+export function rpcCommitmentFromCommitment(
+  commitment?: Commitment | undefined
+): RpcCommitment | undefined {
+  if (commitment == null) return undefined
+
+  assert(isValidCommitment(commitment), `invalid commitment: ${commitment}`)
+  switch (commitment) {
+    case 'processed':
+      return RpcCommitment.Processed
+    case 'confirmed':
+      return RpcCommitment.Confirmed
+    case 'finalized':
+      return RpcCommitment.Finalized
+    default:
+      return RpcCommitment.UNRECOGNIZED
+  }
+}
 
 // -----------------
 // Requests
@@ -137,6 +175,14 @@ export {
   ValidatorOpsServiceImplementation,
   ValidatorOpsServiceClient,
 } from './proto/requests/validator_ops'
+
+export {
+  UpdateRequest as LabelTransactionRequest,
+  UpdateResponse as LabelTransactionResponse,
+  TransactionServiceDefinition,
+  TransactionServiceImplementation,
+  TransactionServiceClient,
+} from './proto/requests/transaction'
 
 // -----------------
 // Signals

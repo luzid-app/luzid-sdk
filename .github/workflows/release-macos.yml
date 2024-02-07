@@ -51,8 +51,33 @@ jobs:
         env:
           RINF: 1
 
+      ## Prepare Headless Asset
+      ## TODO: here we'd need to build both for arm and x86
+#     - name: Cargo Build
+#       run: make ci-build-linux-release
+#       working-directory: luzid
+#       shell: bash
+#       env:
+#         RINF: 1
+
+#     - name: Show Headless Asset
+#       run: ls -la target/release
+#       working-directory: luzid
+#       shell: bash
+
+#     - name: Move Headless Asset to Luzid Root
+#       run: mv target/release/luzid_server luzid
+#       working-directory: luzid
+#       shell: bash
+
+#     - name: Packup Headless Asset
+#       run: |
+#         tar czvf luzid.tar.gz luzid
+#       working-directory: luzid
+#       shell: bash
+
       ## Prepare Flutter Assets
-      - name: Show Fultter Assets
+      - name: Show Flutter Assets
         run: ls -la build/macos/Build
         working-directory: luzid
 
@@ -63,7 +88,7 @@ jobs:
 
       - name: Packup Flutter Assets
         run: |
-          tar czvf luzid.tar.gz Luzid.app
+          tar czvf luzid.app.tar.gz Luzid.app
         working-directory: luzid
         shell: bash
 
@@ -77,7 +102,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            luzid/luzid.tar.gz
+            luzid/luzid.app.tar.gz
           body: ${{ github.event.head_commit.message }}
           draft: true
           tag_name: ${{ env.TAG_NAME }}

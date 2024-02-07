@@ -26,7 +26,9 @@ async function main() {
       c.bold('\n1. Cloning an account of the SolX program from devnet...')
     )
 
-    await luzid.mutator.cloneAccount(Cluster.Devnet, postAddr)
+    await luzid.mutator.cloneAccount(Cluster.Devnet, postAddr, {
+      commitment: 'confirmed',
+    })
 
     const acc = await conn.getAccountInfo(new web3.PublicKey(postAddr))
     printAccountInfo(acc)
@@ -59,7 +61,9 @@ async function main() {
   {
     console.log(c.bold('\n2. Cloning the SolX program account from devnet...'))
 
-    await luzid.mutator.cloneAccount(Cluster.Devnet, programAddr)
+    await luzid.mutator.cloneAccount(Cluster.Devnet, programAddr, {
+      commitment: 'confirmed',
+    })
 
     const programAcc = await conn.getAccountInfo(
       new web3.PublicKey(programAddr)
@@ -131,7 +135,8 @@ async function main() {
     data[56] = data[56] - 32
 
     await luzid.mutator.modifyAccount(
-      AccountModification.forAddr(postAddr).setData(data)
+      AccountModification.forAddr(postAddr).setData(data),
+      { commitment: 'confirmed' }
     )
 
     const msgUtf8 = data.subarray(52, 74).toString('utf8')

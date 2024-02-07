@@ -18,7 +18,10 @@ async function main() {
     // This will assign the account to the system program and add enough
     // lamports to make it rent exempt.
     // You can turn this off by passing `false` to `modifyAccount`.
-    await luzid.mutator.modifyAccount(AccountModification.forAddr(accountAddr))
+    await luzid.mutator.modifyAccount(
+      AccountModification.forAddr(accountAddr),
+      { commitment: 'confirmed' }
+    )
 
     const acc = await conn.getAccountInfo(new web3.PublicKey(accountAddr))
     printAccountInfo(acc)
@@ -39,7 +42,8 @@ async function main() {
     await luzid.mutator.modifyAccount(
       AccountModification.forAddr(accountAddr).setData(
         Buffer.from('Hello world! Hola mundo! Hallo Welt!', 'utf8')
-      )
+      ),
+      { commitment: 'confirmed' }
     )
 
     const acc = await conn.getAccountInfo(new web3.PublicKey(accountAddr))
@@ -65,7 +69,8 @@ async function main() {
     console.log(c.bold('\n3. Modifying account owner...'))
 
     await luzid.mutator.modifyAccount(
-      AccountModification.forAddr(accountAddr).setOwner(owner)
+      AccountModification.forAddr(accountAddr).setOwner(owner),
+      { commitment: 'confirmed' }
     )
 
     const acc = await conn.getAccountInfo(new web3.PublicKey(accountAddr))
