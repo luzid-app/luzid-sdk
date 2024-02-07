@@ -51,6 +51,6 @@
   },
   "dependencies": {
     "@luzid/grpc": "^0.0.2",
-    "@luzid/grpc-client": "^0.0.1"
+    "@luzid/grpc-client": "^0.0.2"
   }
 }
