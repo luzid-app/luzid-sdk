@@ -111,12 +111,12 @@ jobs:
           RINF: 1
 
       - name: Show Headless Arm Asset
-        run: ls -la target/aarch64-apple-darwin/release
+        run: ls -la target/release
         working-directory: luzid
         shell: bash
 
       - name: Move Headless Arm Asset to Luzid Root
-        run: mv target/aarch64-apple-darwin/release/luzid_server lzd
+        run: mv target/release/luzid_server lzd
         working-directory: luzid
         shell: bash
 
