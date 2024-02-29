@@ -51,31 +51,6 @@ jobs:
         env:
           RINF: 1
 
-      ## Prepare Headless Asset
-      ## TODO: here we'd need to build both for arm and x86
-#     - name: Cargo Build
-#       run: make ci-build-linux-release
-#       working-directory: luzid
-#       shell: bash
-#       env:
-#         RINF: 1
-
-#     - name: Show Headless Asset
-#       run: ls -la target/release
-#       working-directory: luzid
-#       shell: bash
-
-#     - name: Move Headless Asset to Luzid Root
-#       run: mv target/release/luzid_server luzid
-#       working-directory: luzid
-#       shell: bash
-
-#     - name: Packup Headless Asset
-#       run: |
-#         tar czvf luzid.tar.gz luzid
-#       working-directory: luzid
-#       shell: bash
-
       ## Prepare Flutter Assets
       - name: Show Flutter Assets
         run: ls -la build/macos/Build
@@ -92,6 +67,65 @@ jobs:
         working-directory: luzid
         shell: bash
 
+
+      ## Build and Prepare Headless Assets
+      - name: Add x86_64 Rust Target
+        run: rustup target add x86_64-apple-darwin
+        shell: bash
+
+      ## X86_64 Build
+      - name: Cargo Build X86_64
+        run: make ci-build-macos-x86_64-release
+        working-directory: luzid
+        shell: bash
+        env:
+          RINF: 1
+
+      - name: Show Headless X86_64 Asset
+        run: ls -la target/x86_64-apple-darwin/release
+        working-directory: luzid
+        shell: bash
+
+      - name: Move Headless X86_64 Asset to Luzid Root
+        run: mv target/x86_64-apple-darwin/release/luzid_server lzd
+        working-directory: luzid
+        shell: bash
+
+      - name: Packup Headless X86_64 Asset
+        run: |
+          tar czvf luzid_x86_64-apple-darwin.tar.gz lzd
+        working-directory: luzid
+        shell: bash
+
+      - name: Remove x86_64 Assets
+        run: rm -rf lzd
+        working-directory: luzid
+        shell: bash
+
+      ## Arm Build
+      - name: Cargo Build Arm
+        run: make ci-build-macos-arm-release
+        working-directory: luzid
+        shell: bash
+        env:
+          RINF: 1
+
+      - name: Show Headless Arm Asset
+        run: ls -la target/aarch64-apple-darwin/release
+        working-directory: luzid
+        shell: bash
+
+      - name: Move Headless Arm Asset to Luzid Root
+        run: mv target/aarch64-apple-darwin/release/luzid_server lzd
+        working-directory: luzid
+        shell: bash
+
+      - name: Packup Headless Arm Asset
+        run: |
+          tar czvf luzid_aarch64-apple-darwin.tar.gz lzd
+        working-directory: luzid
+        shell: bash
+
       ## Publish Release
       - name: Resolve version
         id: vars
@@ -102,6 +136,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
+            luzid/lzd_x86_64-apple-darwin.tar.gz
+            luzid/lzd_aarch64-apple-darwin.tar.gz
             luzid/luzid.app.tar.gz
           body: ${{ github.event.head_commit.message }}
           draft: true
