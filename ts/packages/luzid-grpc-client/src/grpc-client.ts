@@ -11,6 +11,7 @@ import {
 } from '@luzid/grpc-connection'
 import { assert } from './core/assert'
 import { TransactionClient } from './client/transaction'
+import { WorkspaceClient } from './client/workspace'
 
 const DEFAULT_GRPC_SERVER_PORT = 50051
 
@@ -28,6 +29,7 @@ export class LuzidGrpcClient {
   private _store?: StoreClient
   private _validator?: ValidatorClient
   private _transaction?: TransactionClient
+  private _workspace?: WorkspaceClient
 
   constructor(opts?: LuzidGrpcClientOpts) {
     if (opts?.url != null) {
@@ -126,5 +128,22 @@ export class LuzidGrpcClient {
       this._transaction = new TransactionClient(this.channel)
     }
     return this._transaction
+  }
+
+  /**
+   * Provides access to the Luzid Workspace service with the following methods:
+   *
+   * - **getWorkspace**: Returns the workspace for a given workspace root.
+   * - **cloneWorkspace**: Clones a workspace.
+   * - **watchWorkspace**: Watches a workspace.
+   * - **unwatchWorkspace**: Unwatches a workspace.
+   * - **addWorkspace**: Adds a workspace.
+   * - **removeWorkspace**: Removes a workspace.
+   */
+  get workspace() {
+    if (this._workspace == null) {
+      this._workspace = new WorkspaceClient(this.channel)
+    }
+    return this._workspace
   }
 }

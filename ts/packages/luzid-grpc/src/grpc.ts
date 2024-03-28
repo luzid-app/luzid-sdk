@@ -184,6 +184,28 @@ export {
   TransactionServiceClient,
 } from './proto/requests/transaction'
 
+export {
+  GetWorkspaceRequest,
+  GetWorkspaceResponse,
+  CloneWorkspaceRequest,
+  CloneWorkspaceResponse,
+  WatchWorkspaceRequest,
+  WatchWorkspaceResponse,
+  UnwatchWorkspaceRequest,
+  UnwatchWorkspaceResponse,
+  AddWorkspaceRequest,
+  AddWorkspaceResponse,
+  RemoveWorkspaceRequest,
+  RemoveWorkspaceResponse,
+  ListWorkspacesResponse,
+  RpcWorkspaceProgram as WorkspaceProgram,
+  RpcWorkspace as Workspace,
+  RpcClonableWorkspaceProgram as ClonableWorkspaceProgram,
+  RpcClonableWorkspace as ClonableWorkspace,
+  WorkspaceServiceClient,
+  WorkspaceServiceDefinition,
+} from './proto/requests/workspace'
+
 // -----------------
 // Signals
 // -----------------
