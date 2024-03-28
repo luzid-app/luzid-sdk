@@ -6,7 +6,8 @@
     "validator": "esr src/01_validator.ts",
     "mutator:modify": "esr src/02_mutator.modify-account.ts",
     "mutator:clone": "esr src/03_mutator.clone-account.ts",
-    "snapshot": "esr src/04_snapshot.ts"
+    "snapshot": "esr src/04_snapshot.ts",
+    "workspace:watch": "esr src/05_workspace.watch.ts"
   },
   "dependencies": {
     "@luzid/sdk": "*",
