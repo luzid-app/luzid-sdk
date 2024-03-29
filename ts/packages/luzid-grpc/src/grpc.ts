@@ -62,11 +62,11 @@ export function rpcCommitmentFromCommitment(
 // Requests
 // -----------------
 export {
-  Operation as AppOpsOperation,
-  operationFromJSON as appOpsOperationFromJSON,
-  operationToJSON as appOpsOperationToJSON,
-  ReadRequest as AppOpsRequest,
-  ReadResponse as AppOpsResponse,
+  AppOperation,
+  appOperationFromJSON,
+  appOperationToJSON,
+  AppOpsRequest,
+  AppOpsResponse,
   AppOpsServiceDefinition,
   AppOpsServiceImplementation,
   AppOpsServiceClient,
