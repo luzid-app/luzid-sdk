@@ -17,6 +17,8 @@ Future<void> main() async {
     }
   }
 
+  await sleep(500);
+
   // Stop Validator
   {
     print('Stopping Validator...');
@@ -31,4 +33,8 @@ Future<void> main() async {
   }
 
   return client.close();
+}
+
+sleep([milliseconds = 100]) {
+  return Future.delayed(Duration(milliseconds: milliseconds));
 }
