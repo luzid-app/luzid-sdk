@@ -166,9 +166,9 @@ export {
 } from './proto/requests/store_get_diffed_account_update'
 
 export {
-  Operation as ValidatorOpsOperation,
-  operationFromJSON as validatorOpsOperationFromJSON,
-  operationToJSON as validatorOpsOperationToJSON,
+  ValidatorOperation,
+  validatorOperationFromJSON,
+  validatorOperationToJSON,
   ValidatorOpsRequest,
   ValidatorOpsResponse,
   ValidatorOpsServiceDefinition,

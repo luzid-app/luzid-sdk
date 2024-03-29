@@ -1,5 +1,5 @@
 import {
-  ValidatorOpsOperation,
+  ValidatorOperation,
   ValidatorOpsRequest,
   ValidatorOpsResponse,
 } from '@luzid/grpc'
@@ -18,7 +18,7 @@ export class LuzidValidator {
    * @private
    */
   private async validatorOps(
-    op: ValidatorOpsOperation
+    op: ValidatorOperation
   ): Promise<Successful<ValidatorOpsResponse>> {
     const req: ValidatorOpsRequest = { op }
     const res = await this.client.validator.validatorOps(req)
@@ -29,20 +29,20 @@ export class LuzidValidator {
    * Starts the validator.
    */
   start(): Promise<Successful<ValidatorOpsResponse>> {
-    return this.validatorOps(ValidatorOpsOperation.Start)
+    return this.validatorOps(ValidatorOperation.Start)
   }
 
   /**
    * Stops the validator.
    */
   stop(): Promise<Successful<ValidatorOpsResponse>> {
-    return this.validatorOps(ValidatorOpsOperation.Stop)
+    return this.validatorOps(ValidatorOperation.Stop)
   }
 
   /**
    * Restarts the validator.
    */
   restart(): Promise<Successful<ValidatorOpsResponse>> {
-    return this.validatorOps(ValidatorOpsOperation.Restart)
+    return this.validatorOps(ValidatorOperation.Restart)
   }
 }
