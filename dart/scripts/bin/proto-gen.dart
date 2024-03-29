@@ -150,8 +150,6 @@ Future<void> main(List<String> _) async {
   final paths =
       Paths(dartRoot, luzidRepoRoot, luzidGrpc, protoDir, protoOutDir);
 
-  print(paths);
-
   final protoInputs = ProtoInputs(
     paths.protoOutDir,
     paths.protoDir,
@@ -163,6 +161,7 @@ Future<void> main(List<String> _) async {
   paths.resetOutPaths();
 
   for (final ty in ProtoType.values) {
+    print('\nGenerating ${ty.toString().split('.').last} protos...');
     final args = protoInputs.protoArgsFor(ty);
 
     final protocDartResult = await Process.run(
@@ -171,7 +170,59 @@ Future<void> main(List<String> _) async {
     );
     print('protoc ${args.join(' ')}');
     print(protocDartResult.stdout);
-    print(protocDartResult.stderr);
-    print('protoc dart exit code: ${protocDartResult.exitCode}');
+    if (protocDartResult.exitCode != 0) {
+      print('protoc failed');
+      print(protocDartResult.stderr);
+      return;
+    }
   }
+
+  fixTypeImports(paths);
+}
+
+// -----------------
+// Type Import Fixes
+// -----------------
+void fixTypeImports(Paths paths) {
+  final requestsDir = Directory(paths.requestsOut);
+  final signalsDir = Directory(paths.signalsOut);
+  final typesDir = Directory(paths.typesOut);
+
+  final protoEndings = [
+    '.pbenum.dart',
+    '.pb.dart',
+    '.pbjson.dart',
+    '.pbgrpc.dart',
+  ];
+
+  // 1. Find all files from the types dir that match a proto ending
+  final typeFiles = findFilesEndingWith(typesDir, protoEndings);
+
+  // 2. Find all files from the requests and signals dirs that match a proto ending
+  final requestFiles = findFilesEndingWith(requestsDir, protoEndings);
+  final signalFiles = findFilesEndingWith(signalsDir, protoEndings);
+
+  // 3. Replace all lines in request and signal files which match
+  //    `import '<type_file>' as  ` with
+  //    `import '../types/<type_file>' as  `
+  for (final requestFile in [...requestFiles, ...signalFiles]) {
+    final content = File(requestFile).readAsStringSync();
+    final newContent = typeFiles.fold(content, (content, typeFile) {
+      final typeFileName = basename(typeFile);
+      return content.replaceAll(
+        "import '$typeFileName' as",
+        "import '../types/$typeFileName' as",
+      );
+    });
+    File(requestFile).writeAsStringSync(newContent);
+  }
+}
+
+List<String> findFilesEndingWith(Directory dir, List<String> suffixes) {
+  return dir
+      .listSync()
+      .whereType<File>()
+      .where((f) => suffixes.any((suffix) => f.path.endsWith(suffix)))
+      .map((f) => f.path)
+      .toList();
 }
