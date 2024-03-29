@@ -4,6 +4,8 @@ import 'api/app.dart';
 import 'api/mutator.dart';
 import 'api/validator.dart';
 
+export 'api/mutator.dart' show AccountModification;
+
 class LuzidSdkOpts {
   final LuzidGrpcClientOpts? client;
   LuzidSdkOpts({this.client});

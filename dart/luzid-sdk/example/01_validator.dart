@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:luzid_sdk/luzid_sdk.dart';
-
 import 'package:ansicolor/ansicolor.dart' show AnsiPen;
+
+import 'helpers.dart';
 
 Future<void> main() async {
   final luzid = LuzidSdk();
@@ -18,7 +19,7 @@ Future<void> main() async {
 
     print('* Have a look at the toggle in the UI to see it is down');
 
-    stdin.readLineSync();
+    readline();
   }
 
   // 2. Start Validator
@@ -27,7 +28,7 @@ Future<void> main() async {
     await luzid.validator.start();
     print('* Have a look at the toggle in the UI to see it up again');
 
-    stdin.readLineSync();
+    readline();
   }
 
   // 3. Restart Validator
