@@ -5,6 +5,10 @@ import 'client/app.dart';
 import 'client/mutator.dart';
 import 'client/validator.dart';
 
+export 'client/app.dart';
+export 'client/mutator.dart';
+export 'client/validator.dart';
+
 class LuzidGrpcClientOpts {
   String? host;
   int? port;
