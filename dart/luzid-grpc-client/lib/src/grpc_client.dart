@@ -18,9 +18,9 @@ class LuzidGrpcClient {
       : _channel = createLuzidGrpcChannel(
             host: opts?.host ?? 'localhost', port: opts?.port ?? 50051);
 
-  get validator {
+  ValidatorClient get validator {
     _validator ??= ValidatorClient(_channel);
-    return _validator;
+    return _validator!;
   }
 
   Future<void> close() {
