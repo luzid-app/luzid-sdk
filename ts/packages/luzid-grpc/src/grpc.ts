@@ -73,16 +73,16 @@ export {
 } from './proto/requests/app_ops'
 
 export {
-  CreateRequest as MutatorCloneAccountRequest,
-  CreateResponse as MutatorCloneAccountResponse,
+  MutatorCloneAccountRequest,
+  MutatorCloneAccountResponse,
   MutatorCloneAccountServiceDefinition,
   MutatorCloneAccountServiceImplementation,
   MutatorCloneAccountServiceClient,
 } from './proto/requests/mutator_clone_account'
 
 export {
-  UpdateRequest as MutatorModifyAccountRequest,
-  UpdateResponse as MutatorModifyAccountResponse,
+  MutatorModifyAccountRequest,
+  MutatorModifyAccountResponse,
   MutatorModifyAccountServiceDefinition,
   MutatorModifyAccountServiceImplementation,
   MutatorModifyAccountServiceClient,
