@@ -11,7 +11,7 @@ class ValidatorOpsClient {
   ValidatorOpsClient(ClientChannel channel)
       : _client = ValidatorOpsServiceClient(channel);
 
-  Future<ReadResponse> validatorOps(ReadRequest request) {
+  Future<ValidatorOpsResponse> validatorOps(ValidatorOpsRequest request) {
     return _client.validatorOps(request);
   }
 }
@@ -26,7 +26,7 @@ class ValidatorClient {
       : _validatorOpsClient =
             ValidatorOpsClient(channel ?? defaultLuzidChannel);
 
-  Future<ReadResponse> validatorOps(ReadRequest request) {
+  Future<ValidatorOpsResponse> validatorOps(ValidatorOpsRequest request) {
     return _validatorOpsClient.validatorOps(request);
   }
 }

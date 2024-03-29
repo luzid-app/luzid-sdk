@@ -7,8 +7,8 @@ Future<void> main() async {
   // Start Validator
   {
     print('Starting Validator...');
-    final ReadResponse res =
-        await client.validator.validatorOps(ReadRequest(op: Operation.Start));
+    final ValidatorOpsResponse res = await client.validator
+        .validatorOps(ValidatorOpsRequest(op: Operation.Start));
 
     if (res.hasError()) {
       print("Start Validator Error: ${res.error}");
@@ -20,8 +20,8 @@ Future<void> main() async {
   // Stop Validator
   {
     print('Stopping Validator...');
-    final ReadResponse res =
-        await client.validator.validatorOps(ReadRequest(op: Operation.Stop));
+    final ValidatorOpsResponse res = await client.validator
+        .validatorOps(ValidatorOpsRequest(op: Operation.Stop));
 
     if (res.hasError()) {
       print("Stop Validator Error: ${res.error}");
