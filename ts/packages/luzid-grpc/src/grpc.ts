@@ -177,8 +177,8 @@ export {
 } from './proto/requests/validator_ops'
 
 export {
-  UpdateRequest as LabelTransactionRequest,
-  UpdateResponse as LabelTransactionResponse,
+  LabelTransactionRequest,
+  LabelTransactionResponse,
   TransactionServiceDefinition,
   TransactionServiceImplementation,
   TransactionServiceClient,
