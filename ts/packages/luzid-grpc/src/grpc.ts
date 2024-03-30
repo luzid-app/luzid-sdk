@@ -149,17 +149,17 @@ export {
 } from './proto/requests/snapshot_restore'
 
 export {
-  ReadRequest as StoreGetAccountDataRequest,
-  ReadResponse as StoreGetAccountDataResponse,
-  RpcAccountData,
+  StoreGetAccountDataRequest,
+  StoreGetAccountDataResponse,
+  RpcStoreAccountData,
   StoreGetAccountDataServiceDefinition,
   StoreGetAccountDataServiceImplementation,
   StoreGetAccountDataServiceClient,
 } from './proto/requests/store_get_account_data'
 
 export {
-  ReadRequest as StoreGetDiffedAccountUpdateRequest,
-  ReadResponse as StoreGetDiffedAccountUpdateResponse,
+  StoreGetDiffedAccountUpdateRequest,
+  StoreGetDiffedAccountUpdateResponse,
   StoreGetDiffedAccountUpdateServiceDefinition,
   StoreGetDiffedAccountUpdateServiceImplementation,
   StoreGetDiffedAccountUpdateServiceClient,

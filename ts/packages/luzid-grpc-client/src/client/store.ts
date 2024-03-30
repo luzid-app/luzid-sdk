@@ -13,7 +13,7 @@ import {
 } from '@luzid/grpc'
 
 export {
-  RpcAccountData,
+  RpcStoreAccountData,
   StoreGetAccountDataRequest,
   StoreGetAccountDataResponse,
   StoreGetDiffedAccountUpdateRequest,
