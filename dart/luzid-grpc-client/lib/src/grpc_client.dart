@@ -3,6 +3,8 @@ import 'package:luzid_grpc_client/src/core/channel.dart';
 
 import 'client/app.dart';
 import 'client/mutator.dart';
+import 'client/rpc.dart';
+import 'client/snapshot.dart';
 import 'client/validator.dart';
 
 export 'client/app.dart';
@@ -20,6 +22,8 @@ class LuzidGrpcClient {
   final ClientChannel _channel;
   AppClient? _app;
   MutatorClient? _mutator;
+  RpcClient? _rpc;
+  SnapshotClient? _snapshot;
   ValidatorClient? _validator;
 
   LuzidGrpcClient([LuzidGrpcClientOpts? opts])
@@ -33,6 +37,16 @@ class LuzidGrpcClient {
   MutatorClient get mutator {
     _mutator ??= MutatorClient(_channel);
     return _mutator!;
+  }
+
+  RpcClient get rpc {
+    _rpc ??= RpcClient(_channel);
+    return _rpc!;
+  }
+
+  SnapshotClient get snapshot {
+    _snapshot ??= SnapshotClient(_channel);
+    return _snapshot!;
   }
 
   ValidatorClient get validator {

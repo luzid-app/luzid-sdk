@@ -32,7 +32,6 @@ export 'proto/requests/rpc_request_airdrop.pb.dart';
 export 'proto/requests/rpc_request_airdrop.pbgrpc.dart';
 export 'proto/requests/rpc_request_airdrop.pbjson.dart';
 
-/*
 export 'proto/requests/snapshot_get_account.pb.dart';
 export 'proto/requests/snapshot_get_account.pbgrpc.dart';
 export 'proto/requests/snapshot_get_account.pbjson.dart';
@@ -56,7 +55,6 @@ export 'proto/requests/store_get_diffed_account_update.pbjson.dart';
 export 'proto/requests/transaction.pb.dart';
 export 'proto/requests/transaction.pbgrpc.dart';
 export 'proto/requests/transaction.pbjson.dart';
-*/
 
 export 'proto/requests/workspace.pb.dart';
 export 'proto/requests/workspace.pbgrpc.dart';

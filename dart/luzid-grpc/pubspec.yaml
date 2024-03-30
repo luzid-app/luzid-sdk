@@ -7,6 +7,7 @@ environment:
   sdk: ^3.2.6
 
 dependencies:
+  fixnum: ^1.1.0
   grpc: ^3.2.4
   protobuf: ^3.1.0
 
