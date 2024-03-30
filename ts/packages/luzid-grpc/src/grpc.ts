@@ -90,16 +90,16 @@ export {
 
 export {
   RpcContext,
-  ReadRequest as RpcGetAccountInfoRequest,
-  ReadResponse as RpcGetAccountInfoResponse,
+  RpcGetAccountInfoRequest,
+  RpcGetAccountInfoResponse,
   RpcGetAccountInfoServiceDefinition,
   RpcGetAccountInfoServiceImplementation,
   RpcGetAccountInfoServiceClient,
 } from './proto/requests/rpc_get_account_info'
 
 export {
-  UpdateRequest as RpcRequestAirdropRequest,
-  UpdateResponse as RpcRequestAirdropResponse,
+  RpcRequestAirdropRequest,
+  RpcRequestAirdropResponse,
   RpcRequestAirdropServiceDefinition,
   RpcRequestAirdropServiceImplementation,
   RpcRequestAirdropServiceClient,
