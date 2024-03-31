@@ -7,23 +7,23 @@ final solanaEndpoints = [
   'https://api.devnet.solana.com'
 ];
 
-class Cluster {
+class LuzidCluster {
   /// The underlying grpc cluster used by Luzid only visible to the Luzid SDK
   final grpc.Cluster _grpcCluster;
 
-  Cluster._(this._grpcCluster);
+  LuzidCluster._(this._grpcCluster);
 
   /// Local/development cluster
-  static Cluster development = Cluster._(grpc.Cluster.Development);
+  static LuzidCluster development = LuzidCluster._(grpc.Cluster.Development);
 
   /// Solana testnet cluster
-  static Cluster testnet = Cluster._(grpc.Cluster.Testnet);
+  static LuzidCluster testnet = LuzidCluster._(grpc.Cluster.Testnet);
 
   /// Solana mainnet cluster
-  static Cluster mainnetBeta = Cluster._(grpc.Cluster.MainnetBeta);
+  static LuzidCluster mainnetBeta = LuzidCluster._(grpc.Cluster.MainnetBeta);
 
   /// Solana devnet cluster
-  static Cluster devnet = Cluster._(grpc.Cluster.Devnet);
+  static LuzidCluster devnet = LuzidCluster._(grpc.Cluster.Devnet);
 
   /// Gets the URL for the specific Solana cluster.
   String get apiUrl {

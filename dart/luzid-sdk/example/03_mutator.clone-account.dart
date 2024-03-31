@@ -21,7 +21,7 @@ Future<void> main() async {
     );
 
     await luzid.mutator.cloneAccount(
-      Cluster.devnet,
+      LuzidCluster.devnet,
       postAddr,
       commitment: RpcCommitment.Confirmed,
     );
@@ -38,7 +38,7 @@ Future<void> main() async {
     );
 
     await luzid.mutator.cloneAccount(
-      Cluster.devnet,
+      LuzidCluster.devnet,
       programAddr,
       commitment: RpcCommitment.Confirmed,
     );

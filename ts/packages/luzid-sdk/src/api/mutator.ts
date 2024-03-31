@@ -89,7 +89,7 @@ export class AccountModification implements RpcAccountModification {
    *
    * @param data - the data to set
    * @param opts - optional parameters
-   * @param opts -ze**: the size of the data to set. If not provided, the data will be set as is.
+   * @param opts.size**: the size of the data to set. If not provided, the data will be set as is.
    */
   setData(
     data: Uint8Array,
