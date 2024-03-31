@@ -4,6 +4,7 @@ import 'api/app.dart';
 import 'api/mutator.dart';
 import 'api/rpc.dart';
 import 'api/snapshot.dart';
+import 'api/store.dart';
 import 'api/validator.dart';
 
 export 'api/mutator.dart' show AccountModification;
@@ -19,11 +20,15 @@ class LuzidSdk {
   late final LuzidMutator _mutator;
   late final LuzidRpc _rpc;
   late final LuzidSnapshot _snapshot;
+  late final LuzidStore _store;
   late final LuzidValidator _validator;
 
   LuzidSdk([LuzidSdkOpts? opts]) : _client = LuzidGrpcClient(opts?.client) {
     _app = LuzidApp(_client);
     _mutator = LuzidMutator(_client);
+    _rpc = LuzidRpc(_client);
+    _snapshot = LuzidSnapshot(_client);
+    _store = LuzidStore(_client);
     _validator = LuzidValidator(_client);
   }
 
@@ -57,6 +62,14 @@ class LuzidSdk {
   /// **createSnapshot** - Creates a snapshot of the accounts specified.
   LuzidSnapshot get snapshot {
     return _snapshot;
+  }
+
+  /// Provides access to the Luzid Store service with the following methods:
+  ///
+  /// **getAccountData** - Returns the data for an account.
+  /// **getDiffedAccountUpdate** - Returns the update to an account resulting from a specific transaction.
+  LuzidStore get store {
+    return _store;
   }
 
   /// Provides access to the Luzid Validator service with the following methods:
