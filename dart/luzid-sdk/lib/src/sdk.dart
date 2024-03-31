@@ -7,6 +7,7 @@ import 'api/snapshot.dart';
 import 'api/store.dart';
 import 'api/transaction.dart';
 import 'api/validator.dart';
+import 'api/workspace.dart';
 
 export 'api/mutator.dart' show AccountModification;
 
@@ -24,6 +25,7 @@ class LuzidSdk {
   late final LuzidStore _store;
   late final LuzidTransaction _transaction;
   late final LuzidValidator _validator;
+  late final LuzidWorkspace _workspace;
 
   LuzidSdk([LuzidSdkOpts? opts]) : _client = LuzidGrpcClient(opts?.client) {
     _app = LuzidApp(_client);
@@ -33,6 +35,7 @@ class LuzidSdk {
     _store = LuzidStore(_client);
     _transaction = LuzidTransaction(_client);
     _validator = LuzidValidator(_client);
+    _workspace = LuzidWorkspace(_client);
   }
 
   /// Provides access to the Luzid App service.
@@ -89,6 +92,21 @@ class LuzidSdk {
     return _validator;
   }
 
+  /// Provides access to the Luzid Workspace service with the following methods:
+  ///
+  /// **getWorkspace** - Returns the workspace at the given root.
+  /// **cloneWorkspace** - Clones the workspace at the given root.
+  /// **watchWorkspace** - Watches the workspace at the given root after cloning it into the validator.
+  /// **unwatchWorkspace** - Stops watching the workspace at the given root.
+  /// **addWorkspace** - Adds a workspace to the list of workspaces that are available to be cloned or watched from the Workspace tab in the Luzid UI.
+  /// **removeWorkspace** - Removes a workspace from the list of workspaces that are available to be cloned or watched from the Workspace tab in the Luzid UI.
+  /// **listWorkspaces** - Returns a list of workspaces that are available to be cloned or watched from the Workspace tab in the Luzid UI.
+  LuzidWorkspace get workspace {
+    return _workspace;
+  }
+
+  /// Closes the underlying GRPC client and needs to be called in order for the app to
+  /// be able to exit.
   Future<void> close() {
     return _client.close();
   }
