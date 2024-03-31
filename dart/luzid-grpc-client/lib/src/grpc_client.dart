@@ -7,6 +7,7 @@ import 'client/mutator.dart';
 import 'client/rpc.dart';
 import 'client/snapshot.dart';
 import 'client/store.dart';
+import 'client/transaction.dart';
 import 'client/validator.dart';
 
 export 'client/app.dart';
@@ -14,6 +15,7 @@ export 'client/mutator.dart';
 export 'client/rpc.dart';
 export 'client/snapshot.dart';
 export 'client/store.dart';
+export 'client/transaction.dart';
 export 'client/validator.dart';
 
 class LuzidGrpcClientOpts {
@@ -30,6 +32,7 @@ class LuzidGrpcClient {
   RpcClient? _rpc;
   StoreClient? _store;
   SnapshotClient? _snapshot;
+  TransactionClient? _transaction;
   ValidatorClient? _validator;
   WorkspaceClient? _workspace;
 
@@ -59,6 +62,11 @@ class LuzidGrpcClient {
   StoreClient get store {
     _store ??= StoreClient(_channel);
     return _store!;
+  }
+
+  TransactionClient get transaction {
+    _transaction ??= TransactionClient(_channel);
+    return _transaction!;
   }
 
   ValidatorClient get validator {
