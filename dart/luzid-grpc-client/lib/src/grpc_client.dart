@@ -1,14 +1,19 @@
 import 'package:grpc/grpc.dart';
+import 'package:luzid_grpc_client/src/client/workspace.dart';
 import 'package:luzid_grpc_client/src/core/channel.dart';
 
 import 'client/app.dart';
 import 'client/mutator.dart';
 import 'client/rpc.dart';
 import 'client/snapshot.dart';
+import 'client/store.dart';
 import 'client/validator.dart';
 
 export 'client/app.dart';
 export 'client/mutator.dart';
+export 'client/rpc.dart';
+export 'client/snapshot.dart';
+export 'client/store.dart';
 export 'client/validator.dart';
 
 class LuzidGrpcClientOpts {
@@ -23,8 +28,10 @@ class LuzidGrpcClient {
   AppClient? _app;
   MutatorClient? _mutator;
   RpcClient? _rpc;
+  StoreClient? _store;
   SnapshotClient? _snapshot;
   ValidatorClient? _validator;
+  WorkspaceClient? _workspace;
 
   LuzidGrpcClient([LuzidGrpcClientOpts? opts])
       : _channel = createLuzidGrpcChannel(
@@ -49,9 +56,19 @@ class LuzidGrpcClient {
     return _snapshot!;
   }
 
+  StoreClient get store {
+    _store ??= StoreClient(_channel);
+    return _store!;
+  }
+
   ValidatorClient get validator {
     _validator ??= ValidatorClient(_channel);
     return _validator!;
+  }
+
+  WorkspaceClient get workspace {
+    _workspace ??= WorkspaceClient(_channel);
+    return _workspace!;
   }
 
   Future<void> close() {
