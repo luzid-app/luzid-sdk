@@ -89,3 +89,6 @@ export 'proto/types/snapshot_account.pbjson.dart';
 
 export 'proto/types/snapshot_filter.pb.dart';
 export 'proto/types/snapshot_filter.pbjson.dart';
+
+export 'proto/types/rpc_context.pb.dart';
+export 'proto/types/rpc_context.pbjson.dart';

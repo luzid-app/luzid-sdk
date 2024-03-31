@@ -8,6 +8,7 @@ export function assert(expr: boolean, message?: string): asserts expr {
 // Types
 // -----------------
 export { RpcAccount } from './proto/types/account'
+export { RpcContext } from './proto/types/rpc_context'
 
 export { Cluster, clusterFromJSON, clusterToJSON } from './proto/types/cluster'
 
@@ -89,7 +90,6 @@ export {
 } from './proto/requests/mutator_modify_account'
 
 export {
-  RpcContext,
   RpcGetAccountInfoRequest,
   RpcGetAccountInfoResponse,
   RpcGetAccountInfoServiceDefinition,
