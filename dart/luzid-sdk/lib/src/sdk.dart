@@ -9,7 +9,14 @@ import 'api/transaction.dart';
 import 'api/validator.dart';
 import 'api/workspace.dart';
 
-export 'api/mutator.dart' show AccountModification;
+export 'api/app.dart';
+export 'api/mutator.dart';
+export 'api/rpc.dart';
+export 'api/snapshot.dart';
+export 'api/store.dart';
+export 'api/transaction.dart';
+export 'api/validator.dart';
+export 'api/workspace.dart';
 
 class LuzidSdkOpts {
   final LuzidGrpcClientOpts? client;

@@ -1,10 +1,30 @@
 import 'package:luzid_grpc/luzid_grpc.dart';
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
+import 'package:luzid_sdk/src/core/utils.dart';
 
 class LuzidSnapshot {
   final LuzidGrpcClient client;
 
   LuzidSnapshot(this.client);
+
+  /// Returns the data for an account.
+  ///
+  /// - [snapshotId] - The id of the snapshot we are interested in
+  /// - [pubkey] - The pubkey of the account we are interested in
+  Future<RpcSnapshotAccount> getAccount(
+      String? snapshotId, String pubkey) async {
+    final res = await _getAccountResponse(snapshotId, pubkey);
+    return unwrap(res, 'Luzid snapshot.getAccount').account;
+  }
+
+  Future<SnapshotGetAccountResponse> _getAccountResponse(
+      String? snapshotId, String pubkey) async {
+    final req = SnapshotGetAccountRequest()..pubkey = pubkey;
+    if (snapshotId != null) {
+      req.snapshotId = snapshotId;
+    }
+    return client.snapshot.getAccount(req);
+  }
 
   /// Returns the pubkeys of accounts that can be snapshotted.
   ///
