@@ -59,4 +59,13 @@ class LuzidCluster {
   grpc.Cluster intoGrpcCluster() {
     return _grpcCluster;
   }
+
+  @override
+  int get hashCode => label.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      other is LuzidCluster &&
+      other.runtimeType == runtimeType &&
+      other.label == label;
 }
