@@ -4,6 +4,7 @@
 library;
 
 export 'package:protobuf/protobuf.dart' show GeneratedMessage;
+export 'package:grpc/grpc.dart' show ResponseStream;
 
 // -----------------
 // Requests
@@ -59,6 +60,13 @@ export 'proto/requests/transaction.pbjson.dart';
 export 'proto/requests/workspace.pb.dart';
 export 'proto/requests/workspace.pbgrpc.dart';
 export 'proto/requests/workspace.pbjson.dart';
+
+// -----------------
+// Subs
+// -----------------
+export 'proto/subs/transaction_stream.pb.dart';
+export 'proto/subs/transaction_stream.pbgrpc.dart';
+export 'proto/subs/transaction_stream.pbjson.dart';
 
 // -----------------
 // Types
