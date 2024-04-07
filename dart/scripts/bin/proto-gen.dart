@@ -12,10 +12,12 @@ class Paths {
 
   final String requestsIn;
   final String signalsIn;
+  final String subsIn;
   final String typesIn;
 
   final String requestsOut;
   final String signalsOut;
+  final String subsOut;
   final String typesOut;
 
   Paths(
@@ -26,9 +28,11 @@ class Paths {
     this.protoOutDir,
   )   : requestsIn = join(protoDir, 'requests'),
         signalsIn = join(protoDir, 'signals'),
+        subsIn = join(protoDir, 'subs'),
         typesIn = join(protoDir, 'types'),
         requestsOut = join(protoOutDir, 'requests'),
         signalsOut = join(protoOutDir, 'signals'),
+        subsOut = join(protoOutDir, 'subs'),
         typesOut = join(protoOutDir, 'types');
 
   resetOutPaths() {
@@ -38,6 +42,7 @@ class Paths {
 
     Directory(requestsOut).createSync(recursive: true);
     Directory(signalsOut).createSync(recursive: true);
+    Directory(subsOut).createSync(recursive: true);
     Directory(typesOut).createSync(recursive: true);
   }
 
@@ -51,25 +56,29 @@ protoOutDir: $protoOutDir
 
 requestsIn: $requestsIn
 signalsIn: $signalsIn
+subsIn: $subsIn
 typesIn: $typesIn
 
 requestsOut: $requestsOut
 signalsOut: $signalsOut
+subsOut: $subsOut
 typesOut: $typesOut
 ''';
 }
 
-enum ProtoType { request, signal, type }
+enum ProtoType { request, signal, subs, type }
 
 class ProtoInputs {
   final String protoOutRoot;
   final String protoInRoot;
   final String requestsIn;
   final String signalsIn;
+  final String subsIn;
   final String typesIn;
 
   late final List<String> requests;
   late final List<String> signals;
+  late final List<String> subs;
   late final List<String> types;
 
   ProtoInputs(
@@ -77,10 +86,12 @@ class ProtoInputs {
     this.protoInRoot,
     this.requestsIn,
     this.signalsIn,
+    this.subsIn,
     this.typesIn,
   ) {
     requests = filesInDir(requestsIn);
     signals = filesInDir(signalsIn);
+    subs = filesInDir(subsIn);
     types = filesInDir(typesIn);
   }
 
@@ -97,6 +108,7 @@ class ProtoInputs {
     return [
       '--proto_path=$typesIn',
       '--proto_path=$signalsIn',
+      '--proto_path=$subsIn',
       '--proto_path=$requestsIn',
       '--proto_path=$protoInRoot',
     ];
@@ -116,6 +128,12 @@ class ProtoInputs {
           '--dart_out=grpc:$protoOutRoot/signals',
           ...signals,
         ];
+      case ProtoType.subs:
+        return [
+          ...protoPathArgs(),
+          '--dart_out=grpc:$protoOutRoot/subs',
+          ...subs,
+        ];
       case ProtoType.type:
         return [
           ...protoPathArgs(),
@@ -130,6 +148,7 @@ class ProtoInputs {
     return '''
 requests: $requests
 signals: $signals
+subs: $subs
 types: $types
 ''';
   }
@@ -155,6 +174,7 @@ Future<void> main(List<String> _) async {
     paths.protoDir,
     paths.requestsIn,
     paths.signalsIn,
+    paths.subsIn,
     paths.typesIn,
   );
 
@@ -186,6 +206,7 @@ Future<void> main(List<String> _) async {
 void fixTypeImports(Paths paths) {
   final requestsDir = Directory(paths.requestsOut);
   final signalsDir = Directory(paths.signalsOut);
+  final subsDir = Directory(paths.subsOut);
   final typesDir = Directory(paths.typesOut);
 
   final protoEndings = [
@@ -201,11 +222,12 @@ void fixTypeImports(Paths paths) {
   // 2. Find all files from the requests and signals dirs that match a proto ending
   final requestFiles = findFilesEndingWith(requestsDir, protoEndings);
   final signalFiles = findFilesEndingWith(signalsDir, protoEndings);
+  final subFiles = findFilesEndingWith(subsDir, protoEndings);
 
   // 3. Replace all lines in request and signal files which match
   //    `import '<type_file>' as  ` with
   //    `import '../types/<type_file>' as  `
-  for (final requestFile in [...requestFiles, ...signalFiles]) {
+  for (final requestFile in [...requestFiles, ...signalFiles, ...subFiles]) {
     final content = File(requestFile).readAsStringSync();
     final newContent = typeFiles.fold(content, (content, typeFile) {
       final typeFileName = basename(typeFile);
