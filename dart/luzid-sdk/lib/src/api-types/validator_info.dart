@@ -44,6 +44,22 @@ class ValidatorInfo extends Equatable {
     );
   }
 
+  factory ValidatorInfo.empty() {
+    return ValidatorInfo(
+      ledgerPath: '',
+      pubkey: '',
+      starts: 0,
+      gossip: '',
+      tpu: '',
+      tpuQuic: '',
+      rpc: '',
+      pubsub: '',
+      version: '',
+      featureSet: 0,
+      shredVersion: 0,
+    );
+  }
+
   @override
   String toString() {
     return '''

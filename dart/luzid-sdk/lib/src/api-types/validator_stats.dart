@@ -29,6 +29,17 @@ class ValidatorStats extends Equatable {
     );
   }
 
+  factory ValidatorStats.empty() {
+    return ValidatorStats(
+      finalizedSlot: 0,
+      confirmedSlot: 0,
+      processedSlot: 0,
+      transactionCount: 0,
+      identityBalance: 0,
+      health: ValidatorHealth.unknown,
+    );
+  }
+
   @override
   String toString() {
     return '''

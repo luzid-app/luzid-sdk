@@ -6,6 +6,10 @@ import 'package:luzid_sdk/src/api-types/validator_stats.dart';
 import 'package:luzid_sdk/src/api-types/validator_status.dart';
 import 'package:luzid_sdk/src/core/utils.dart';
 
+export 'package:luzid_sdk/src/api-types/validator_info.dart';
+export 'package:luzid_sdk/src/api-types/validator_stats.dart';
+export 'package:luzid_sdk/src/api-types/validator_status.dart';
+
 class LuzidValidator {
   final ValidatorClient _client;
 
