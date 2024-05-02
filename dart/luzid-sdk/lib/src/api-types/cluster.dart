@@ -60,6 +60,10 @@ class LuzidCluster {
     return _grpcCluster;
   }
 
+  factory LuzidCluster.fromGrpc(grpc.Cluster cluster) {
+    return LuzidCluster._(cluster);
+  }
+
   @override
   int get hashCode => label.hashCode;
 

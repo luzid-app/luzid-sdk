@@ -1,7 +1,6 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:luzid_grpc/luzid_grpc.dart'
     show
-        MutatorAccountCloned,
         MutatorCloneAccountRequest,
         MutatorCloneAccountResponse,
         MutatorModifyAccountRequest,
@@ -12,7 +11,11 @@ import 'package:luzid_grpc/luzid_grpc.dart'
 
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
 import 'package:luzid_sdk/src/api-types/cluster.dart';
+import 'package:luzid_sdk/src/api-types/mutator_account_cloned.dart';
 import 'package:luzid_sdk/src/core/utils.dart';
+
+export 'package:luzid_sdk/src/api-types/mutator_account_cloned.dart';
+export 'package:luzid_sdk/src/api-types/cluster.dart';
 
 class AccountModification {
   final RpcAccountModification _inner;
@@ -148,6 +151,8 @@ class LuzidMutator {
   /// This subscription will notify the client of any account cloned events.
   /// The client will receive a `MutatorAccountCloned` event for each account cloned.
   Stream<MutatorAccountCloned> subAccountCloned() {
-    return _client.mutator.subAccountCloned();
+    return _client.mutator.subAccountCloned().map((rpc) {
+      return MutatorAccountCloned.from(rpc);
+    });
   }
 }
