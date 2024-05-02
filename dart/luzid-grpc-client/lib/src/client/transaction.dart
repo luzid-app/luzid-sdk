@@ -18,13 +18,13 @@ class LabelTransactionClient {
 }
 
 // -----------------
-// TransactionStreamSubClient
+// TransactionSubClient
 // -----------------
-class TransactionStreamSubClient {
-  final TransactionStreamClient _client;
+class _TransactionStreamSubClient {
+  final TransactionSubClient _client;
 
-  TransactionStreamSubClient(ClientChannel channel)
-      : _client = TransactionStreamClient(channel);
+  _TransactionStreamSubClient(ClientChannel channel)
+      : _client = TransactionSubClient(channel);
 
   ResponseStream<RpcTransactionUpdate> subTransactions() {
     return _client.subTransactions(Empty());
@@ -36,11 +36,11 @@ class TransactionStreamSubClient {
 // -----------------
 class TransactionClient {
   final LabelTransactionClient labelTransactionClient;
-  final TransactionStreamSubClient transactionStreamSubClient;
+  final _TransactionStreamSubClient _transactionSubClient;
 
   TransactionClient(ClientChannel channel)
       : labelTransactionClient = LabelTransactionClient(channel),
-        transactionStreamSubClient = TransactionStreamSubClient(channel);
+        _transactionSubClient = _TransactionStreamSubClient(channel);
 
   Future<LabelTransactionResponse> labelTransaction(
     LabelTransactionRequest request,
@@ -49,6 +49,6 @@ class TransactionClient {
   }
 
   ResponseStream<RpcTransactionUpdate> subTransactions() {
-    return transactionStreamSubClient.subTransactions();
+    return _transactionSubClient.subTransactions();
   }
 }

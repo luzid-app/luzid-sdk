@@ -73,7 +73,6 @@ class AccountModification {
   /// it has a compatible size
   /// - [data] - the data to set
   /// - [size] - the size of the data to set. If not provided, the data will be set as is.
-
   AccountModification setData(List<int> data, {int? size}) {
     if (size != null && size != data.length) {
       assert(

@@ -64,9 +64,9 @@ export 'proto/requests/workspace.pbjson.dart';
 // -----------------
 // Subs
 // -----------------
-export 'proto/subs/transaction_stream.pb.dart';
-export 'proto/subs/transaction_stream.pbgrpc.dart';
-export 'proto/subs/transaction_stream.pbjson.dart';
+export 'proto/subs/transaction_sub.pb.dart';
+export 'proto/subs/transaction_sub.pbgrpc.dart';
+export 'proto/subs/transaction_sub.pbjson.dart';
 
 // -----------------
 // Types

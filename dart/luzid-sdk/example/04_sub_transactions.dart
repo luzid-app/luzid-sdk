@@ -7,7 +7,7 @@ Future<void> main() async {
     print(update);
   });
 
-  print('Send some transacttions, i.e. via an airdrop by running:\n');
+  print('Send some transactions, i.e. via an airdrop by running:\n');
   print(
       'solana airdrop -u localhost 2.2 SoLXmnP9JvL6vJ7TN1VqtTxqsc2izmPfF9CsMDEuRzJ\n');
   print('Listening for transactions...');
