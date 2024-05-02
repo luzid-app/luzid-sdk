@@ -72,6 +72,14 @@ export 'proto/subs/validator_status_sub.pb.dart';
 export 'proto/subs/validator_status_sub.pbgrpc.dart';
 export 'proto/subs/validator_status_sub.pbjson.dart';
 
+export 'proto/subs/validator_info_sub.pb.dart';
+export 'proto/subs/validator_info_sub.pbgrpc.dart';
+export 'proto/subs/validator_info_sub.pbjson.dart';
+
+export 'proto/subs/validator_stats_sub.pb.dart';
+export 'proto/subs/validator_stats_sub.pbgrpc.dart';
+export 'proto/subs/validator_stats_sub.pbjson.dart';
+
 // -----------------
 // Types
 // -----------------

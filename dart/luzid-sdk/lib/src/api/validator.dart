@@ -1,5 +1,8 @@
-import 'package:luzid_grpc/luzid_grpc.dart' hide ValidatorStatus;
+import 'package:luzid_grpc/luzid_grpc.dart'
+    hide ValidatorStatus, ValidatorInfo, ValidatorStats;
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
+import 'package:luzid_sdk/src/api-types/validator_info.dart';
+import 'package:luzid_sdk/src/api-types/validator_stats.dart';
 import 'package:luzid_sdk/src/api-types/validator_status.dart';
 import 'package:luzid_sdk/src/core/utils.dart';
 
@@ -32,6 +35,18 @@ class LuzidValidator {
   Stream<ValidatorStatus> subValidatorStatus() {
     return _client.subValidatorStatus().map((rpc) {
       return ValidatorStatus.from(rpc);
+    });
+  }
+
+  Stream<ValidatorInfo> subValidatorInfo() {
+    return _client.subValidatorInfo().map((rpc) {
+      return ValidatorInfo.from(rpc);
+    });
+  }
+
+  Stream<ValidatorStats> subValidatorStats() {
+    return _client.subValidatorStats().map((rpc) {
+      return ValidatorStats.from(rpc);
     });
   }
 }
