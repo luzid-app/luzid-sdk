@@ -68,6 +68,10 @@ export 'proto/subs/transaction_sub.pb.dart';
 export 'proto/subs/transaction_sub.pbgrpc.dart';
 export 'proto/subs/transaction_sub.pbjson.dart';
 
+export 'proto/subs/validator_status_sub.pb.dart';
+export 'proto/subs/validator_status_sub.pbgrpc.dart';
+export 'proto/subs/validator_status_sub.pbjson.dart';
+
 // -----------------
 // Types
 // -----------------

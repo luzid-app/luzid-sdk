@@ -1,5 +1,6 @@
-import 'package:luzid_grpc/luzid_grpc.dart';
+import 'package:luzid_grpc/luzid_grpc.dart' hide ValidatorStatus;
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
+import 'package:luzid_sdk/src/api-types/validator_status.dart';
 import 'package:luzid_sdk/src/core/utils.dart';
 
 class LuzidValidator {
@@ -26,5 +27,11 @@ class LuzidValidator {
   /// Restarts the validator.
   Future<ValidatorOpsResponse> restart() {
     return _validatorOps(ValidatorOperation.Restart);
+  }
+
+  Stream<ValidatorStatus> subValidatorStatus() {
+    return _client.subValidatorStatus().map((rpc) {
+      return ValidatorStatus.from(rpc);
+    });
   }
 }
