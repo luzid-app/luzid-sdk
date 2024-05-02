@@ -1,6 +1,17 @@
-import 'package:luzid_grpc/luzid_grpc.dart';
+import 'package:luzid_grpc/luzid_grpc.dart' hide SnapshotsModified;
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
+import 'package:luzid_sdk/src/api-types/snapshots_modified.dart';
 import 'package:luzid_sdk/src/core/utils.dart';
+
+export 'package:luzid_grpc/luzid_grpc.dart'
+    show
+        RpcSnapshotRestoreResult,
+        RpcSnapshotAccountSummary,
+        RpcSnapshotMetadata,
+        RpcCreateSnapshotResult,
+        RpcSnapshotableAccount;
+
+export 'package:luzid_sdk/src/api-types/snapshots_modified.dart';
 
 class LuzidSnapshot {
   final LuzidGrpcClient client;
@@ -180,5 +191,14 @@ class LuzidSnapshot {
       await deleteSnapshot(result.snapshotId);
     }
     return result;
+  }
+
+  /// Subscribes to updates of snapshot modifications.
+  ///
+  /// Returns a stream of snapshot modifications as they occur.
+  Stream<SnapshotsModified> subSnapshotsModified() {
+    return client.snapshot.subSnapshotsModified().map((rpc) {
+      return SnapshotsModified.from(rpc);
+    });
   }
 }

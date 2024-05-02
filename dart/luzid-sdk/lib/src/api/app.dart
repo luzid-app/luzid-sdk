@@ -2,6 +2,8 @@ import 'package:luzid_grpc/luzid_grpc.dart';
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
 import 'package:luzid_sdk/src/core/utils.dart';
 
+export 'package:luzid_grpc/luzid_grpc.dart' show AppOperation;
+
 class LuzidApp {
   final AppClient _client;
 

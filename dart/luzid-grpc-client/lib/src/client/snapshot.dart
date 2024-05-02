@@ -88,17 +88,33 @@ class SnapshotRestoreClient {
 }
 
 // -----------------
+// SnapshotsModifiedSub Client
+// -----------------
+class _SnapshotsModifiedSubClient {
+  final SnapshotsModifiedSubClient _client;
+
+  _SnapshotsModifiedSubClient(ClientChannel channel)
+      : _client = SnapshotsModifiedSubClient(channel);
+
+  ResponseStream<SnapshotsModified> subSnapshotsModified() {
+    return _client.subSnapshotsModified(Empty());
+  }
+}
+
+// -----------------
 // Consolidated SnapshotClient
 // -----------------
 class SnapshotClient {
   final SnapshotGetAccountClient _getAccountClient;
   final SnapshotManagementClient _managementClient;
   final SnapshotRestoreClient _restoreClient;
+  final _SnapshotsModifiedSubClient _snapshotsModifiedSubClient;
 
   SnapshotClient(ClientChannel channel)
       : _getAccountClient = SnapshotGetAccountClient(channel),
         _managementClient = SnapshotManagementClient(channel),
-        _restoreClient = SnapshotRestoreClient(channel);
+        _restoreClient = SnapshotRestoreClient(channel),
+        _snapshotsModifiedSubClient = _SnapshotsModifiedSubClient(channel);
 
   Future<SnapshotGetAccountResponse> getAccount(
     SnapshotGetAccountRequest request,
@@ -154,5 +170,9 @@ class SnapshotClient {
     SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest request,
   ) {
     return _restoreClient.restoreAccountsFromLastUpdatedSnapshot(request);
+  }
+
+  ResponseStream<SnapshotsModified> subSnapshotsModified() {
+    return _snapshotsModifiedSubClient.subSnapshotsModified();
   }
 }
