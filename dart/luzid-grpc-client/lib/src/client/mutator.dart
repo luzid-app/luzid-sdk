@@ -1,6 +1,5 @@
 import 'package:grpc/grpc.dart';
 import 'package:luzid_grpc/luzid_grpc.dart';
-import 'package:luzid_grpc_client/src/core/channel.dart';
 
 // -----------------
 // MutatorCloneAccountClient
@@ -35,15 +34,31 @@ class MutatorModifyAccountClient {
 }
 
 // -----------------
+// MutatorAccountClonedSubClient
+// -----------------
+class _MutatorAccountClonedSubClient {
+  final MutatorAccountClonedSubClient _client;
+
+  _MutatorAccountClonedSubClient(ClientChannel channel)
+      : _client = MutatorAccountClonedSubClient(channel);
+
+  ResponseStream<MutatorAccountCloned> subAccountCloned() {
+    return _client.subMutatorAccountCloned(Empty());
+  }
+}
+
+// -----------------
 // Consolidated MutatorClient
 // -----------------
 class MutatorClient {
   final MutatorCloneAccountClient _cloneAccountClient;
   final MutatorModifyAccountClient _modifyAccountClient;
+  final _MutatorAccountClonedSubClient _accountClonedSubClient;
 
   MutatorClient(ClientChannel channel)
       : _cloneAccountClient = MutatorCloneAccountClient(channel),
-        _modifyAccountClient = MutatorModifyAccountClient(channel);
+        _modifyAccountClient = MutatorModifyAccountClient(channel),
+        _accountClonedSubClient = _MutatorAccountClonedSubClient(channel);
 
   Future<MutatorCloneAccountResponse> cloneAccount(
     MutatorCloneAccountRequest request,
@@ -55,5 +70,9 @@ class MutatorClient {
     MutatorModifyAccountRequest request,
   ) {
     return _modifyAccountClient.modifyAccount(request);
+  }
+
+  ResponseStream<MutatorAccountCloned> subAccountCloned() {
+    return _accountClonedSubClient.subAccountCloned();
   }
 }

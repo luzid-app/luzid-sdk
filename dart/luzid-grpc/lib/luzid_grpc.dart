@@ -64,6 +64,10 @@ export 'proto/requests/workspace.pbjson.dart';
 // -----------------
 // Subs
 // -----------------
+export 'proto/subs/mutator_account_cloned_sub.pb.dart';
+export 'proto/subs/mutator_account_cloned_sub.pbgrpc.dart';
+export 'proto/subs/mutator_account_cloned_sub.pbjson.dart';
+
 export 'proto/subs/transaction_sub.pb.dart';
 export 'proto/subs/transaction_sub.pbgrpc.dart';
 export 'proto/subs/transaction_sub.pbjson.dart';

@@ -14,6 +14,14 @@ Future<void> main() async {
   final boldPen = AnsiPen()..white(bold: true);
   final dimPen = AnsiPen()..gray();
 
+  // Subscribe to mutator account cloned events
+  final sub = luzid.mutator.subAccountCloned().listen((event) {
+    print(
+      boldPen('Account cloned sub update: {\n') +
+          dimPen('  address: ${event.address}\n  cluster: ${event.cluster}\n}'),
+    );
+  });
+
   // 1. Clone a Devnet account of the program which is holding a post
   {
     print(
@@ -50,5 +58,6 @@ Future<void> main() async {
     );
   }
 
+  sub.cancel();
   return luzid.close();
 }

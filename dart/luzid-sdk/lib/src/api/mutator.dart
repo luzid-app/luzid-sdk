@@ -1,6 +1,7 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:luzid_grpc/luzid_grpc.dart'
     show
+        MutatorAccountCloned,
         MutatorCloneAccountRequest,
         MutatorCloneAccountResponse,
         MutatorModifyAccountRequest,
@@ -140,5 +141,13 @@ class LuzidMutator {
     );
     final res = await _client.mutator.modifyAccount(req);
     return unwrap(res, 'Luzid mutator.modifyAccount');
+  }
+
+  /// Subscribes to account cloned events.
+  ///
+  /// This subscription will notify the client of any account cloned events.
+  /// The client will receive a `MutatorAccountCloned` event for each account cloned.
+  Stream<MutatorAccountCloned> subAccountCloned() {
+    return _client.mutator.subAccountCloned();
   }
 }
