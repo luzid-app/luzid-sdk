@@ -1,7 +1,10 @@
 import 'package:luzid_sdk/luzid_sdk.dart';
 
+import 'helpers.dart';
+
 Future<void> main() async {
   final luzid = LuzidSdk();
+  await waitForService(luzid);
 
   luzid.transaction.subTransactions().listen((update) {
     print(update);

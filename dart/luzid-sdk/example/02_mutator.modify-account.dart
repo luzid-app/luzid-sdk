@@ -10,6 +10,8 @@ Future<void> main() async {
   ansiColorDisabled = false;
 
   final luzid = LuzidSdk();
+  await waitForService(luzid);
+
   final boldPen = AnsiPen()..white(bold: true);
 
   // 1. Passing no modifications will create the account with defaults if it

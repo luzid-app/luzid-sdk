@@ -7,6 +7,8 @@ import 'helpers.dart';
 
 Future<void> main() async {
   final luzid = LuzidSdk();
+  await waitForService(luzid);
+
   final boldPen = AnsiPen()..white(bold: true);
 
   // 1. Stop the validator (it is starts automatically when you launch Luzid)

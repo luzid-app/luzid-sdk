@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:ansicolor/ansicolor.dart' show AnsiPen;
+import 'package:luzid_sdk/luzid_sdk.dart';
 
 printSolanaExplorerAccountUrl(String accountAddr, {String? tab}) {
   final linkPen = AnsiPen()..blue(bold: true);
@@ -12,4 +13,12 @@ printSolanaExplorerAccountUrl(String accountAddr, {String? tab}) {
 String? readline() {
   print('Press Enter to continue...');
   return stdin.readLineSync();
+}
+
+Future<void> waitForService(LuzidSdk luzid) async {
+  if (await luzid.isServiceRunning()) {
+    return;
+  }
+  print('Please the start Luzid service, I\'ll wait ...');
+  return luzid.waitForService();
 }

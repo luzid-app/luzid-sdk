@@ -2,6 +2,7 @@ import 'package:luzid_grpc_client/luzid_grpc_client.dart';
 
 import 'api/app.dart';
 import 'api/mutator.dart';
+import 'api/ping.dart';
 import 'api/rpc.dart';
 import 'api/snapshot.dart';
 import 'api/store.dart';
@@ -11,6 +12,7 @@ import 'api/workspace.dart';
 
 export 'api/app.dart';
 export 'api/mutator.dart';
+export 'api/ping.dart';
 export 'api/rpc.dart';
 export 'api/snapshot.dart';
 export 'api/store.dart';
@@ -27,6 +29,7 @@ class LuzidSdk {
   final LuzidGrpcClient _client;
   late final LuzidApp _app;
   late final LuzidMutator _mutator;
+  late final LuzidPing _ping;
   late final LuzidRpc _rpc;
   late final LuzidSnapshot _snapshot;
   late final LuzidStore _store;
@@ -38,6 +41,7 @@ class LuzidSdk {
       : _client = LuzidGrpcClient(opts: opts?.client, channel: channel) {
     _app = LuzidApp(_client);
     _mutator = LuzidMutator(_client);
+    _ping = LuzidPing(_client);
     _rpc = LuzidRpc(_client);
     _snapshot = LuzidSnapshot(_client);
     _store = LuzidStore(_client);
@@ -51,6 +55,13 @@ class LuzidSdk {
   /// **appOps** - Controls the Luzid App, i.e to shut it down.
   LuzidApp get app {
     return _app;
+  }
+
+  /// Provides access to the Luzid Ping service with the following methods:
+  ///
+  /// **ping** - Performs a ping request to ensure the Luzid service is running.
+  LuzidPing get ping {
+    return _ping;
   }
 
   /// Provides access to the Luzid Mutator service with the following methods:
@@ -111,6 +122,32 @@ class LuzidSdk {
   /// **listWorkspaces** - Returns a list of workspaces that are available to be cloned or watched from the Workspace tab in the Luzid UI.
   LuzidWorkspace get workspace {
     return _workspace;
+  }
+
+  /// Checks if the Luzid GRPC service is running and ready to receive requests.
+  Future<bool> isServiceRunning() async {
+    try {
+      await _client.ping.ping();
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  /// Waits for the Luzid GRPC service to be running and ready to receive requests.
+  /// If a timeout is provided, it will throw an exception if the service is
+  /// not running within that timeout.
+  Future<void> waitForService({Duration? timeout}) async {
+    final now = DateTime.now();
+    while (true) {
+      if (await isServiceRunning()) {
+        break;
+      }
+      if (timeout != null && DateTime.now().difference(now) > timeout) {
+        throw Exception('Luzid did not start within $timeout');
+      }
+      await Future.delayed(const Duration(milliseconds: 200));
+    }
   }
 
   /// Closes the underlying GRPC client and needs to be called in order for the app to

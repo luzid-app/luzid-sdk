@@ -11,6 +11,8 @@ Future<void> main() async {
   ansiColorDisabled = false;
 
   final luzid = LuzidSdk();
+  await waitForService(luzid);
+
   final boldPen = AnsiPen()..white(bold: true);
   final dimPen = AnsiPen()..gray();
 

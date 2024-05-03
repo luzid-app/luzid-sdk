@@ -4,6 +4,7 @@ import 'package:luzid_grpc_client/src/core/channel.dart';
 
 import 'client/app.dart';
 import 'client/mutator.dart';
+import 'client/ping.dart';
 import 'client/rpc.dart';
 import 'client/snapshot.dart';
 import 'client/store.dart';
@@ -12,6 +13,7 @@ import 'client/validator.dart';
 
 export 'client/app.dart';
 export 'client/mutator.dart';
+export 'client/ping.dart';
 export 'client/rpc.dart';
 export 'client/snapshot.dart';
 export 'client/store.dart';
@@ -31,6 +33,7 @@ class LuzidGrpcClient {
   final ClientChannelBase _channel;
   AppClient? _app;
   MutatorClient? _mutator;
+  PingClient? _ping;
   RpcClient? _rpc;
   StoreClient? _store;
   SnapshotClient? _snapshot;
@@ -50,6 +53,11 @@ class LuzidGrpcClient {
   MutatorClient get mutator {
     _mutator ??= MutatorClient(_channel);
     return _mutator!;
+  }
+
+  PingClient get ping {
+    _ping ??= PingClient(_channel);
+    return _ping!;
   }
 
   RpcClient get rpc {

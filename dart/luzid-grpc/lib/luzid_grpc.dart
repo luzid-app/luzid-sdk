@@ -25,6 +25,10 @@ export 'proto/requests/mutator_modify_account.pb.dart';
 export 'proto/requests/mutator_modify_account.pbgrpc.dart';
 export 'proto/requests/mutator_modify_account.pbjson.dart';
 
+export 'proto/requests/ping.pb.dart';
+export 'proto/requests/ping.pbgrpc.dart';
+export 'proto/requests/ping.pbjson.dart';
+
 export 'proto/requests/rpc_get_account_info.pb.dart';
 export 'proto/requests/rpc_get_account_info.pbgrpc.dart';
 export 'proto/requests/rpc_get_account_info.pbjson.dart';
