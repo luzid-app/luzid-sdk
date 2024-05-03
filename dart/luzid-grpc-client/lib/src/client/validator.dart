@@ -17,7 +17,7 @@ class ValidatorOpsClient {
 }
 
 // -----------------
-// ValidatorStatusClient
+// ValidatorStatusSubClient
 // -----------------
 class _ValidatorStatusSubClient {
   final ValidatorStatusSubClient _client;
@@ -25,13 +25,14 @@ class _ValidatorStatusSubClient {
   _ValidatorStatusSubClient(ClientChannelBase channel)
       : _client = ValidatorStatusSubClient(channel);
 
-  ResponseStream<ValidatorStatus> subValidatorStatus() {
-    return _client.subValidatorStatus(Empty());
+  ResponseStream<ValidatorStatus> subValidatorStatus(bool emitCurrent) {
+    return _client.subValidatorStatus(
+        ValidatorStatusSubRequest(emitCurrent: emitCurrent));
   }
 }
 
 // -----------------
-// ValidatorInfoClient
+// ValidatorInfoSubClient
 // -----------------
 class _ValidatorInfoSubClient {
   final ValidatorInfoSubClient _client;
@@ -39,13 +40,14 @@ class _ValidatorInfoSubClient {
   _ValidatorInfoSubClient(ClientChannelBase channel)
       : _client = ValidatorInfoSubClient(channel);
 
-  ResponseStream<ValidatorInfo> subValidatorInfo() {
-    return _client.subValidatorInfo(Empty());
+  ResponseStream<ValidatorInfo> subValidatorInfo(bool emitCurrent) {
+    return _client
+        .subValidatorInfo(ValidatorInfoSubRequest(emitCurrent: emitCurrent));
   }
 }
 
 // -----------------
-// ValidatorStatsClient
+// ValidatorStatsSubClient
 // -----------------
 class _ValidatorStatsSubClient {
   final ValidatorStatsSubClient _client;
@@ -81,12 +83,12 @@ class ValidatorClient {
     return _validatorOpsClient.validatorOps(request);
   }
 
-  ResponseStream<ValidatorStatus> subValidatorStatus() {
-    return _validatorStatusSubClient.subValidatorStatus();
+  ResponseStream<ValidatorStatus> subValidatorStatus(bool emitCurrent) {
+    return _validatorStatusSubClient.subValidatorStatus(emitCurrent);
   }
 
-  ResponseStream<ValidatorInfo> subValidatorInfo() {
-    return _validatorInfoSubClient.subValidatorInfo();
+  ResponseStream<ValidatorInfo> subValidatorInfo(bool emitCurrent) {
+    return _validatorInfoSubClient.subValidatorInfo(emitCurrent);
   }
 
   ResponseStream<ValidatorStats> subValidatorStats() {

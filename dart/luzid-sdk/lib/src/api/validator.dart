@@ -36,14 +36,14 @@ class LuzidValidator {
     return _validatorOps(ValidatorOperation.Restart);
   }
 
-  Stream<ValidatorStatus> subValidatorStatus() {
-    return _client.subValidatorStatus().map((rpc) {
+  Stream<ValidatorStatus> subValidatorStatus({bool emitCurrent = false}) {
+    return _client.subValidatorStatus(emitCurrent).map((rpc) {
       return ValidatorStatus.from(rpc);
     });
   }
 
-  Stream<ValidatorInfo> subValidatorInfo() {
-    return _client.subValidatorInfo().map((rpc) {
+  Stream<ValidatorInfo> subValidatorInfo({bool emitCurrent = false}) {
+    return _client.subValidatorInfo(emitCurrent).map((rpc) {
       return ValidatorInfo.from(rpc);
     });
   }

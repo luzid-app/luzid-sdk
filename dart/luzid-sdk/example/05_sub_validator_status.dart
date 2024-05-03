@@ -3,7 +3,7 @@ import 'package:luzid_sdk/luzid_sdk.dart';
 Future<void> main() async {
   final luzid = LuzidSdk();
 
-  luzid.validator.subValidatorStatus().listen((update) {
+  luzid.validator.subValidatorStatus(emitCurrent: true).listen((update) {
     print(update);
   });
 
