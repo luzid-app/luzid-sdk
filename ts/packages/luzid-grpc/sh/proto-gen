@@ -22,11 +22,11 @@ gen() {
     --ts_proto_opt=outputServices=nice-grpc,outputServices=generic-definitions,useExactTypes=false \
     --ts_proto_opt=useAbortSignal=true \
     --proto_path $PROTO_DIR/requests \
-    --proto_path $PROTO_DIR/signals \
+    --proto_path $PROTO_DIR/subs \
     --proto_path $PROTO_DIR/types \
     $PROTO_DIR/$subdir/*
 }
 
 gen requests
-gen signals
+gen subs
 gen types

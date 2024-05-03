@@ -205,25 +205,3 @@ export {
   WorkspaceServiceClient,
   WorkspaceServiceDefinition,
 } from './proto/requests/workspace'
-
-// -----------------
-// Signals
-// -----------------
-
-export {
-  RpcTransactionAccount,
-  RpcTransactionUpdate,
-} from './proto/signals/geyser_transaction_update'
-
-export { RpcMutatorAccountCloned } from './proto/signals/mutator_account_cloned'
-
-export { RpcValidatorInfo } from './proto/signals/validator_info'
-
-export {
-  RpcValidatorHealth,
-  rpcValidatorHealthFromJSON,
-  rpcValidatorHealthToJSON,
-  RpcValidatorStats,
-} from './proto/signals/validator_stats'
-
-export { ValidatorStatus } from './proto/signals/validator_status'
