@@ -84,3 +84,16 @@ extension _ValidatorHealthX on ValidatorHealth {
     }
   }
 }
+
+extension ValidatorHealthToString on ValidatorHealth {
+  String toShortString() {
+    switch (this) {
+      case ValidatorHealth.ok:
+        return 'OK';
+      case ValidatorHealth.unhealthy:
+        return 'Unhealthy';
+      case ValidatorHealth.unknown:
+        return 'Unknown';
+    }
+  }
+}
