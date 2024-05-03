@@ -34,7 +34,8 @@ class LuzidSdk {
   late final LuzidValidator _validator;
   late final LuzidWorkspace _workspace;
 
-  LuzidSdk([LuzidSdkOpts? opts]) : _client = LuzidGrpcClient(opts?.client) {
+  LuzidSdk({LuzidSdkOpts? opts, ClientChannelBase? channel})
+      : _client = LuzidGrpcClient(opts: opts?.client, channel: channel) {
     _app = LuzidApp(_client);
     _mutator = LuzidMutator(_client);
     _rpc = LuzidRpc(_client);

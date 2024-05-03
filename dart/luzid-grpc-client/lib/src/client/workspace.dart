@@ -1,4 +1,4 @@
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:luzid_grpc/luzid_grpc.dart';
 
 // -----------------
@@ -7,7 +7,7 @@ import 'package:luzid_grpc/luzid_grpc.dart';
 class WorkspaceGetClient {
   final WorkspaceServiceClient _client;
 
-  WorkspaceGetClient(ClientChannel channel)
+  WorkspaceGetClient(ClientChannelBase channel)
       : _client = WorkspaceServiceClient(channel);
 
   Future<GetWorkspaceResponse> getWorkspace(GetWorkspaceRequest request) {
@@ -21,7 +21,7 @@ class WorkspaceGetClient {
 class WorkspaceCloneClient {
   final WorkspaceServiceClient _client;
 
-  WorkspaceCloneClient(ClientChannel channel)
+  WorkspaceCloneClient(ClientChannelBase channel)
       : _client = WorkspaceServiceClient(channel);
 
   Future<CloneWorkspaceResponse> cloneWorkspace(
@@ -37,7 +37,7 @@ class WorkspaceCloneClient {
 class WorkspaceWatchClient {
   final WorkspaceServiceClient _client;
 
-  WorkspaceWatchClient(ClientChannel channel)
+  WorkspaceWatchClient(ClientChannelBase channel)
       : _client = WorkspaceServiceClient(channel);
 
   Future<WatchWorkspaceResponse> watchWorkspace(
@@ -59,7 +59,7 @@ class WorkspaceWatchClient {
 class WorkspacePersistClient {
   final WorkspaceServiceClient _client;
 
-  WorkspacePersistClient(ClientChannel channel)
+  WorkspacePersistClient(ClientChannelBase channel)
       : _client = WorkspaceServiceClient(channel);
 
   Future<AddWorkspaceResponse> addWorkspace(AddWorkspaceRequest request) {
@@ -86,7 +86,7 @@ class WorkspaceClient {
   final WorkspaceWatchClient _watchWorkspaceClient;
   final WorkspacePersistClient _persistWorkspaceClient;
 
-  WorkspaceClient(ClientChannel channel)
+  WorkspaceClient(ClientChannelBase channel)
       : _getWorkspaceClient = WorkspaceGetClient(channel),
         _cloneWorkspaceClient = WorkspaceCloneClient(channel),
         _watchWorkspaceClient = WorkspaceWatchClient(channel),

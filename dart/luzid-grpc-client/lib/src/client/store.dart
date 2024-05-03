@@ -1,4 +1,4 @@
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:luzid_grpc/luzid_grpc.dart';
 
 // -----------------
@@ -7,7 +7,7 @@ import 'package:luzid_grpc/luzid_grpc.dart';
 class StoreGetAccountDataClient {
   final StoreGetAccountDataServiceClient _client;
 
-  StoreGetAccountDataClient(ClientChannel channel)
+  StoreGetAccountDataClient(ClientChannelBase channel)
       : _client = StoreGetAccountDataServiceClient(channel);
 
   Future<StoreGetAccountDataResponse> getAccountData(
@@ -23,7 +23,7 @@ class StoreGetAccountDataClient {
 class StoreGetDiffedAccountUpdateClient {
   final StoreGetDiffedAccountUpdateServiceClient _client;
 
-  StoreGetDiffedAccountUpdateClient(ClientChannel channel)
+  StoreGetDiffedAccountUpdateClient(ClientChannelBase channel)
       : _client = StoreGetDiffedAccountUpdateServiceClient(channel);
 
   Future<StoreGetDiffedAccountUpdateResponse> getDiffedAccountUpdate(
@@ -40,7 +40,7 @@ class StoreClient {
   final StoreGetAccountDataClient _getAccountDataClient;
   final StoreGetDiffedAccountUpdateClient _getDiffedAccountUpdateClient;
 
-  StoreClient(ClientChannel channel)
+  StoreClient(ClientChannelBase channel)
       : _getAccountDataClient = StoreGetAccountDataClient(channel),
         _getDiffedAccountUpdateClient =
             StoreGetDiffedAccountUpdateClient(channel);

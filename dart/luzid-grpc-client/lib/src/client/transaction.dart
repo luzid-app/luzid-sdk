@@ -1,4 +1,4 @@
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:luzid_grpc/luzid_grpc.dart';
 
 // -----------------
@@ -7,7 +7,7 @@ import 'package:luzid_grpc/luzid_grpc.dart';
 class LabelTransactionClient {
   final TransactionServiceClient _client;
 
-  LabelTransactionClient(ClientChannel channel)
+  LabelTransactionClient(ClientChannelBase channel)
       : _client = TransactionServiceClient(channel);
 
   Future<LabelTransactionResponse> labelTransaction(
@@ -23,7 +23,7 @@ class LabelTransactionClient {
 class _TransactionStreamSubClient {
   final TransactionSubClient _client;
 
-  _TransactionStreamSubClient(ClientChannel channel)
+  _TransactionStreamSubClient(ClientChannelBase channel)
       : _client = TransactionSubClient(channel);
 
   ResponseStream<RpcTransactionUpdate> subTransactions() {
@@ -38,7 +38,7 @@ class TransactionClient {
   final LabelTransactionClient labelTransactionClient;
   final _TransactionStreamSubClient _transactionSubClient;
 
-  TransactionClient(ClientChannel channel)
+  TransactionClient(ClientChannelBase channel)
       : labelTransactionClient = LabelTransactionClient(channel),
         _transactionSubClient = _TransactionStreamSubClient(channel);
 

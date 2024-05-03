@@ -1,13 +1,13 @@
+import 'package:grpc/grpc_connection_interface.dart';
+import 'package:luzid_grpc/luzid_grpc.dart';
+
 // -----------------
 // RpcGetAccountInfoClient
 // -----------------
-import 'package:grpc/grpc.dart';
-import 'package:luzid_grpc/luzid_grpc.dart';
-
 class RpcGetAccountInfoClient {
   final RpcGetAccountInfoServiceClient _client;
 
-  RpcGetAccountInfoClient(ClientChannel channel)
+  RpcGetAccountInfoClient(ClientChannelBase channel)
       : _client = RpcGetAccountInfoServiceClient(channel);
 
   Future<RpcGetAccountInfoResponse> getAccountInfo(
@@ -23,7 +23,7 @@ class RpcGetAccountInfoClient {
 class RpcRequestAirdropClient {
   final RpcRequestAirdropServiceClient _client;
 
-  RpcRequestAirdropClient(ClientChannel channel)
+  RpcRequestAirdropClient(ClientChannelBase channel)
       : _client = RpcRequestAirdropServiceClient(channel);
 
   Future<RpcRequestAirdropResponse> requestAirdrop(
@@ -40,7 +40,7 @@ class RpcClient {
   final RpcGetAccountInfoClient getAccountInfoClient;
   final RpcRequestAirdropClient requestAirdropClient;
 
-  RpcClient(ClientChannel channel)
+  RpcClient(ClientChannelBase channel)
       : getAccountInfoClient = RpcGetAccountInfoClient(channel),
         requestAirdropClient = RpcRequestAirdropClient(channel);
 

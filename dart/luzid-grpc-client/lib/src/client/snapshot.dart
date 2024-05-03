@@ -1,4 +1,4 @@
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:luzid_grpc/luzid_grpc.dart';
 
 // -----------------
@@ -7,7 +7,7 @@ import 'package:luzid_grpc/luzid_grpc.dart';
 class SnapshotGetAccountClient {
   final SnapshotGetAccountServiceClient _client;
 
-  SnapshotGetAccountClient(ClientChannel channel)
+  SnapshotGetAccountClient(ClientChannelBase channel)
       : _client = SnapshotGetAccountServiceClient(channel);
 
   Future<SnapshotGetAccountResponse> getAccount(
@@ -23,7 +23,7 @@ class SnapshotGetAccountClient {
 class SnapshotManagementClient {
   final SnapshotManagementServiceClient _client;
 
-  SnapshotManagementClient(ClientChannel channel)
+  SnapshotManagementClient(ClientChannelBase channel)
       : _client = SnapshotManagementServiceClient(channel);
 
   Future<SnapshotGetSnaphotableAccountsResponse> getSnaphotableAccounts(
@@ -57,7 +57,7 @@ class SnapshotManagementClient {
 class SnapshotRestoreClient {
   final SnapshotRestoreServiceClient _client;
 
-  SnapshotRestoreClient(ClientChannel channel)
+  SnapshotRestoreClient(ClientChannelBase channel)
       : _client = SnapshotRestoreServiceClient(channel);
 
   Future<SnapshotListSnapshotsResponse> listSnapshots(
@@ -93,7 +93,7 @@ class SnapshotRestoreClient {
 class _SnapshotsModifiedSubClient {
   final SnapshotsModifiedSubClient _client;
 
-  _SnapshotsModifiedSubClient(ClientChannel channel)
+  _SnapshotsModifiedSubClient(ClientChannelBase channel)
       : _client = SnapshotsModifiedSubClient(channel);
 
   ResponseStream<SnapshotsModified> subSnapshotsModified() {
@@ -110,7 +110,7 @@ class SnapshotClient {
   final SnapshotRestoreClient _restoreClient;
   final _SnapshotsModifiedSubClient _snapshotsModifiedSubClient;
 
-  SnapshotClient(ClientChannel channel)
+  SnapshotClient(ClientChannelBase channel)
       : _getAccountClient = SnapshotGetAccountClient(channel),
         _managementClient = SnapshotManagementClient(channel),
         _restoreClient = SnapshotRestoreClient(channel),

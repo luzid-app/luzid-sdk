@@ -1,4 +1,4 @@
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:luzid_grpc_client/src/client/workspace.dart';
 import 'package:luzid_grpc_client/src/core/channel.dart';
 
@@ -18,6 +18,8 @@ export 'client/store.dart';
 export 'client/transaction.dart';
 export 'client/validator.dart';
 
+export 'package:grpc/grpc_connection_interface.dart' show ClientChannelBase;
+
 class LuzidGrpcClientOpts {
   String? host;
   int? port;
@@ -26,7 +28,7 @@ class LuzidGrpcClientOpts {
 }
 
 class LuzidGrpcClient {
-  final ClientChannel _channel;
+  final ClientChannelBase _channel;
   AppClient? _app;
   MutatorClient? _mutator;
   RpcClient? _rpc;
@@ -36,9 +38,10 @@ class LuzidGrpcClient {
   ValidatorClient? _validator;
   WorkspaceClient? _workspace;
 
-  LuzidGrpcClient([LuzidGrpcClientOpts? opts])
-      : _channel = createLuzidGrpcChannel(
-            host: opts?.host ?? 'localhost', port: opts?.port ?? 50051);
+  LuzidGrpcClient({LuzidGrpcClientOpts? opts, ClientChannelBase? channel})
+      : _channel = channel ??
+            createLuzidGrpcChannel(
+                host: opts?.host ?? 'localhost', port: opts?.port ?? 50051);
   AppClient get app {
     _app ??= AppClient(_channel);
     return _app!;

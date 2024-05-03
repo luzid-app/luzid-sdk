@@ -1,4 +1,4 @@
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:luzid_grpc/luzid_grpc.dart';
 import 'package:luzid_grpc_client/src/core/channel.dart';
 
@@ -8,7 +8,7 @@ import 'package:luzid_grpc_client/src/core/channel.dart';
 class ValidatorOpsClient {
   final ValidatorOpsServiceClient _client;
 
-  ValidatorOpsClient(ClientChannel channel)
+  ValidatorOpsClient(ClientChannelBase channel)
       : _client = ValidatorOpsServiceClient(channel);
 
   Future<ValidatorOpsResponse> validatorOps(ValidatorOpsRequest request) {
@@ -22,7 +22,7 @@ class ValidatorOpsClient {
 class _ValidatorStatusSubClient {
   final ValidatorStatusSubClient _client;
 
-  _ValidatorStatusSubClient(ClientChannel channel)
+  _ValidatorStatusSubClient(ClientChannelBase channel)
       : _client = ValidatorStatusSubClient(channel);
 
   ResponseStream<ValidatorStatus> subValidatorStatus() {
@@ -36,7 +36,7 @@ class _ValidatorStatusSubClient {
 class _ValidatorInfoSubClient {
   final ValidatorInfoSubClient _client;
 
-  _ValidatorInfoSubClient(ClientChannel channel)
+  _ValidatorInfoSubClient(ClientChannelBase channel)
       : _client = ValidatorInfoSubClient(channel);
 
   ResponseStream<ValidatorInfo> subValidatorInfo() {
@@ -50,7 +50,7 @@ class _ValidatorInfoSubClient {
 class _ValidatorStatsSubClient {
   final ValidatorStatsSubClient _client;
 
-  _ValidatorStatsSubClient(ClientChannel channel)
+  _ValidatorStatsSubClient(ClientChannelBase channel)
       : _client = ValidatorStatsSubClient(channel);
 
   ResponseStream<ValidatorStats> subValidatorStats() {
@@ -67,7 +67,7 @@ class ValidatorClient {
   final _ValidatorInfoSubClient _validatorInfoSubClient;
   final _ValidatorStatsSubClient _validatorStatsSubClient;
 
-  ValidatorClient(ClientChannel? channel)
+  ValidatorClient(ClientChannelBase? channel)
       : _validatorOpsClient =
             ValidatorOpsClient(channel ?? defaultLuzidChannel),
         _validatorStatusSubClient =

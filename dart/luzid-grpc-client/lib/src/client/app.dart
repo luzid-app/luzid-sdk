@@ -1,14 +1,15 @@
-// -----------------
-// AppOpsClient
-// -----------------
-import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_connection_interface.dart';
 import 'package:luzid_grpc/luzid_grpc.dart';
 import 'package:luzid_grpc_client/src/core/channel.dart';
 
+// -----------------
+// AppOpsClient
+// -----------------
 class AppOpsClient {
   final AppOpsServiceClient _client;
 
-  AppOpsClient(ClientChannel channel) : _client = AppOpsServiceClient(channel);
+  AppOpsClient(ClientChannelBase channel)
+      : _client = AppOpsServiceClient(channel);
 
   Future<AppOpsResponse> appOps(AppOpsRequest request) {
     return _client.appOps(request);
@@ -21,7 +22,7 @@ class AppOpsClient {
 class AppClient {
   final AppOpsClient _appOpsClient;
 
-  AppClient(ClientChannel? channel)
+  AppClient(ClientChannelBase? channel)
       : _appOpsClient = AppOpsClient(channel ?? defaultLuzidChannel);
 
   Future<AppOpsResponse> appOps(AppOpsRequest request) {
