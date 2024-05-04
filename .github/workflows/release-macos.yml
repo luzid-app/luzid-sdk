@@ -17,7 +17,6 @@ jobs:
         with:
           repository: luzid-app/luzid
           path: luzid
-          ref: feat/separate-pieces
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Checkout Solana and Install Deps
@@ -129,15 +128,10 @@ jobs:
         shell: bash
 
       ## Publish Release
-      #- name: Resolve version
-      #  id: vars
-      #  run: |
-      #    echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
-
       - name: Resolve version
         id: vars
         run: |
-          echo "TAG_NAME=test-release" >> $GITHUB_ENV
+          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Release Assets
         uses: softprops/action-gh-release@v1
