@@ -134,7 +134,7 @@ jobs:
         run: ls -la luzid/luzid_aarch64-apple-darwin.tar.gz
         shell: bash
 
-      - name: Show Release Fultter UI Asset
+      - name: Show Release Flutter UI Asset
         run: ls -la luzid/LuzidUI.app.tar.gz
         shell: bash
 

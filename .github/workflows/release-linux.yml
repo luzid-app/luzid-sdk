@@ -29,8 +29,7 @@ jobs:
         with:
           shared-key: 'build-release-linux'
           workspaces: |
-            luzid -> target
-            luzid -> build
+            luzid/rs -> target
           cache-targets: true
           cache-all-crates: true
           cache-on-failure: true
@@ -49,30 +48,26 @@ jobs:
         run: make ci-build-linux-release
         working-directory: luzid
         shell: bash
-        env:
-          RINF: 1
 
       - name: Flutter Build
         run: make ci-flutter-build-linux-release
         working-directory: luzid
         shell: bash
-        env:
-          RINF: 1
 
-      ## Prepare Headless Asset
-      - name: Show Headless Asset
+      ## Prepare Rust Backend Asset
+      - name: Show Rust Backend Asset
         run: ls -la target/release
         working-directory: luzid
         shell: bash
 
-      - name: Move Headless Asset to Luzid Root
-        run: mv target/release/luzid_server lzd
+      - name: Move Rust Backend Asset to Luzid Root
+        run: mv target/release/luzid luzid
         working-directory: luzid
         shell: bash
 
-      - name: Packup Headless Asset
+      - name: Packup Rust Backend Asset
         run: |
-          tar czvf lzd.tar.gz lzd
+          tar czvf luzid.tar.gz luzid
         working-directory: luzid
         shell: bash
 
@@ -89,22 +84,30 @@ jobs:
 
       - name: Packup Flutter Assets
         run: |
-          tar czvf luzid.tar.gz  luzid-bundle
+          tar czvf luzidui.tar.gz  luzid-bundle
         working-directory: luzid
         shell: bash
 
-      ## Publish Release
-      - name: Resolve version
-        id: vars
-        run: |
-          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+      - name: Show Release Backend Asset
+        run: ls -la luzid/luzid.tar.gz
+        shell: bash
 
-      - name: Release Assets
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            luzid/lzd.tar.gz
-            luzid/luzid.tar.gz
-          body: ${{ github.event.head_commit.message }}
-          draft: true
-          tag_name: ${{ env.TAG_NAME }}
+      - name: Show Release Flutter UI Asset
+        run: ls -la luzid/luzidui.tar.gz
+        shell: bash
+
+      ## Publish Release
+   #  - name: Resolve version
+   #    id: vars
+   #    run: |
+   #      echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+
+   #  - name: Release Assets
+   #    uses: softprops/action-gh-release@v1
+   #    with:
+   #      files: |
+   #        luzid/luzid.tar.gz
+   #        luzid/luzidui.tar.gz
+   #      body: ${{ github.event.head_commit.message }}
+   #      draft: true
+   #      tag_name: ${{ env.TAG_NAME }}
