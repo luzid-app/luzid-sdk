@@ -5,7 +5,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 MODULE_ROOT="$DIR/.."
 # NOTE: this expects luzid to be checked out next to this SDK repo
 LUZID_REPO_ROOT="$MODULE_ROOT/../../../../luzid"
-LUZID_GRPC="$LUZID_REPO_ROOT/native/luzid-grpc"
+LUZID_GRPC="$LUZID_REPO_ROOT/rs/luzid-grpc"
 PROTO_DIR="$LUZID_GRPC/proto"
 
 rm -rf $MODULE_ROOT/src/proto && mkdir -p $MODULE_ROOT/src/proto
@@ -22,11 +22,11 @@ gen() {
     --ts_proto_opt=outputServices=nice-grpc,outputServices=generic-definitions,useExactTypes=false \
     --ts_proto_opt=useAbortSignal=true \
     --proto_path $PROTO_DIR/requests \
-    --proto_path $PROTO_DIR/signals \
+    --proto_path $PROTO_DIR/subs \
     --proto_path $PROTO_DIR/types \
     $PROTO_DIR/$subdir/*
 }
 
 gen requests
-gen signals
+gen subs
 gen types

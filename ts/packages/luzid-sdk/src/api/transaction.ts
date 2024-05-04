@@ -1,4 +1,4 @@
-import { LabelTransactionRequest } from '@luzid/grpc'
+import { LabelTransactionRequest, LabelTransactionResponse } from '@luzid/grpc'
 import { LuzidGrpcClient } from '@luzid/grpc-client'
 import { Successful, unwrap } from '../core/utils'
 
@@ -7,7 +7,7 @@ export class LuzidTransaction {
 
   /**
    * Labels a transaction to help identifying it inside the Luzid UI.
-   * NOTE: that this is a Luzid only feature and does not affect how explores display
+   * NOTE: that this is a Luzid only feature and does not affect how explorers display
    * the transaction.
    *
    * @param signature - The signature of the transaction to label
@@ -16,7 +16,7 @@ export class LuzidTransaction {
   async labelTransaction(
     signature: string,
     label: string
-  ): Promise<Successful<void>> {
+  ): Promise<Successful<LabelTransactionResponse>> {
     const req: LabelTransactionRequest = { signature, label }
     const res = await this.client.transaction.labelTransaction(req)
     return unwrap(res, 'Luzid transaction.label')

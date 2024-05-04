@@ -11,9 +11,9 @@ import {
 export {
   ValidatorOpsRequest,
   ValidatorOpsResponse,
-  ValidatorOpsOperation,
-  validatorOpsOperationFromJSON,
-  validatorOpsOperationToJSON,
+  ValidatorOperation,
+  validatorOperationFromJSON,
+  validatorOperationToJSON,
 } from '@luzid/grpc'
 
 class ValidatorOpsClient {

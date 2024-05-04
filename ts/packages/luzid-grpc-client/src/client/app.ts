@@ -10,9 +10,9 @@ import {
 export {
   AppOpsRequest,
   AppOpsResponse,
-  AppOpsOperation,
-  appOpsOperationFromJSON,
-  appOpsOperationToJSON,
+  AppOperation,
+  appOperationFromJSON,
+  appOperationToJSON,
 } from '@luzid/grpc'
 
 class AppOpsClient {

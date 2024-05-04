@@ -8,6 +8,7 @@ export function assert(expr: boolean, message?: string): asserts expr {
 // Types
 // -----------------
 export { RpcAccount } from './proto/types/account'
+export { RpcContext } from './proto/types/rpc_context'
 
 export { Cluster, clusterFromJSON, clusterToJSON } from './proto/types/cluster'
 
@@ -62,123 +63,122 @@ export function rpcCommitmentFromCommitment(
 // Requests
 // -----------------
 export {
-  Operation as AppOpsOperation,
-  operationFromJSON as appOpsOperationFromJSON,
-  operationToJSON as appOpsOperationToJSON,
-  ReadRequest as AppOpsRequest,
-  ReadResponse as AppOpsResponse,
+  AppOperation,
+  appOperationFromJSON,
+  appOperationToJSON,
+  AppOpsRequest,
+  AppOpsResponse,
   AppOpsServiceDefinition,
   AppOpsServiceImplementation,
   AppOpsServiceClient,
 } from './proto/requests/app_ops'
 
 export {
-  CreateRequest as MutatorCloneAccountRequest,
-  CreateResponse as MutatorCloneAccountResponse,
+  MutatorCloneAccountRequest,
+  MutatorCloneAccountResponse,
   MutatorCloneAccountServiceDefinition,
   MutatorCloneAccountServiceImplementation,
   MutatorCloneAccountServiceClient,
 } from './proto/requests/mutator_clone_account'
 
 export {
-  UpdateRequest as MutatorModifyAccountRequest,
-  UpdateResponse as MutatorModifyAccountResponse,
+  MutatorModifyAccountRequest,
+  MutatorModifyAccountResponse,
   MutatorModifyAccountServiceDefinition,
   MutatorModifyAccountServiceImplementation,
   MutatorModifyAccountServiceClient,
 } from './proto/requests/mutator_modify_account'
 
 export {
-  RpcContext,
-  ReadRequest as RpcGetAccountInfoRequest,
-  ReadResponse as RpcGetAccountInfoResponse,
+  RpcGetAccountInfoRequest,
+  RpcGetAccountInfoResponse,
   RpcGetAccountInfoServiceDefinition,
   RpcGetAccountInfoServiceImplementation,
   RpcGetAccountInfoServiceClient,
 } from './proto/requests/rpc_get_account_info'
 
 export {
-  UpdateRequest as RpcRequestAirdropRequest,
-  UpdateResponse as RpcRequestAirdropResponse,
+  RpcRequestAirdropRequest,
+  RpcRequestAirdropResponse,
   RpcRequestAirdropServiceDefinition,
   RpcRequestAirdropServiceImplementation,
   RpcRequestAirdropServiceClient,
 } from './proto/requests/rpc_request_airdrop'
 
 export {
-  ReadRequest as SnapshotGetAccountRequest,
-  ReadResponse as SnapshotGetAccountResponse,
+  SnapshotGetAccountRequest,
+  SnapshotGetAccountResponse,
   SnapshotGetAccountServiceDefinition,
   SnapshotGetAccountServiceImplementation,
   SnapshotGetAccountServiceClient,
 } from './proto/requests/snapshot_get_account'
 
 export {
-  CreateRequest as SnapshotCreateSnapshotRequest,
-  CreateResponse as SnapshotCreateSnapshotResponse,
+  SnapshotCreateSnapshotRequest,
+  SnapshotCreateSnapshotResponse,
   RpcSnapshotableAccount as SnapshotSnapshotableAccount,
   RpcCreateSnapshotResult as SnapshotCreateSnapshotResult,
-  DeleteRequest as SnapshotDeleteSnapshotRequest,
-  DeleteResponse as SnapshotDeleteSnapshotResponse,
+  SnapshotDeleteSnapshotRequest,
+  SnapshotDeleteSnapshotResponse,
   RpcDeleteSnapshotResult as SnapshotDeleteSnapshotResult,
-  UpdateRequest as SnapshotDeleteSnapshotsMatchingRequest,
-  UpdateResponse as SnapshotDeleteSnapshotsMatchingResponse,
-  RpcUpdateSnapshotResult as SnapshotDeleteSnapshotsMatchingResult,
-  ReadRequest as SnapshotGetSnaphotableAccountsRequest,
-  ReadResponse as SnapshotGetSnaphotableAccountsResponse,
+  SnapshotDeleteSnapshotsMatchingRequest,
+  SnapshotDeleteSnapshotsMatchingResponse,
+  SnapshotDeleteSnapshotsMatchingResult,
+  SnapshotGetSnaphotableAccountsRequest,
+  SnapshotGetSnaphotableAccountsResponse,
   SnapshotManagementServiceDefinition,
   SnapshotManagementServiceImplementation,
   SnapshotManagementServiceClient,
 } from './proto/requests/snapshot_management'
 
 export {
-  ReadRequest as SnapshotListSnapshotsRequest,
-  ReadResponse as SnapshotListSnapshotsResponse,
+  SnapshotListSnapshotsRequest,
+  SnapshotListSnapshotsResponse,
   RpcSnapshotMetadata as SnapshotMetadata,
-  RpcAccountSummary as SnapshotAccountSummary,
-  UpdateRequest as SnapshotRetrieveAccountsInSnapshotRequest,
-  UpdateResponse as SnapshotRetrieveAccountsInSnapshotResponse,
-  DeleteRequest as SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest,
-  DeleteResponse as SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse,
-  CreateRequest as SnapshotRestoreAccountsFromSnapshotRequest,
-  CreateResponse as SnapshotRestoreAccountsFromSnapshotResponse,
-  RpcRestoreResult as SnapshotRestoreResult,
+  RpcSnapshotAccountSummary as SnapshotAccountSummary,
+  SnapshotRetrieveAccountsInSnapshotRequest,
+  SnapshotRetrieveAccountsInSnapshotResponse,
+  SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest,
+  SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse,
+  SnapshotRestoreAccountsFromSnapshotRequest,
+  SnapshotRestoreAccountsFromSnapshotResponse,
+  RpcSnapshotRestoreResult as SnapshotRestoreResult,
   SnapshotRestoreServiceDefinition,
   SnapshotRestoreServiceImplementation,
   SnapshotRestoreServiceClient,
 } from './proto/requests/snapshot_restore'
 
 export {
-  ReadRequest as StoreGetAccountDataRequest,
-  ReadResponse as StoreGetAccountDataResponse,
-  RpcAccountData,
+  StoreGetAccountDataRequest,
+  StoreGetAccountDataResponse,
+  RpcStoreAccountData,
   StoreGetAccountDataServiceDefinition,
   StoreGetAccountDataServiceImplementation,
   StoreGetAccountDataServiceClient,
 } from './proto/requests/store_get_account_data'
 
 export {
-  ReadRequest as StoreGetDiffedAccountUpdateRequest,
-  ReadResponse as StoreGetDiffedAccountUpdateResponse,
+  StoreGetDiffedAccountUpdateRequest,
+  StoreGetDiffedAccountUpdateResponse,
   StoreGetDiffedAccountUpdateServiceDefinition,
   StoreGetDiffedAccountUpdateServiceImplementation,
   StoreGetDiffedAccountUpdateServiceClient,
 } from './proto/requests/store_get_diffed_account_update'
 
 export {
-  Operation as ValidatorOpsOperation,
-  operationFromJSON as validatorOpsOperationFromJSON,
-  operationToJSON as validatorOpsOperationToJSON,
-  ReadRequest as ValidatorOpsRequest,
-  ReadResponse as ValidatorOpsResponse,
+  ValidatorOperation,
+  validatorOperationFromJSON,
+  validatorOperationToJSON,
+  ValidatorOpsRequest,
+  ValidatorOpsResponse,
   ValidatorOpsServiceDefinition,
   ValidatorOpsServiceImplementation,
   ValidatorOpsServiceClient,
 } from './proto/requests/validator_ops'
 
 export {
-  UpdateRequest as LabelTransactionRequest,
-  UpdateResponse as LabelTransactionResponse,
+  LabelTransactionRequest,
+  LabelTransactionResponse,
   TransactionServiceDefinition,
   TransactionServiceImplementation,
   TransactionServiceClient,
@@ -205,25 +205,3 @@ export {
   WorkspaceServiceClient,
   WorkspaceServiceDefinition,
 } from './proto/requests/workspace'
-
-// -----------------
-// Signals
-// -----------------
-
-export {
-  RpcTransactionAccount,
-  RpcTransactionUpdate,
-} from './proto/signals/geyser_transaction_update'
-
-export { RpcMutatorAccountCloned } from './proto/signals/mutator_account_cloned'
-
-export { RpcValidatorInfo } from './proto/signals/validator_info'
-
-export {
-  RpcValidatorHealth,
-  rpcValidatorHealthFromJSON,
-  rpcValidatorHealthToJSON,
-  RpcValidatorStats,
-} from './proto/signals/validator_stats'
-
-export { ValidatorStatus } from './proto/signals/validator_status'
