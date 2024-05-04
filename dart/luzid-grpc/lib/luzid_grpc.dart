@@ -61,6 +61,10 @@ export 'proto/requests/transaction.pb.dart';
 export 'proto/requests/transaction.pbgrpc.dart';
 export 'proto/requests/transaction.pbjson.dart';
 
+export 'proto/requests/transaction_updates.pb.dart';
+export 'proto/requests/transaction_updates.pbgrpc.dart';
+export 'proto/requests/transaction_updates.pbjson.dart';
+
 export 'proto/requests/workspace.pb.dart';
 export 'proto/requests/workspace.pbgrpc.dart';
 export 'proto/requests/workspace.pbjson.dart';
@@ -116,11 +120,14 @@ export 'proto/types/data_source.pbjson.dart';
 export 'proto/types/diffed_account_update.pb.dart';
 export 'proto/types/diffed_account_update.pbjson.dart';
 
+export 'proto/types/rpc_context.pb.dart';
+export 'proto/types/rpc_context.pbjson.dart';
+
 export 'proto/types/snapshot_account.pb.dart';
 export 'proto/types/snapshot_account.pbjson.dart';
 
 export 'proto/types/snapshot_filter.pb.dart';
 export 'proto/types/snapshot_filter.pbjson.dart';
 
-export 'proto/types/rpc_context.pb.dart';
-export 'proto/types/rpc_context.pbjson.dart';
+export 'proto/types/transaction_update.pb.dart';
+export 'proto/types/transaction_update.pbjson.dart';
