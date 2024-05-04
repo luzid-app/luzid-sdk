@@ -27,103 +27,104 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
         with:
-          shared-key: 'build-release-macos-m1'
+          shared-key: 'build-release-macos-cache-bust-000'
           workspaces: |
-            luzid -> build/macos/Build/Intermediates.noindex/Pods.build/Release/rinf.build
+            luzid/rs -> target
           cache-targets: true
           cache-all-crates: true
           cache-on-failure: true
 
-      - name: Flutter create Macos (to get xcodeproj)
-        run: flutter create --platforms=macos .
+      ## Rust Backend
+      - name: Add x86_64 Rust Target
+        run: rustup target add x86_64-apple-darwin
+        shell: bash
+
+      ### X86_64 Build
+      - name: Cargo Build X86_64
+        run: make ci-build-macos-x86_64-release
         working-directory: luzid
         shell: bash
 
-      - name: Rinf Message Generation
-        run: dart run rinf message
+      - name: Show Rust Backend X86_64 Asset
+        run: ls -la rs/target/x86_64-apple-darwin/release
         working-directory: luzid
+        shell: bash
+
+      - name: Move Rust Backend X86_64 Asset to Luzid Root
+        run: mv rs/target/x86_64-apple-darwin/release/luzid luzid
+        working-directory: luzid
+        shell: bash
+
+      - name: Packup Rust Backend X86_64 Asset
+        run: |
+          tar czvf luzid_x86_64-apple-darwin.tar.gz luzid
+        working-directory: luzid
+        shell: bash
+
+      - name: Remove x86_64 Assets
+        run: rm -f luzid
+        working-directory: luzid
+        shell: bash
+
+      ### Arm Build
+      - name: Cargo Build Arm
+        run: make ci-build-macos-arm-release
+        working-directory: luzid
+        shell: bash
+
+      - name: Show Rust Backend Arm Asset
+        run: ls -la rs/target/release
+        working-directory: luzid
+        shell: bash
+
+      - name: Move Rust Backend Arm Asset to Luzid Root
+        run: mv rs/target/release/luzid luzid
+        working-directory: luzid
+        shell: bash
+
+      - name: Packup Rust Backend Arm Asset
+        run: |
+          tar czvf luzid_aarch64-apple-darwin.tar.gz luzid
+        working-directory: luzid
+        shell: bash
+
+      ## Flutter UI
+      - name: Flutter create Macos (to get xcodeproj)
+        run: flutter create --platforms=macos .
+        working-directory: luzid/ui
         shell: bash
 
       - name: Flutter Build
         run: make ci-flutter-build-macos-release
         working-directory: luzid
         shell: bash
-        env:
-          RINF: 1
 
-      ## Prepare Flutter Assets
+      ### Prepare Flutter Assets
       - name: Show Flutter Assets
-        run: ls -la build/macos/Build
+        run: ls -la ui/build/macos/Build
         working-directory: luzid
 
       - name: Move Flutter Assets to Luzid Root
-        run: mv build/macos/Build/Products/Release/luzid.app Luzid.app
+        run: mv ui/build/macos/Build/Products/Release/luzid.app LuzidUI.app
         working-directory: luzid
         shell: bash
 
       - name: Packup Flutter Assets
         run: |
-          tar czvf luzid.app.tar.gz Luzid.app
+          tar czvf LuzidUI.app.tar.gz LuzidUI.app
         working-directory: luzid
         shell: bash
 
-
-      ## Build and Prepare Headless Assets
-      - name: Add x86_64 Rust Target
-        run: rustup target add x86_64-apple-darwin
+      - name: Show Release x86_64 Asset
+        run: ls -la luzid/luzid_x86_64-apple-darwin.tar.gz
         shell: bash
 
-      ## X86_64 Build
-      - name: Cargo Build X86_64
-        run: make ci-build-macos-x86_64-release
-        working-directory: luzid
-        shell: bash
-        env:
-          RINF: 1
-
-      - name: Show Headless X86_64 Asset
-        run: ls -la target/x86_64-apple-darwin/release
-        working-directory: luzid
+      - name: Show Release Arm Asset
+        run: ls -la luzid/luzid_aarch64-apple-darwin.tar.gz
         shell: bash
 
-      - name: Move Headless X86_64 Asset to Luzid Root
-        run: mv target/x86_64-apple-darwin/release/luzid_server lzd
-        working-directory: luzid
-        shell: bash
-
-      - name: Packup Headless X86_64 Asset
-        run: |
-          tar czvf lzd_x86_64-apple-darwin.tar.gz lzd
-        working-directory: luzid
-        shell: bash
-
-      - name: Remove x86_64 Assets
-        run: rm -rf lzd
-        working-directory: luzid
-        shell: bash
-
-      ## Arm Build
-      - name: Cargo Build Arm
-        run: make ci-build-macos-arm-release
-        working-directory: luzid
-        shell: bash
-        env:
-          RINF: 1
-
-      - name: Show Headless Arm Asset
-        run: ls -la target/release
-        working-directory: luzid
-        shell: bash
-
-      - name: Move Headless Arm Asset to Luzid Root
-        run: mv target/release/luzid_server lzd
-        working-directory: luzid
-        shell: bash
-
-      - name: Packup Headless Arm Asset
-        run: |
-          tar czvf lzd_aarch64-apple-darwin.tar.gz lzd
-        working-directory: luzid
+      - name: Show Release Flutter UI Asset
+        run: ls -la luzid/LuzidUI.app.tar.gz
         shell: bash
 
       ## Publish Release
@@ -136,9 +137,9 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            luzid/lzd_x86_64-apple-darwin.tar.gz
-            luzid/lzd_aarch64-apple-darwin.tar.gz
-            luzid/luzid.app.tar.gz
+            luzid/luzid_x86_64-apple-darwin.tar.gz
+            luzid/luzid_aarch64-apple-darwin.tar.gz
+            luzid/LuzidUI.app.tar.gz
           body: ${{ github.event.head_commit.message }}
           draft: true
           tag_name: ${{ env.TAG_NAME }}
