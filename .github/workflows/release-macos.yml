@@ -47,17 +47,13 @@ jobs:
         working-directory: luzid
         shell: bash
 
-      - name: Add x86_64 Rust Target
-        run: rustup target add x86_64-apple-darwin
-        shell: bash
-
       - name: Show Rust Backend X86_64 Asset
-        run: ls -la target/x86_64-apple-darwin/release
+        run: ls -la rs/target/x86_64-apple-darwin/release
         working-directory: luzid
         shell: bash
 
       - name: Move Rust Backend X86_64 Asset to Luzid Root
-        run: mv target/x86_64-apple-darwin/release/luzid luzid
+        run: mv rs/target/x86_64-apple-darwin/release/luzid luzid
         working-directory: luzid
         shell: bash
 
@@ -68,7 +64,7 @@ jobs:
         shell: bash
 
       - name: Remove x86_64 Assets
-        run: rm -rf luzid
+        run: rm -f luzid
         working-directory: luzid
         shell: bash
 
@@ -79,12 +75,12 @@ jobs:
         shell: bash
 
       - name: Show Rust Backend Arm Asset
-        run: ls -la target/release
+        run: ls -la rs/target/release
         working-directory: luzid
         shell: bash
 
       - name: Move Rust Backend Arm Asset to Luzid Root
-        run: mv target/release/luzid luzid
+        run: mv rs/target/release/luzid luzid
         working-directory: luzid
         shell: bash
 
@@ -107,7 +103,7 @@ jobs:
 
       ### Prepare Flutter Assets
       - name: Show Flutter Assets
-        run: ls -la build/macos/Build
+        run: ls -la ui/build/macos/Build
         working-directory: luzid
 
       - name: Move Flutter Assets to Luzid Root
@@ -144,13 +140,18 @@ jobs:
       #  run: |
       #    echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
-      #- name: Release Assets
-      #  uses: softprops/action-gh-release@v1
-      #  with:
-      #    files: |
-      #      luzid/luzid_x86_64-apple-darwin.tar.gz
-      #      luzid/luzid_aarch64-apple-darwin.tar.gz
-      #      luzid/LuzidUI.app.tar.gz
-      #    body: ${{ github.event.head_commit.message }}
-      #    draft: true
-      #    tag_name: ${{ env.TAG_NAME }}
+      - name: Resolve version
+        id: vars
+        run: |
+          echo "TAG_NAME=test-release" >> $GITHUB_ENV
+
+      - name: Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            luzid/luzid_x86_64-apple-darwin.tar.gz
+            luzid/luzid_aarch64-apple-darwin.tar.gz
+            luzid/LuzidUI.app.tar.gz
+          body: ${{ github.event.head_commit.message }}
+          draft: true
+          tag_name: ${{ env.TAG_NAME }}
