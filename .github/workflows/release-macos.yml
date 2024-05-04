@@ -113,12 +113,7 @@ jobs:
 
       - name: Packup Flutter Assets
         run: |
-          tar czvf LuzidUI.tar.gz LuzidUI.app
-        working-directory: luzid
-        shell: bash
-
-      - name: Show Flutter Assets
-        run: ls -la LuzidUI.tar.gz
+          tar czvf LuzidUI.app.tar.gz LuzidUI.app
         working-directory: luzid
         shell: bash
 
