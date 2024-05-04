@@ -1,9 +1,8 @@
 name: 'Luzid: Release MacOS'
 on:
   push:
-    brances: [ ci-release-build-workflows  ]
-      # tags:
-      #   - "macos-v*.*.*"
+    tags:
+      - "macos-v*.*.*"
 
 jobs:
   release-macos-m1:

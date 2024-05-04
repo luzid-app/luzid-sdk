@@ -116,5 +116,6 @@ jobs:
             luzid/luzid.tar.gz
             luzid/luzidui.tar.gz
           body: ${{ github.event.head_commit.message }}
+
           draft: true
           tag_name: ${{ env.TAG_NAME }}
