@@ -1,8 +1,9 @@
 name: 'Luzid: Release Linux'
 on:
   push:
-    tags:
-      - "linux-v*.*.*"
+    brances: [ ci-release-build-workflows  ]
+      # tags:
+      #   - "linux-v*.*.*"
 
 jobs:
   release-linux:
@@ -17,6 +18,7 @@ jobs:
         with:
           repository: luzid-app/luzid
           path: luzid
+          ref: feat/separate-pieces
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Checkout Solana and Install Deps
@@ -56,12 +58,12 @@ jobs:
 
       ## Prepare Rust Backend Asset
       - name: Show Rust Backend Asset
-        run: ls -la target/release
+        run: ls -la rs/target/release
         working-directory: luzid
         shell: bash
 
       - name: Move Rust Backend Asset to Luzid Root
-        run: mv target/release/luzid luzid
+        run: mv rs/target/release/luzid luzid
         working-directory: luzid
         shell: bash
 
@@ -73,18 +75,18 @@ jobs:
 
       ## Prepare Flutter Assets
       - name: Show Flutter Assets
-        run: ls -la build/linux/x64/release/bundle
+        run: ls -la ui/build/linux/x64/release/bundle
         working-directory: luzid
         shell: bash
 
       - name: Move Flutter Assets to Luzid Root
-        run: mv build/linux/x64/release/bundle luzid-bundle
+        run: mv ui/build/linux/x64/release/bundle luzidui
         working-directory: luzid
         shell: bash
 
       - name: Packup Flutter Assets
         run: |
-          tar czvf luzidui.tar.gz  luzid-bundle
+          tar czvf luzidui.tar.gz luzidui
         working-directory: luzid
         shell: bash
 
@@ -102,12 +104,17 @@ jobs:
    #    run: |
    #      echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
-   #  - name: Release Assets
-   #    uses: softprops/action-gh-release@v1
-   #    with:
-   #      files: |
-   #        luzid/luzid.tar.gz
-   #        luzid/luzidui.tar.gz
-   #      body: ${{ github.event.head_commit.message }}
-   #      draft: true
-   #      tag_name: ${{ env.TAG_NAME }}
+      - name: Resolve version
+        id: vars
+        run: |
+          echo "TAG_NAME=test-release-linux" >> $GITHUB_ENV
+
+      - name: Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            luzid/luzid.tar.gz
+            luzid/luzidui.tar.gz
+          body: ${{ github.event.head_commit.message }}
+          draft: true
+          tag_name: ${{ env.TAG_NAME }}
