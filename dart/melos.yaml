@@ -8,3 +8,7 @@ packages:
 scripts:
   analyze:
     exec: dart analyze .
+  outdated:
+    exec: dart pub outdated
+  upgrade:
+    exec: dart pub upgrade --major-versions
