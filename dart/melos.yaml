@@ -1,0 +1,6 @@
+name: luzid_sdk
+
+packages:
+  - luzid-grpc
+  - luzid-grpc-client
+  - luzid-grpc-sdk
