@@ -9,10 +9,8 @@ environment:
 dependencies:
   equatable: ^2.0.5
   fixnum: ^1.1.0
-  luzid_grpc:
-    path: ../luzid-grpc
-  luzid_grpc_client:
-    path: ../luzid-grpc-client
+  luzid_grpc: 0.0.0
+  luzid_grpc_client: 0.0.0
 
 dev_dependencies:
   ansicolor: ^2.0.2

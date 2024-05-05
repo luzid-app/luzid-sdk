@@ -7,8 +7,7 @@ environment:
   sdk: ^3.2.6
 
 dependencies:
-  luzid_grpc:
-    path: ../luzid-grpc
+  luzid_grpc: ^0.0.0
   grpc: ^3.2.4
 
 dev_dependencies:
