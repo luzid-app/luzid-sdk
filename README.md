@@ -29,6 +29,20 @@ Check for code issues via:
 melos analyze
 ```
 
+### Publishing
+
+Prepare changelog and version via:
+
+```sh
+melos version --changelog
+```
+
+Check if all is good via:
+
+```sh
+melos publish --dry-run
+```
+
 ## LICENSE
 
 MIT
