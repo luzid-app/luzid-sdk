@@ -3,4 +3,8 @@ name: luzid_sdk
 packages:
   - luzid-grpc
   - luzid-grpc-client
-  - luzid-grpc-sdk
+  - luzid-sdk
+
+scripts:
+  analyze:
+    exec: dart analyze .
