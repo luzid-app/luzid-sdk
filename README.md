@@ -43,6 +43,18 @@ Check if all is good via:
 melos publish --dry-run
 ```
 
+Actual publishing is a bit more tricky:
+
+```sh
+melos run publish!
+```
+
+should work (it's a script in the `melos.yaml` file).
+
+Otherwise going through each package one by one and running `flutter pub publish` may be
+needed, especially if not authorized yet.
+
+
 ## LICENSE
 
 MIT
