@@ -1,0 +1,19 @@
+name: luzid_sdk
+
+packages:
+  - luzid-grpc
+  - luzid-grpc-client
+  - luzid-sdk
+
+scripts:
+  analyze:
+    exec: dart analyze .
+  outdated:
+    exec: dart pub outdated
+  upgrade:
+    exec: dart pub upgrade --major-versions
+  # Needed since melos publish only publishes luzid_sdk package
+  publish:
+    exec: dart pub publish --dry-run
+  publish!:
+    exec: dart pub publish

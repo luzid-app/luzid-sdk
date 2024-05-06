@@ -11,6 +11,50 @@ The different SDKs to interact with the [Luzid Application](https://luzid.app).
 - [SDK Examples](ts/examples/README.md)
 - [SDK README](ts/packages/luzid-sdk/README.md)
 
+## Dart
+
+### Development
+
+The monorepo packages are managed by [melos](https://github.com/invertase/melos).
+
+Thus first install it on your machine via:
+
+```sh
+dart pub global activate melos
+```
+
+Check for code issues via:
+
+```sh
+melos analyze
+```
+
+### Publishing
+
+Prepare changelog and version via:
+
+```sh
+melos version --changelog
+```
+
+Check if all is good via:
+
+```sh
+melos publish --dry-run
+```
+
+Actual publishing is a bit more tricky:
+
+```sh
+melos run publish!
+```
+
+should work (it's a script in the `melos.yaml` file).
+
+Otherwise going through each package one by one and running `flutter pub publish` may be
+needed, especially if not authorized yet.
+
+
 ## LICENSE
 
 MIT

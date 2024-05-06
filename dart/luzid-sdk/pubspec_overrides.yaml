@@ -1,0 +1,6 @@
+# melos_managed_dependency_overrides: luzid_grpc,luzid_grpc_client
+dependency_overrides:
+  luzid_grpc:
+    path: ../luzid-grpc
+  luzid_grpc_client:
+    path: ../luzid-grpc-client
