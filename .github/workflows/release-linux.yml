@@ -1,8 +1,6 @@
 name: 'Luzid: Release Linux'
 on:
   push:
-    branches:
-      - ci/windows-release
     tags:
       - "linux-v*.*.*"
 
@@ -19,7 +17,6 @@ jobs:
         with:
           repository: luzid-app/luzid
           path: luzid
-          ref: ci/windows
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Checkout Solana and Install Deps
@@ -98,7 +95,7 @@ jobs:
       - name: Resolve version
         id: vars
         run: |
-          echo "TAG_NAME=${{ github.ref_name }}-test-linux" >> $GITHUB_ENV
+          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Release Assets
         uses: softprops/action-gh-release@v1
