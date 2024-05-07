@@ -1,8 +1,8 @@
 name: 'Luzid: Release Windows'
 on:
   push:
-    branches:
-      - ci/windows-release
+    # branches:
+    #   - ci/windows-release
     tags:
       - "windows-v*.*.*"
 
@@ -32,7 +32,7 @@ jobs:
 
       - name: Install Luzid Flutter Dependencies
         run: flutter pub get
-        working-directory: luzid/ui
+        working-directory: luzid/luzidui
 
       - name: Flutter Build
         run: make ci-flutter-build-windows-release
@@ -40,27 +40,22 @@ jobs:
 
       ## Prepare Flutter Assets
       - name: Show Flutter Assets
-        run: dir ui\build
+        run: dir luzidui\build
         working-directory: luzid
 
       - name: Show Flutter Assets
-        run: dir ui\build\windows\x64\runner\Release\
+        run: dir luzidui\build\windows\x64\runner\Release\
         working-directory: luzid
 
-          # - name: Move Flutter Assets to Luzid Root
-          #   run: mv ui/build/linux/x64/release/bundle luzidui
-          #   working-directory: luzid
-          #   shell: bash
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r luzidui.zip build\windows\x64\runner\Release
+        working-directory: luzid/luzidui
 
-          # - name: Packup Flutter Assets
-          #   run: |
-          #     tar czvf luzidui.tar.gz luzidui
-          #   working-directory: luzid
-          #   shell: bash
-
-          # - name: Show Release Flutter UI Asset
-          #   run: ls -la luzid/luzidui.tar.gz
-          #   shell: bash
+      - name: Show Release Flutter UI Asset
+        run: ls -la luzidui.zip
+        shell: bash
+        working-directory: luzid/luzidui
 
       ## Publish Release
       #- name: Resolve version
