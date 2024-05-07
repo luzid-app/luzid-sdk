@@ -75,7 +75,7 @@ jobs:
         shell: bash
 
       - name: Rename Flutter LuzidUI dir
-        run: luzidui luzidui-code
+        run: mv luzidui luzidui-code
         working-directory: luzid
         shell: bash
 
