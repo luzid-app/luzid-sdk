@@ -1,8 +1,6 @@
 name: 'Luzid: Release Windows'
 on:
   push:
-    branches:
-      - ci/windows-release
     tags:
       - "windows-v*.*.*"
 
@@ -68,7 +66,7 @@ jobs:
       - name: Resolve version
         id: vars
         run: |
-          echo "TAG_NAME=${{ github.ref_name }}-test-windows" >> $GITHUB_ENV
+          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Release Assets
         uses: softprops/action-gh-release@v1
@@ -76,6 +74,5 @@ jobs:
           files: |
             luzid/luzidui/luzidui.zip
           body: ${{ github.event.head_commit.message }}
-
           draft: true
           tag_name: ${{ env.TAG_NAME }}
