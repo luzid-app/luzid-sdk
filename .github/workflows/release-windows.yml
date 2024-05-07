@@ -1,8 +1,8 @@
 name: 'Luzid: Release Windows'
 on:
   push:
-    # branches:
-    #   - ci/windows-release
+    branches:
+      - ci/windows-release
     tags:
       - "windows-v*.*.*"
 
@@ -21,6 +21,9 @@ jobs:
           path: luzid
           ref: ci/windows
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Install zip
+        uses: montudor/action-zip@v1
 
       - name: Install Flutter
         uses: subosito/flutter-action@v2
@@ -47,9 +50,8 @@ jobs:
         run: dir luzidui\build\windows\x64\runner\Release\
         working-directory: luzid
 
-      - uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r luzidui.zip build\windows\x64\runner\Release
+      - name: Zip Flutter Assets
+        run: zip -qq -r luzidui.zip build\windows\x64\runner\Release
         working-directory: luzid/luzidui
 
       - name: Show Release Flutter UI Asset

@@ -1,8 +1,6 @@
 name: 'Luzid: Release Linux'
 on:
   push:
-    branches:
-      - ci/windows-release
     tags:
       - "linux-v*.*.*"
 
