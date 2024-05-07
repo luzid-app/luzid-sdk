@@ -74,14 +74,19 @@ jobs:
         working-directory: luzid
         shell: bash
 
+      - name: Rename Flutter LuzidUI dir
+        run: luzidui luzidui-code
+        working-directory: luzid
+        shell: bash
+
       - name: Move Flutter Assets to Luzid Root
-        run: mv luzidui/build/linux/x64/release/bundle luzidui
-        working-directory: luzid/luzidui
+        run: mv luzidui-code/build/linux/x64/release/bundle luzidui
+        working-directory: luzid
         shell: bash
 
       - name: Packup Rust Backend Asset and Flutter Assets
         run: |
-          tar czvf luzid.tar.gz luzid luzidui/luzidui
+          tar czvf luzid.tar.gz luzid luzidui
         working-directory: luzid
         shell: bash
 

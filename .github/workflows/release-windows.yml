@@ -1,6 +1,8 @@
 name: 'Luzid: Release Windows'
 on:
   push:
+    branches:
+      - ci/windows-release
     tags:
       - "windows-v*.*.*"
 
@@ -45,12 +47,16 @@ jobs:
         run: dir luzidui\build\windows\x64\runner\Release\
         working-directory: luzid
 
+      - name: Move Flutter Assets
+        run: mv build\windows\x64\runner\Release luzidui
+        working-directory: luzid/luzidui
+
       - name: Zip Flutter Assets
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
           filename: 'luzidui.zip'
-          path: build\windows\x64\runner\Release
+          path: luzidui
           directory: luzid/luzidui
 
       - name: Show Release Flutter UI Asset
@@ -62,7 +68,7 @@ jobs:
       - name: Resolve version
         id: vars
         run: |
-          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "TAG_NAME=${{ github.ref_name }}-test-windows" >> $GITHUB_ENV
 
       - name: Release Assets
         uses: softprops/action-gh-release@v1
