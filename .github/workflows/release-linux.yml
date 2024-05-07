@@ -1,6 +1,8 @@
 name: 'Luzid: Release Linux'
 on:
   push:
+    branches:
+      - ci/windows-release
     tags:
       - "linux-v*.*.*"
 
@@ -74,12 +76,12 @@ jobs:
 
       - name: Move Flutter Assets to Luzid Root
         run: mv luzidui/build/linux/x64/release/bundle luzidui
-        working-directory: luzid
+        working-directory: luzid/luzidui
         shell: bash
 
       - name: Packup Rust Backend Asset and Flutter Assets
         run: |
-          tar czvf luzid.tar.gz luzid luzidui
+          tar czvf luzid.tar.gz luzid luzidui/luzidui
         working-directory: luzid
         shell: bash
 
@@ -91,7 +93,7 @@ jobs:
       - name: Resolve version
         id: vars
         run: |
-          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+          echo "TAG_NAME=${{ github.ref_name }}-test-linux" >> $GITHUB_ENV
 
       - name: Release Assets
         uses: softprops/action-gh-release@v1
