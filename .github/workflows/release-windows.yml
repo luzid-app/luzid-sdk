@@ -22,9 +22,6 @@ jobs:
           ref: ci/windows
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-      - name: Install zip
-        uses: montudor/action-zip@v1
-
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -51,8 +48,12 @@ jobs:
         working-directory: luzid
 
       - name: Zip Flutter Assets
-        run: zip -qq -r luzidui.zip build\windows\x64\runner\Release
-        working-directory: luzid/luzidui
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          filename: 'luzidui.zip'
+          path: build\windows\x64\runner\Release
+          directory: luzid/luzidui
 
       - name: Show Release Flutter UI Asset
         run: ls -la luzidui.zip
