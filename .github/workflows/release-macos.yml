@@ -1,6 +1,8 @@
 name: 'Luzid: Release MacOS'
 on:
   push:
+    branches:
+      - ci/windows-release
     tags:
       - "macos-v*.*.*"
 
@@ -17,6 +19,7 @@ jobs:
         with:
           repository: luzid-app/luzid
           path: luzid
+          ref: ci/windows
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Checkout Solana and Install Deps
@@ -91,7 +94,7 @@ jobs:
       ## Flutter UI
       - name: Flutter create Macos (to get xcodeproj)
         run: flutter create --platforms=macos .
-        working-directory: luzid/ui
+        working-directory: luzid/luzidui
         shell: bash
 
       - name: Flutter Build
@@ -101,11 +104,11 @@ jobs:
 
       ### Prepare Flutter Assets
       - name: Show Flutter Assets
-        run: ls -la ui/build/macos/Build
+        run: ls -la luzidui/build/macos/Build
         working-directory: luzid
 
       - name: Move Flutter Assets to Luzid Root
-        run: mv ui/build/macos/Build/Products/Release/luzid.app LuzidUI.app
+        run: mv luzidui/build/macos/Build/Products/Release/luzid.app LuzidUI.app
         working-directory: luzid
         shell: bash
 
