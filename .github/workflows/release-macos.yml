@@ -1,8 +1,6 @@
 name: 'Luzid: Release MacOS'
 on:
   push:
-    branches:
-      - ci/windows-release
     tags:
       - "macos-v*.*.*"
 
@@ -19,7 +17,6 @@ jobs:
         with:
           repository: luzid-app/luzid
           path: luzid
-          ref: ci/windows
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Checkout Solana and Install Deps
