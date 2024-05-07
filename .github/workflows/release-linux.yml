@@ -1,6 +1,8 @@
 name: 'Luzid: Release Linux'
 on:
   push:
+    branches:
+      - ci/windows-release
     tags:
       - "linux-v*.*.*"
 
@@ -12,13 +14,6 @@ jobs:
       fail-fast: true
 
     steps:
-      - name: Checkout Luzid
-        uses: actions/checkout@v4
-        with:
-          repository: luzid-app/luzid
-          path: luzid
-          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-
       - name: Checkout Solana and Install Deps
         uses: ./luzid/.github/actions/checkout-solana-and-install-deps
         with:
@@ -65,35 +60,25 @@ jobs:
         working-directory: luzid
         shell: bash
 
-      - name: Packup Rust Backend Asset
-        run: |
-          tar czvf luzid.tar.gz luzid
-        working-directory: luzid
-        shell: bash
-
       ## Prepare Flutter Assets
       - name: Show Flutter Assets
-        run: ls -la ui/build/linux/x64/release/bundle
+        run: ls -la luzidui/build/linux/x64/release/bundle
         working-directory: luzid
         shell: bash
 
       - name: Move Flutter Assets to Luzid Root
-        run: mv ui/build/linux/x64/release/bundle luzidui
+        run: mv luzidui/build/linux/x64/release/bundle luzidui
         working-directory: luzid
         shell: bash
 
-      - name: Packup Flutter Assets
+      - name: Packup Rust Backend Asset and Flutter Assets
         run: |
-          tar czvf luzidui.tar.gz luzidui
+          tar czvf luzid.tar.gz luzid luzidui
         working-directory: luzid
         shell: bash
 
-      - name: Show Release Backend Asset
+      - name: Show Packed Asset
         run: ls -la luzid/luzid.tar.gz
-        shell: bash
-
-      - name: Show Release Flutter UI Asset
-        run: ls -la luzid/luzidui.tar.gz
         shell: bash
 
       ## Publish Release
@@ -107,7 +92,6 @@ jobs:
         with:
           files: |
             luzid/luzid.tar.gz
-            luzid/luzidui.tar.gz
           body: ${{ github.event.head_commit.message }}
 
           draft: true
