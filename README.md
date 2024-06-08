@@ -13,6 +13,9 @@ The different SDKs to interact with the [Luzid Application](https://luzid.app).
 
 ## Dart
 
+- [pub.dev](https://pub.dev/packages/luzid_sdk)
+- [SDK Examples](dart/luzid-sdk/example/)
+
 ### Development
 
 The monorepo packages are managed by [melos](https://github.com/invertase/melos).
