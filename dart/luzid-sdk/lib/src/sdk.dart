@@ -150,6 +150,9 @@ class LuzidSdk {
     }
   }
 
+  Stream<bool> get onChannelConnected => _client.onChannelConnected;
+  Stream<bool> get onChannelDisconnected => _client.onChannelDisconnected;
+
   /// Closes the underlying GRPC client and needs to be called in order for the app to
   /// be able to exit.
   Future<void> close() {
