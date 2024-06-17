@@ -1,0 +1,77 @@
+name: 'Luzid: Release Windows'
+on:
+  push:
+    tags:
+      - "windows-v*.*.*"
+
+jobs:
+  release-windows:
+    runs-on: windows-latest
+    timeout-minutes: 200
+    strategy:
+      fail-fast: true
+
+    steps:
+      - name: Checkout Luzid
+        uses: actions/checkout@v4
+        with:
+          repository: luzid-app/luzid
+          path: luzid
+          token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - run: flutter --version
+      - run: dart --version
+
+      - name: Install Luzid Flutter Dependencies
+        run: flutter pub get
+        working-directory: luzid/luzidui
+
+      - name: Flutter Build
+        run: make ci-flutter-build-windows-release
+        working-directory: luzid
+
+      ## Prepare Flutter Assets
+      - name: Show Flutter Assets
+        run: dir luzidui\build
+        working-directory: luzid
+
+      - name: Show Flutter Assets
+        run: dir luzidui\build\windows\x64\runner\Release\
+        working-directory: luzid
+
+      - name: Move Flutter Assets
+        run: mv build\windows\x64\runner\Release luzidui
+        working-directory: luzid/luzidui
+
+      - name: Zip Flutter Assets
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          filename: 'luzidui.zip'
+          path: luzidui
+          directory: luzid/luzidui
+
+      - name: Show Release Flutter UI Asset
+        run: ls -la luzidui.zip
+        shell: bash
+        working-directory: luzid/luzidui
+
+      ## Publish Release
+      - name: Resolve version
+        id: vars
+        run: |
+          echo "TAG_NAME=${{ github.ref_name }}" >> $GITHUB_ENV
+
+      - name: Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            luzid/luzidui/luzidui.zip
+          body: ${{ github.event.head_commit.message }}
+          draft: true
+          tag_name: ${{ env.TAG_NAME }}
