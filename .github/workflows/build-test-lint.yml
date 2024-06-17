@@ -29,11 +29,6 @@ jobs:
           path: luzid
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
-      - name: Install Protoc
-        uses: arduino/setup-protoc@v2
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build+Test+Lint
         uses: ./luzid-sdk/.github/actions/build-test-lint
         with:
