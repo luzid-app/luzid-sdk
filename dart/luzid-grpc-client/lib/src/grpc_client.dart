@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_connection_interface.dart';
 import 'package:luzid_grpc_client/src/client/workspace.dart';
 import 'package:luzid_grpc_client/src/core/channel.dart';
@@ -40,11 +43,31 @@ class LuzidGrpcClient {
   TransactionClient? _transaction;
   ValidatorClient? _validator;
   WorkspaceClient? _workspace;
+  final StreamController<bool> _channelConnected = StreamController.broadcast();
 
   LuzidGrpcClient({LuzidGrpcClientOpts? opts, ClientChannelBase? channel})
       : _channel = channel ??
             createLuzidGrpcChannel(
-                host: opts?.host ?? 'localhost', port: opts?.port ?? 50051);
+                host: opts?.host ?? 'localhost', port: opts?.port ?? 50051) {
+    bool connected = false;
+    _channel.onConnectionStateChanged.listen((state) {
+      switch (state) {
+        case ConnectionState.ready:
+          if (!connected) {
+            connected = true;
+            _channelConnected.add(connected);
+          }
+          break;
+        default:
+          if (connected) {
+            connected = false;
+            _channelConnected.add(connected);
+          }
+          break;
+      }
+    });
+  }
+
   AppClient get app {
     _app ??= AppClient(_channel);
     return _app!;
@@ -93,4 +116,9 @@ class LuzidGrpcClient {
   Future<void> close() {
     return _channel.shutdown();
   }
+
+  Stream<bool> get onChannelConnected =>
+      _channelConnected.stream.where((event) => event);
+  Stream<bool> get onChannelDisconnected =>
+      _channelConnected.stream.where((event) => !event);
 }
