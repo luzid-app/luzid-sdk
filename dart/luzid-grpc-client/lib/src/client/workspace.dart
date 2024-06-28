@@ -78,6 +78,20 @@ class WorkspacePersistClient {
 }
 
 // -----------------
+// WorkspaceWatchChangedClient
+// -----------------
+class WorkspaceWatchChangedClient {
+  final WorkspaceWatchChangedSubClient _client;
+
+  WorkspaceWatchChangedClient(ClientChannelBase channel)
+      : _client = WorkspaceWatchChangedSubClient(channel);
+
+  Stream<WorkspaceWatchChanged> subWorkspaceWatchChanged() {
+    return _client.subWorkspaceWatchChanged(Empty());
+  }
+}
+
+// -----------------
 // Consolidated WorkspaceClient
 // -----------------
 class WorkspaceClient {
@@ -85,12 +99,14 @@ class WorkspaceClient {
   final WorkspaceCloneClient _cloneWorkspaceClient;
   final WorkspaceWatchClient _watchWorkspaceClient;
   final WorkspacePersistClient _persistWorkspaceClient;
+  final WorkspaceWatchChangedClient _workspaceWatchChangedClient;
 
   WorkspaceClient(ClientChannelBase channel)
       : _getWorkspaceClient = WorkspaceGetClient(channel),
         _cloneWorkspaceClient = WorkspaceCloneClient(channel),
         _watchWorkspaceClient = WorkspaceWatchClient(channel),
-        _persistWorkspaceClient = WorkspacePersistClient(channel);
+        _persistWorkspaceClient = WorkspacePersistClient(channel),
+        _workspaceWatchChangedClient = WorkspaceWatchChangedClient(channel);
 
   Future<GetWorkspaceResponse> getWorkspace(GetWorkspaceRequest request) {
     return _getWorkspaceClient.getWorkspace(request);
@@ -126,5 +142,9 @@ class WorkspaceClient {
 
   Future<ListWorkspacesResponse> listWorkspaces() {
     return _persistWorkspaceClient.listWorkspaces();
+  }
+
+  Stream<WorkspaceWatchChanged> subWorkspaceWatchChanged() {
+    return _workspaceWatchChangedClient.subWorkspaceWatchChanged();
   }
 }

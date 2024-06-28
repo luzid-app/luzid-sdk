@@ -2,7 +2,8 @@ import 'package:luzid_grpc/luzid_grpc.dart';
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
 import 'package:luzid_sdk/src/core/utils.dart';
 
-export 'package:luzid_grpc/luzid_grpc.dart' show RpcWorkspace;
+export 'package:luzid_grpc/luzid_grpc.dart'
+    show RpcWorkspace, WorkspaceWatchChanged;
 
 class LuzidWorkspace {
   final LuzidGrpcClient client;
@@ -117,6 +118,12 @@ class LuzidWorkspace {
   Future<List<String>> listWorkspaces() async {
     final res = await client.workspace.listWorkspaces();
     return unwrap(res, 'Luzid workspace.listWorkspaces').workspaceRoots;
+  }
+
+  /// Subscribes to workspaces being watched or unwatched.
+  /// The emitted type includes the workspace root and the watch state.
+  Stream<WorkspaceWatchChanged> subWorkspaceWatchChanged() {
+    return client.workspace.subWorkspaceWatchChanged();
   }
 }
 
