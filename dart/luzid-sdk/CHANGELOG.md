@@ -1,3 +1,5 @@
+## 0.0.3
+
 ## 0.0.2
 
  - **FEAT**: dart dis/re-connect events (#13).

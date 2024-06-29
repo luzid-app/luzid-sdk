@@ -1,6 +1,6 @@
 name: luzid_grpc
 description: The GRPC interface to the Luzid Validator service.
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/luzid-app/luzid-sdk
 
 environment:
