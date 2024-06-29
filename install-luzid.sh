@@ -69,7 +69,7 @@ main() {
     mac_install $_isosx_arm
   else
     if $_islinux; then
-      echo "Installing for Linux"
+      linux_install
     fi
   fi
 }
@@ -105,14 +105,14 @@ mac_install() {
   # Download the Luzid binaries
   ensure downloader "${_luzid_backend_url}" "${_luzid_backend}"
   ensure downloader "${_luzid_ui_url}" "${_luzid_ui}"
-  # cp "$DIR/mac-artifacts/${_luzid_backend}" "${_luzid_backend}"
-  # cp "$DIR/mac-artifacts/${_luzid_ui}" "${_luzid_ui}"
+
+  _luzid_bin=/usr/local/bin/luzid
 
   # Extract the luzid backend
   tar -xzf ${_luzid_backend} && rm ${_luzid_backend}
-  if ! mv luzid /usr/local/bin/; then
+  if ! mv luzid ${_luzid_bin}; then
     echo "Failed to move luzid to /usr/local/bin/, trying again with sudo"
-    sudo mv luzid /usr/local/bin/
+    sudo mv luzid ${_luzid_bin}
   fi
 
   printf "\nAdded luzid to /usr/local/bin/\n"
@@ -135,6 +135,69 @@ end tell
 " > /dev/null
 
   popd > /dev/null
+
+  echo "Added luzid to ${_luzid_bin}"
+  echo "Launch it via the 'luzid' command from the terminal"
+  echo "Open the 'LuzidUI.app' to connect the UI to it"
+}
+
+linux_install() {
+  echo "Installing Luzid for Linux"
+  _luzid_bundle=luzid.tar.gz
+  # Build the full URLs
+  _luzid_bundle_url="${LUZID_DOWNLOAD_ROOT}/linux-${LUZID_RELEASE}/${_luzid_bundle}"
+
+  printf "Downloading Luzid %s:\n- ${_luzid_bundle_url}\n" "${LUZID_RELEASE}"
+
+  # Create a temporary directory and change into it
+  temp_dir="$(mktemp -d 2>/dev/null || ensure mktemp -d -t solana-install-init)"
+  ensure mkdir -p "$temp_dir"
+
+  pushd . > /dev/null
+
+  cd ${temp_dir}
+
+  ensure downloader "${_luzid_bundle_url}" "${_luzid_bundle}"
+  # cp "$DIR/install-artifacts/${_luzid_bundle}" "${_luzid_bundle}"
+
+  # Extract the luzid bundle
+  tar -xzf ${_luzid_bundle} && rm ${_luzid_bundle}
+
+  _luzid_bin=/usr/local/bin/luzid
+  _usr_local_lib=/usr/local/lib/
+  _luzidui_lib_dir=/usr/local/lib/luzidui
+  _luzidui_lib_bin=${_luzidui_lib_dir}/luzidui
+  _luzidui_bin=/usr/local/bin/luzidui
+
+  if ! mv luzid ${_luzid_bin}; then
+    echo "Failed to move luzid to ${_luzid_bin}, trying again with sudo"
+    sudo mv luzid ${_luzid_bin}
+  fi
+
+  if ! rm -rf ${_luzidui_lib_dir}; then
+    echo "Failed to remove previous luzidui at ${_luzidui_lib_dir}, trying again with sudo"
+    sudo rm -rf ${_luzidui_lib_dir}
+  fi
+
+  if ! mv luzidui ${_usr_local_lib}; then
+    echo "Failed to move luzidui to ${_luzidui_lib_dir}, trying again with sudo"
+    sudo mv luzidui ${_usr_local_lib}
+  fi
+
+  if ! ln -sf ${_luzidui_lib_bin} ${_luzidui_bin}; then
+    echo "Failed to link luzidui to ${_luzidui_bin}, trying again with sudo"
+    sudo ln -sf ${_luzidui_lib_bin} ${_luzidui_bin}
+  fi
+
+  popd > /dev/null
+
+  rm -rf $temp_dir
+
+  echo "Added luzid to ${_luzid_bin}"
+  echo "Added luzidui to ${_luzidui_bin}"
+
+  echo "Launch it via 'luzid' command from the terminal"
+  echo "Connect the UI to it via the 'luzidui' command from the termial"
 }
 
 need_cmd() {
