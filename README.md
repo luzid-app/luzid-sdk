@@ -40,6 +40,13 @@ Prepare changelog and version via:
 melos version --changelog
 ```
 
+If that fails cause it cannot find the packages do to manually update minor versions:
+
+```sh
+melos version -V luzid_grpc:minor -V luzid_grpc_client:minor -V luzid_sdk:minor --changelog
+```
+
+
 Check if all is good via:
 
 ```sh
