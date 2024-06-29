@@ -96,6 +96,10 @@ export 'proto/subs/validator_stats_sub.pb.dart';
 export 'proto/subs/validator_stats_sub.pbgrpc.dart';
 export 'proto/subs/validator_stats_sub.pbjson.dart';
 
+export 'proto/subs/workspace_watch_changed_sub.pb.dart';
+export 'proto/subs/workspace_watch_changed_sub.pbgrpc.dart';
+export 'proto/subs/workspace_watch_changed_sub.pbjson.dart';
+
 // -----------------
 // Types
 // -----------------
