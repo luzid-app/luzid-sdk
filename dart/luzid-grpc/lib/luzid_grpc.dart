@@ -88,6 +88,10 @@ export 'proto/subs/transaction_sub.pb.dart';
 export 'proto/subs/transaction_sub.pbgrpc.dart';
 export 'proto/subs/transaction_sub.pbjson.dart';
 
+export 'proto/subs/transaction_modified_sub.pb.dart';
+export 'proto/subs/transaction_modified_sub.pbgrpc.dart';
+export 'proto/subs/transaction_modified_sub.pbjson.dart';
+
 export 'proto/subs/validator_status_sub.pb.dart';
 export 'proto/subs/validator_status_sub.pbgrpc.dart';
 export 'proto/subs/validator_status_sub.pbjson.dart';
@@ -139,3 +143,6 @@ export 'proto/types/snapshot_filter.pbjson.dart';
 
 export 'proto/types/transaction_update.pb.dart';
 export 'proto/types/transaction_update.pbjson.dart';
+
+export 'proto/types/transaction_modification.pb.dart';
+export 'proto/types/transaction_modification.pbjson.dart';
