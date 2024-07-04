@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_connection_interface.dart';
+import 'package:luzid_grpc_client/src/client/meta.dart';
 import 'package:luzid_grpc_client/src/client/workspace.dart';
 import 'package:luzid_grpc_client/src/core/channel.dart';
 
@@ -15,6 +16,7 @@ import 'client/transaction.dart';
 import 'client/validator.dart';
 
 export 'client/app.dart';
+export 'client/meta.dart';
 export 'client/mutator.dart';
 export 'client/ping.dart';
 export 'client/rpc.dart';
@@ -25,6 +27,9 @@ export 'client/validator.dart';
 
 export 'package:grpc/grpc_connection_interface.dart' show ClientChannelBase;
 
+const defaultHost = 'localhost';
+const defaultPort = 50051;
+
 class LuzidGrpcClientOpts {
   String? host;
   int? port;
@@ -34,7 +39,10 @@ class LuzidGrpcClientOpts {
 
 class LuzidGrpcClient {
   final ClientChannelBase _channel;
+  final String host;
+  final int port;
   AppClient? _app;
+  MetaClient? _meta;
   MutatorClient? _mutator;
   PingClient? _ping;
   RpcClient? _rpc;
@@ -46,15 +54,19 @@ class LuzidGrpcClient {
   final StreamController<bool> _channelConnected = StreamController.broadcast();
 
   LuzidGrpcClient({LuzidGrpcClientOpts? opts, ClientChannelBase? channel})
-      : _channel = channel ??
+      : host = opts?.host ?? defaultHost,
+        port = opts?.port ?? defaultPort,
+        _channel = channel ??
             createLuzidGrpcChannel(
-                host: opts?.host ?? 'localhost', port: opts?.port ?? 50051) {
+                host: opts?.host ?? defaultHost,
+                port: opts?.port ?? defaultPort) {
     bool connected = false;
     _channel.onConnectionStateChanged.listen((state) {
       switch (state) {
         case ConnectionState.ready:
           if (!connected) {
             connected = true;
+            print('Connected to gRPC server at port ${opts?.port}');
             _channelConnected.add(connected);
           }
           break;
@@ -71,6 +83,11 @@ class LuzidGrpcClient {
   AppClient get app {
     _app ??= AppClient(_channel);
     return _app!;
+  }
+
+  MetaClient get meta {
+    _meta ??= MetaClient(_channel);
+    return _meta!;
   }
 
   MutatorClient get mutator {

@@ -17,6 +17,10 @@ export 'proto/requests/app_ops.pb.dart';
 export 'proto/requests/app_ops.pbgrpc.dart';
 export 'proto/requests/app_ops.pbjson.dart';
 
+export 'proto/requests/meta.pb.dart';
+export 'proto/requests/meta.pbgrpc.dart';
+export 'proto/requests/meta.pbjson.dart';
+
 export 'proto/requests/mutator_clone_account.pb.dart';
 export 'proto/requests/mutator_clone_account.pbgrpc.dart';
 export 'proto/requests/mutator_clone_account.pbjson.dart';

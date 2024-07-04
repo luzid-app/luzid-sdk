@@ -1,6 +1,7 @@
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
 
 import 'api/app.dart';
+import 'api/meta.dart';
 import 'api/mutator.dart';
 import 'api/ping.dart';
 import 'api/rpc.dart';
@@ -11,6 +12,7 @@ import 'api/validator.dart';
 import 'api/workspace.dart';
 
 export 'api/app.dart';
+export 'api/meta.dart';
 export 'api/mutator.dart';
 export 'api/ping.dart';
 export 'api/rpc.dart';
@@ -20,6 +22,9 @@ export 'api/transaction.dart';
 export 'api/validator.dart';
 export 'api/workspace.dart';
 
+export 'package:luzid_grpc_client/luzid_grpc_client.dart'
+    show LuzidGrpcClientOpts;
+
 class LuzidSdkOpts {
   final LuzidGrpcClientOpts? client;
   LuzidSdkOpts({this.client});
@@ -28,6 +33,7 @@ class LuzidSdkOpts {
 class LuzidSdk {
   final LuzidGrpcClient _client;
   late final LuzidApp _app;
+  late final LuzidMeta _meta;
   late final LuzidMutator _mutator;
   late final LuzidPing _ping;
   late final LuzidRpc _rpc;
@@ -40,6 +46,7 @@ class LuzidSdk {
   LuzidSdk({LuzidSdkOpts? opts, ClientChannelBase? channel})
       : _client = LuzidGrpcClient(opts: opts?.client, channel: channel) {
     _app = LuzidApp(_client);
+    _meta = LuzidMeta(_client);
     _mutator = LuzidMutator(_client);
     _ping = LuzidPing(_client);
     _rpc = LuzidRpc(_client);
@@ -49,6 +56,12 @@ class LuzidSdk {
     _validator = LuzidValidator(_client);
     _workspace = LuzidWorkspace(_client);
   }
+
+  /// The host to which the client is connected.
+  get host => _client.host;
+
+  /// The port to which the client is connected.
+  get port => _client.port;
 
   /// Provides access to the Luzid App service.
   ///
@@ -62,6 +75,13 @@ class LuzidSdk {
   /// **ping** - Performs a ping request to ensure the Luzid service is running.
   LuzidPing get ping {
     return _ping;
+  }
+
+  /// Provides access to the Luzid Meta service with the following methods:
+  ///
+  /// **getMeta** - Gets configured meta of the Luzid instance
+  LuzidMeta get meta {
+    return _meta;
   }
 
   /// Provides access to the Luzid Mutator service with the following methods:
