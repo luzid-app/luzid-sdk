@@ -178,4 +178,8 @@ class LuzidSdk {
   Future<void> close() {
     return _client.close();
   }
+
+  bool get isShutdown {
+    return _client.isShutdown;
+  }
 }

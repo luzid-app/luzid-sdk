@@ -41,6 +41,7 @@ class LuzidGrpcClient {
   final ClientChannelBase _channel;
   final String host;
   final int port;
+  bool _isShutdown;
   AppClient? _app;
   MetaClient? _meta;
   MutatorClient? _mutator;
@@ -56,6 +57,7 @@ class LuzidGrpcClient {
   LuzidGrpcClient({LuzidGrpcClientOpts? opts, ClientChannelBase? channel})
       : host = opts?.host ?? defaultHost,
         port = opts?.port ?? defaultPort,
+        _isShutdown = false,
         _channel = channel ??
             createLuzidGrpcChannel(
                 host: opts?.host ?? defaultHost,
@@ -69,6 +71,13 @@ class LuzidGrpcClient {
             print('Connected to gRPC server at port ${opts?.port}');
             _channelConnected.add(connected);
           }
+          break;
+        case ConnectionState.shutdown:
+          if (!_isShutdown && connected) {
+            connected = false;
+            _channelConnected.add(connected);
+          }
+          _isShutdown = true;
           break;
         default:
           if (connected) {
@@ -131,7 +140,12 @@ class LuzidGrpcClient {
   }
 
   Future<void> close() {
+    _isShutdown = true;
     return _channel.shutdown();
+  }
+
+  bool get isShutdown {
+    return _isShutdown;
   }
 
   Stream<bool> get onChannelConnected =>
