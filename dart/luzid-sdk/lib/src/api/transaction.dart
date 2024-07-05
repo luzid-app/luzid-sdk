@@ -7,6 +7,7 @@ import 'package:luzid_sdk/src/core/utils.dart';
 
 export 'package:luzid_sdk/src/api-types/transaction_account.dart';
 export 'package:luzid_sdk/src/api-types/transaction_update.dart';
+export 'package:luzid_sdk/src/api-types/transaction_labeled.dart';
 
 class LuzidTransaction {
   final LuzidGrpcClient _client;
