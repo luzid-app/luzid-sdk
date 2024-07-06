@@ -4,6 +4,7 @@ import 'api/app.dart';
 import 'api/meta.dart';
 import 'api/mutator.dart';
 import 'api/ping.dart';
+import 'api/release_info.dart';
 import 'api/rpc.dart';
 import 'api/snapshot.dart';
 import 'api/store.dart';
@@ -15,6 +16,7 @@ export 'api/app.dart';
 export 'api/meta.dart';
 export 'api/mutator.dart';
 export 'api/ping.dart';
+export 'api/release_info.dart';
 export 'api/rpc.dart';
 export 'api/snapshot.dart';
 export 'api/store.dart';
@@ -70,13 +72,6 @@ class LuzidSdk {
     return _app;
   }
 
-  /// Provides access to the Luzid Ping service with the following methods:
-  ///
-  /// **ping** - Performs a ping request to ensure the Luzid service is running.
-  LuzidPing get ping {
-    return _ping;
-  }
-
   /// Provides access to the Luzid Meta service with the following methods:
   ///
   /// **getMeta** - Gets configured meta of the Luzid instance
@@ -90,6 +85,20 @@ class LuzidSdk {
   /// **modifyAccount** - Modifies an account.
   LuzidMutator get mutator {
     return _mutator;
+  }
+
+  /// Provides access to the Luzid Ping service with the following methods:
+  ///
+  /// **ping** - Performs a ping request to ensure the Luzid service is running.
+  LuzidPing get ping {
+    return _ping;
+  }
+
+  /// Provides information about the latest released Luzid version as well as
+  /// the currently used version, if it is outdated and how to install the
+  /// latest version.
+  LuzidReleaseInfo get releaseInfo {
+    return LuzidReleaseInfo(_client);
   }
 
   /// Provides access to the Luzid RPC service with the following methods:

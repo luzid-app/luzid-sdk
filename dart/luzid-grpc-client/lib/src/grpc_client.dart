@@ -9,6 +9,7 @@ import 'package:luzid_grpc_client/src/core/channel.dart';
 import 'client/app.dart';
 import 'client/mutator.dart';
 import 'client/ping.dart';
+import 'client/release_info.dart';
 import 'client/rpc.dart';
 import 'client/snapshot.dart';
 import 'client/store.dart';
@@ -19,6 +20,7 @@ export 'client/app.dart';
 export 'client/meta.dart';
 export 'client/mutator.dart';
 export 'client/ping.dart';
+export 'client/release_info.dart';
 export 'client/rpc.dart';
 export 'client/snapshot.dart';
 export 'client/store.dart';
@@ -107,6 +109,10 @@ class LuzidGrpcClient {
   PingClient get ping {
     _ping ??= PingClient(_channel);
     return _ping!;
+  }
+
+  ReleaseInfoClient get releaseInfo {
+    return ReleaseInfoClient(_channel);
   }
 
   RpcClient get rpc {
