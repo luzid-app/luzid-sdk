@@ -13,7 +13,7 @@ import { assert } from './core/assert'
 import { TransactionClient } from './client/transaction'
 import { WorkspaceClient } from './client/workspace'
 
-const DEFAULT_GRPC_SERVER_PORT = 50051
+const DEFAULT_GRPC_SERVER_PORT = 60061
 
 export type LuzidGrpcClientOpts = {
   url?: string

@@ -30,7 +30,7 @@ export 'client/validator.dart';
 export 'package:grpc/grpc_connection_interface.dart' show ClientChannelBase;
 
 const defaultHost = 'localhost';
-const defaultPort = 50051;
+const defaultPort = 60061;
 
 class LuzidGrpcClientOpts {
   String? host;
