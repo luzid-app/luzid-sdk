@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:ansicolor/ansicolor.dart' show AnsiPen;
 import 'package:luzid_sdk/luzid_sdk.dart';
 
-printSolanaExplorerAccountUrl(String accountAddr, {String? tab}) {
+void printSolanaExplorerAccountUrl(String accountAddr, {String? tab}) {
   final linkPen = AnsiPen()..blue(bold: true);
   final url = Uri.https('explorer.solana.com', '/address/$accountAddr',
       {'cluster': 'custom', 'customUrl': 'http://localhost:8899'});

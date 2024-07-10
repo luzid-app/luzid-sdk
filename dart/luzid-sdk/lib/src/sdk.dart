@@ -60,10 +60,10 @@ class LuzidSdk {
   }
 
   /// The host to which the client is connected.
-  get host => _client.host;
+  String get host => _client.host;
 
   /// The port to which the client is connected.
-  get port => _client.port;
+  int get port => _client.port;
 
   /// Provides access to the Luzid App service.
   ///

@@ -31,7 +31,7 @@ class Paths {
         subsOut = join(protoOutDir, 'subs'),
         typesOut = join(protoOutDir, 'types');
 
-  resetOutPaths() {
+  void resetOutPaths() {
     if (Directory(protoOutDir).existsSync()) {
       Directory(protoOutDir).deleteSync(recursive: true);
     }
@@ -84,7 +84,7 @@ class ProtoInputs {
     types = filesInDir(typesIn);
   }
 
-  filesInDir(String dir) {
+  List<String> filesInDir(String dir) {
     return Directory(dir)
         .listSync()
         .whereType<File>()
@@ -93,7 +93,7 @@ class ProtoInputs {
         .toList();
   }
 
-  protoPathArgs() {
+  List<String> protoPathArgs() {
     return [
       '--proto_path=$typesIn',
       '--proto_path=$subsIn',
