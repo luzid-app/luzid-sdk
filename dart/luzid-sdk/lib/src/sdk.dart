@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
 
 import 'api/app.dart';
@@ -32,7 +33,7 @@ class LuzidSdkOpts {
   LuzidSdkOpts({this.client});
 }
 
-class LuzidSdk {
+class LuzidSdk extends Equatable {
   final LuzidGrpcClient _client;
   late final LuzidApp _app;
   late final LuzidMeta _meta;
@@ -191,4 +192,7 @@ class LuzidSdk {
   bool get isShutdown {
     return _client.isShutdown;
   }
+
+  @override
+  List<Object?> get props => [host, port];
 }
