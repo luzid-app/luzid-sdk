@@ -74,6 +74,14 @@ export {
 } from './proto/requests/app_ops'
 
 export {
+  MetaRequest,
+  MetaResponse,
+  Meta,
+  MetaServiceDefinition,
+  MetaServiceClient,
+} from './proto/requests/meta'
+
+export {
   MutatorCloneAccountRequest,
   MutatorCloneAccountResponse,
   MutatorCloneAccountServiceDefinition,
@@ -213,3 +221,17 @@ export {
   WorkspaceServiceClient,
   WorkspaceServiceDefinition,
 } from './proto/requests/workspace'
+
+// -----------------
+// Subs
+// -----------------
+
+export {
+  SnapshotModification,
+  SnapshotsModified,
+  SnapshotsModifiedSubClient,
+  SnapshotsModifiedSubDefinition,
+  SnapshotsModifiedSubServiceImplementation,
+  snapshotModificationFromJSON,
+  snapshotModificationToJSON,
+} from './proto/subs/snapshots_modified_sub'
