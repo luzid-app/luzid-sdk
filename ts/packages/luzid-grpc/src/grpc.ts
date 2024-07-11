@@ -90,6 +90,14 @@ export {
 } from './proto/requests/mutator_modify_account'
 
 export {
+  PingRequest,
+  PingResponse,
+  PingServiceDefinition,
+  PingServiceImplementation,
+  PingServiceClient,
+} from './proto/requests/ping'
+
+export {
   RpcGetAccountInfoRequest,
   RpcGetAccountInfoResponse,
   RpcGetAccountInfoServiceDefinition,

@@ -7,8 +7,10 @@ import { LuzidStore } from './api/store'
 import { LuzidValidator } from './api/validator'
 import { LuzidTransaction } from './api/transaction'
 import { LuzidWorkspace } from './api/workspace'
+import { LuzidPing } from './api/ping'
 
 export * from './api/app'
+export * from './api/ping'
 export * from './api/mutator'
 export * from './api/rpc'
 export * from './api/snapshot'
@@ -24,6 +26,7 @@ export class LuzidSdk {
   private readonly client: LuzidGrpcClient
   private readonly _app: LuzidApp
   private readonly _mutator: LuzidMutator
+  private readonly _ping: LuzidPing
   private readonly _rpc: LuzidRpc
   private readonly _snapshot: LuzidSnapshot
   private readonly _store: LuzidStore
@@ -34,6 +37,7 @@ export class LuzidSdk {
   constructor(opts?: LuzidSdkOpts) {
     this.client = new LuzidGrpcClient(opts?.client)
     this._app = new LuzidApp(this.client)
+    this._ping = new LuzidPing(this.client)
     this._mutator = new LuzidMutator(this.client)
     this._rpc = new LuzidRpc(this.client)
     this._snapshot = new LuzidSnapshot(this.client)
@@ -60,6 +64,16 @@ export class LuzidSdk {
    */
   get mutator() {
     return this._mutator
+  }
+
+  /**
+   * Provides access to the Ping client which is used to ensure that the Luzid
+   * backend is up via the following methods:
+   *
+   * - **ping**: Online backend will reply with `{ pong: true }`
+   */
+  get ping() {
+    return this._ping
   }
 
   /**

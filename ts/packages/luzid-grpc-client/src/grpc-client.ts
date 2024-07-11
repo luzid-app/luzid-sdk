@@ -12,6 +12,7 @@ import {
 import { assert } from './core/assert'
 import { TransactionClient } from './client/transaction'
 import { WorkspaceClient } from './client/workspace'
+import { PingClient } from './client/ping'
 
 const DEFAULT_GRPC_SERVER_PORT = 60061
 
@@ -23,6 +24,7 @@ export type LuzidGrpcClientOpts = {
 export class LuzidGrpcClient {
   private readonly channel: Channel
   private _app?: AppClient
+  private _ping?: PingClient
   private _mutator?: MutatorClient
   private _rpc?: RpcClient
   private _snapshot?: SnapshotClient
@@ -63,6 +65,19 @@ export class LuzidGrpcClient {
       this._mutator = new MutatorClient(this.channel)
     }
     return this._mutator
+  }
+
+  /**
+   * Provides access to the Ping client which is used to ensure that the Luzid
+   * backend is up via the following methods:
+   *
+   * - **ping**: Online backend will reply with `{ pong: true }`
+   */
+  get ping() {
+    if (this._ping == null) {
+      this._ping = new PingClient(this.channel)
+    }
+    return this._ping
   }
 
   /**
