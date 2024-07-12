@@ -225,7 +225,6 @@ export {
 // -----------------
 // Subs
 // -----------------
-
 export {
   SnapshotModification,
   SnapshotsModified,
@@ -235,3 +234,21 @@ export {
   snapshotModificationFromJSON,
   snapshotModificationToJSON,
 } from './proto/subs/snapshots_modified_sub'
+
+export {
+  RpcTransactionAccount,
+  RpcTransactionUpdate,
+} from './proto/subs/transaction_update'
+
+export {
+  TransactionSubClient,
+  TransactionSubDefinition,
+  TransactionSubServiceImplementation,
+} from './proto/subs/transaction_sub'
+
+export { TransactionModificationLabeled } from './proto/subs/transaction_modification'
+export {
+  TransactionModifiedSubClient,
+  TransactionModifiedSubDefinition,
+  TransactionModifiedSubServiceImplementation,
+} from './proto/subs/transaction_modified_sub'
