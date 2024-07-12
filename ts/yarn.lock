@@ -294,13 +294,6 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@luzid/grpc@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@luzid/grpc/-/grpc-0.0.2.tgz#ae0ee1e2b3f9a1836d5dd22e08386e51a1afac06"
-  integrity sha512-CJIjlJzHeTqNBJQIxb4SMBoibdrqUP2DtFyjFCEJblyZITEwP1jadsuV4yQ5CPhNgxUE1l6nw+qzK0H3C41aAw==
-  dependencies:
-    long "^5.2.3"
-
 "@material/material-color-utilities@^0.2.7":
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/@material/material-color-utilities/-/material-color-utilities-0.2.7.tgz#ff2a638d2db295a796fa02671410df4f4f97c33e"
