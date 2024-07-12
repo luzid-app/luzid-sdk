@@ -27,6 +27,7 @@ jobs:
         with:
           repository: luzid-app/luzid
           path: luzid
+          ref: thlorenz/devnet-standin
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
       - name: Install Protoc
