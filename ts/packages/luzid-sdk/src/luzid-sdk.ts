@@ -1,17 +1,19 @@
 import { LuzidGrpcClient, LuzidGrpcClientOpts } from '@luzid/grpc-client'
 import { LuzidApp } from './api/app'
+import { LuzidMeta } from './api/meta'
 import { LuzidMutator } from './api/mutator'
+import { LuzidPing } from './api/ping'
 import { LuzidRpc } from './api/rpc'
 import { LuzidSnapshot } from './api/snapshot'
 import { LuzidStore } from './api/store'
-import { LuzidValidator } from './api/validator'
 import { LuzidTransaction } from './api/transaction'
+import { LuzidValidator } from './api/validator'
 import { LuzidWorkspace } from './api/workspace'
-import { LuzidPing } from './api/ping'
 
 export * from './api/app'
-export * from './api/ping'
+export * from './api/meta'
 export * from './api/mutator'
+export * from './api/ping'
 export * from './api/rpc'
 export * from './api/snapshot'
 export * from './api/store'
@@ -25,6 +27,7 @@ export type LuzidSdkOpts = {
 export class LuzidSdk {
   private readonly client: LuzidGrpcClient
   private readonly _app: LuzidApp
+  private readonly _meta: LuzidMeta
   private readonly _mutator: LuzidMutator
   private readonly _ping: LuzidPing
   private readonly _rpc: LuzidRpc
@@ -36,9 +39,11 @@ export class LuzidSdk {
 
   constructor(opts?: LuzidSdkOpts) {
     this.client = new LuzidGrpcClient(opts?.client)
+
     this._app = new LuzidApp(this.client)
-    this._ping = new LuzidPing(this.client)
+    this._meta = new LuzidMeta(this.client)
     this._mutator = new LuzidMutator(this.client)
+    this._ping = new LuzidPing(this.client)
     this._rpc = new LuzidRpc(this.client)
     this._snapshot = new LuzidSnapshot(this.client)
     this._store = new LuzidStore(this.client)
@@ -64,6 +69,15 @@ export class LuzidSdk {
    */
   get mutator() {
     return this._mutator
+  }
+
+  /**
+   * Provides access to the Luzid Meta service with the following methods:
+   *
+   * **getMeta** - Returns the meta information for the Luzid backend.
+   */
+  get meta() {
+    return this._meta
   }
 
   /**
