@@ -135,6 +135,12 @@ export class LuzidSdk {
    * Provides access to the Luzid Validator service with the following methods:
    *
    * **validatorOps** - Allows to Start/Stop/Restart the validator.
+   * **subValidatorStatus** - Subscribes to validator status updates.
+   * **subValidatorInfo** - Subscribes to validator info updates.
+   * **subValidatorStats** - Subscribes to validator stats updates.
+   * **getValidatorStatus** - Gets next available validator status update.
+   * **getValidatorInfo** - Gets next available validator info update.
+   * **getValidatorStats** - Gets next available validator stats update.
    */
   get validator() {
     return this._validator

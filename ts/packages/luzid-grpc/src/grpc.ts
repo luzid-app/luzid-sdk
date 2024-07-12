@@ -252,3 +252,25 @@ export {
   TransactionModifiedSubDefinition,
   TransactionModifiedSubServiceImplementation,
 } from './proto/subs/transaction_modified_sub'
+
+export {
+  ValidatorInfo,
+  ValidatorInfoSubClient,
+  ValidatorInfoSubDefinition,
+  ValidatorInfoSubRequest,
+  ValidatorInfoSubServiceImplementation,
+} from './proto/subs/validator_info_sub'
+export {
+  ValidatorStatus,
+  ValidatorStatusSubClient,
+  ValidatorStatusSubDefinition,
+  ValidatorStatusSubRequest,
+  ValidatorStatusSubServiceImplementation,
+} from './proto/subs/validator_status_sub'
+
+export {
+  ValidatorStats,
+  ValidatorStatsSubClient,
+  ValidatorStatsSubDefinition,
+  ValidatorStatsSubServiceImplementation,
+} from './proto/subs/validator_stats_sub'
