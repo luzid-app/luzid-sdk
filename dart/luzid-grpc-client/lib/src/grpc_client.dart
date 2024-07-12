@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_connection_interface.dart';
+import 'package:luzid_grpc_client/src/client/meta.dart';
 import 'package:luzid_grpc_client/src/client/workspace.dart';
 import 'package:luzid_grpc_client/src/core/channel.dart';
 
 import 'client/app.dart';
 import 'client/mutator.dart';
 import 'client/ping.dart';
+import 'client/release_info.dart';
 import 'client/rpc.dart';
 import 'client/snapshot.dart';
 import 'client/store.dart';
@@ -15,8 +17,10 @@ import 'client/transaction.dart';
 import 'client/validator.dart';
 
 export 'client/app.dart';
+export 'client/meta.dart';
 export 'client/mutator.dart';
 export 'client/ping.dart';
+export 'client/release_info.dart';
 export 'client/rpc.dart';
 export 'client/snapshot.dart';
 export 'client/store.dart';
@@ -24,6 +28,9 @@ export 'client/transaction.dart';
 export 'client/validator.dart';
 
 export 'package:grpc/grpc_connection_interface.dart' show ClientChannelBase;
+
+const defaultHost = 'localhost';
+const defaultPort = 60061;
 
 class LuzidGrpcClientOpts {
   String? host;
@@ -34,7 +41,11 @@ class LuzidGrpcClientOpts {
 
 class LuzidGrpcClient {
   final ClientChannelBase _channel;
+  final String host;
+  final int port;
+  bool _isShutdown;
   AppClient? _app;
+  MetaClient? _meta;
   MutatorClient? _mutator;
   PingClient? _ping;
   RpcClient? _rpc;
@@ -46,17 +57,29 @@ class LuzidGrpcClient {
   final StreamController<bool> _channelConnected = StreamController.broadcast();
 
   LuzidGrpcClient({LuzidGrpcClientOpts? opts, ClientChannelBase? channel})
-      : _channel = channel ??
+      : host = opts?.host ?? defaultHost,
+        port = opts?.port ?? defaultPort,
+        _isShutdown = false,
+        _channel = channel ??
             createLuzidGrpcChannel(
-                host: opts?.host ?? 'localhost', port: opts?.port ?? 50051) {
+                host: opts?.host ?? defaultHost,
+                port: opts?.port ?? defaultPort) {
     bool connected = false;
     _channel.onConnectionStateChanged.listen((state) {
       switch (state) {
         case ConnectionState.ready:
           if (!connected) {
             connected = true;
+            print('Connected to gRPC server at port ${opts?.port}');
             _channelConnected.add(connected);
           }
+          break;
+        case ConnectionState.shutdown:
+          if (!_isShutdown && connected) {
+            connected = false;
+            _channelConnected.add(connected);
+          }
+          _isShutdown = true;
           break;
         default:
           if (connected) {
@@ -73,6 +96,11 @@ class LuzidGrpcClient {
     return _app!;
   }
 
+  MetaClient get meta {
+    _meta ??= MetaClient(_channel);
+    return _meta!;
+  }
+
   MutatorClient get mutator {
     _mutator ??= MutatorClient(_channel);
     return _mutator!;
@@ -81,6 +109,10 @@ class LuzidGrpcClient {
   PingClient get ping {
     _ping ??= PingClient(_channel);
     return _ping!;
+  }
+
+  ReleaseInfoClient get releaseInfo {
+    return ReleaseInfoClient(_channel);
   }
 
   RpcClient get rpc {
@@ -114,7 +146,12 @@ class LuzidGrpcClient {
   }
 
   Future<void> close() {
+    _isShutdown = true;
     return _channel.shutdown();
+  }
+
+  bool get isShutdown {
+    return _isShutdown;
   }
 
   Stream<bool> get onChannelConnected =>

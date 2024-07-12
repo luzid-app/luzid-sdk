@@ -1,8 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
 
 import 'api/app.dart';
+import 'api/meta.dart';
 import 'api/mutator.dart';
 import 'api/ping.dart';
+import 'api/release_info.dart';
 import 'api/rpc.dart';
 import 'api/snapshot.dart';
 import 'api/store.dart';
@@ -11,8 +14,10 @@ import 'api/validator.dart';
 import 'api/workspace.dart';
 
 export 'api/app.dart';
+export 'api/meta.dart';
 export 'api/mutator.dart';
 export 'api/ping.dart';
+export 'api/release_info.dart';
 export 'api/rpc.dart';
 export 'api/snapshot.dart';
 export 'api/store.dart';
@@ -20,14 +25,18 @@ export 'api/transaction.dart';
 export 'api/validator.dart';
 export 'api/workspace.dart';
 
+export 'package:luzid_grpc_client/luzid_grpc_client.dart'
+    show LuzidGrpcClientOpts;
+
 class LuzidSdkOpts {
   final LuzidGrpcClientOpts? client;
   LuzidSdkOpts({this.client});
 }
 
-class LuzidSdk {
+class LuzidSdk extends Equatable {
   final LuzidGrpcClient _client;
   late final LuzidApp _app;
+  late final LuzidMeta _meta;
   late final LuzidMutator _mutator;
   late final LuzidPing _ping;
   late final LuzidRpc _rpc;
@@ -40,6 +49,7 @@ class LuzidSdk {
   LuzidSdk({LuzidSdkOpts? opts, ClientChannelBase? channel})
       : _client = LuzidGrpcClient(opts: opts?.client, channel: channel) {
     _app = LuzidApp(_client);
+    _meta = LuzidMeta(_client);
     _mutator = LuzidMutator(_client);
     _ping = LuzidPing(_client);
     _rpc = LuzidRpc(_client);
@@ -50,11 +60,32 @@ class LuzidSdk {
     _workspace = LuzidWorkspace(_client);
   }
 
+  /// The host to which the client is connected.
+  String get host => _client.host;
+
+  /// The port to which the client is connected.
+  int get port => _client.port;
+
   /// Provides access to the Luzid App service.
   ///
   /// **appOps** - Controls the Luzid App, i.e to shut it down.
   LuzidApp get app {
     return _app;
+  }
+
+  /// Provides access to the Luzid Meta service with the following methods:
+  ///
+  /// **getMeta** - Gets configured meta of the Luzid instance
+  LuzidMeta get meta {
+    return _meta;
+  }
+
+  /// Provides access to the Luzid Mutator service with the following methods:
+  ///
+  /// **cloneAccount** - Clones an account.
+  /// **modifyAccount** - Modifies an account.
+  LuzidMutator get mutator {
+    return _mutator;
   }
 
   /// Provides access to the Luzid Ping service with the following methods:
@@ -64,12 +95,11 @@ class LuzidSdk {
     return _ping;
   }
 
-  /// Provides access to the Luzid Mutator service with the following methods:
-  ///
-  /// **cloneAccount** - Clones an account.
-  /// **modifyAccount** - Modifies an account.
-  LuzidMutator get mutator {
-    return _mutator;
+  /// Provides information about the latest released Luzid version as well as
+  /// the currently used version, if it is outdated and how to install the
+  /// latest version.
+  LuzidReleaseInfo get releaseInfo {
+    return LuzidReleaseInfo(_client);
   }
 
   /// Provides access to the Luzid RPC service with the following methods:
@@ -158,4 +188,11 @@ class LuzidSdk {
   Future<void> close() {
     return _client.close();
   }
+
+  bool get isShutdown {
+    return _client.isShutdown;
+  }
+
+  @override
+  List<Object?> get props => [host, port];
 }

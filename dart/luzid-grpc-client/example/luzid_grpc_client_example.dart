@@ -35,6 +35,6 @@ Future<void> main() async {
   return client.close();
 }
 
-sleep([milliseconds = 100]) {
+Future<void> sleep([milliseconds = 100]) {
   return Future.delayed(Duration(milliseconds: milliseconds));
 }

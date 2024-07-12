@@ -17,6 +17,10 @@ export 'proto/requests/app_ops.pb.dart';
 export 'proto/requests/app_ops.pbgrpc.dart';
 export 'proto/requests/app_ops.pbjson.dart';
 
+export 'proto/requests/meta.pb.dart';
+export 'proto/requests/meta.pbgrpc.dart';
+export 'proto/requests/meta.pbjson.dart';
+
 export 'proto/requests/mutator_clone_account.pb.dart';
 export 'proto/requests/mutator_clone_account.pbgrpc.dart';
 export 'proto/requests/mutator_clone_account.pbjson.dart';
@@ -28,6 +32,10 @@ export 'proto/requests/mutator_modify_account.pbjson.dart';
 export 'proto/requests/ping.pb.dart';
 export 'proto/requests/ping.pbgrpc.dart';
 export 'proto/requests/ping.pbjson.dart';
+
+export 'proto/requests/release_info.pb.dart';
+export 'proto/requests/release_info.pbgrpc.dart';
+export 'proto/requests/release_info.pbjson.dart';
 
 export 'proto/requests/rpc_get_account_info.pb.dart';
 export 'proto/requests/rpc_get_account_info.pbgrpc.dart';
@@ -84,6 +92,10 @@ export 'proto/subs/transaction_sub.pb.dart';
 export 'proto/subs/transaction_sub.pbgrpc.dart';
 export 'proto/subs/transaction_sub.pbjson.dart';
 
+export 'proto/subs/transaction_modified_sub.pb.dart';
+export 'proto/subs/transaction_modified_sub.pbgrpc.dart';
+export 'proto/subs/transaction_modified_sub.pbjson.dart';
+
 export 'proto/subs/validator_status_sub.pb.dart';
 export 'proto/subs/validator_status_sub.pbgrpc.dart';
 export 'proto/subs/validator_status_sub.pbjson.dart';
@@ -135,3 +147,6 @@ export 'proto/types/snapshot_filter.pbjson.dart';
 
 export 'proto/types/transaction_update.pb.dart';
 export 'proto/types/transaction_update.pbjson.dart';
+
+export 'proto/types/transaction_modification.pb.dart';
+export 'proto/types/transaction_modification.pbjson.dart';

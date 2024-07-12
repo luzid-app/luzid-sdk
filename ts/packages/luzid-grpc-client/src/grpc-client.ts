@@ -4,25 +4,25 @@ import { RpcClient } from './client/rpc'
 import { SnapshotClient } from './client/snapshot'
 import { StoreClient } from './client/store'
 import { ValidatorClient } from './client/validator'
-import {
-  Channel,
-  createChannel,
-  createLocalChannel,
-} from '@luzid/grpc-connection'
-import { assert } from './core/assert'
+import { Channel, createChannel } from '@luzid/grpc-connection'
 import { TransactionClient } from './client/transaction'
 import { WorkspaceClient } from './client/workspace'
+import { PingClient } from './client/ping'
+import { MetaClient } from './client/meta'
 
-const DEFAULT_GRPC_SERVER_PORT = 50051
+const DEFAULT_GRPC_SERVER_PORT = 60061
+const DEFAULT_GRPC_SERVER_HOST = 'localhost'
 
 export type LuzidGrpcClientOpts = {
-  url?: string
+  host?: string
   port?: number
 }
 
 export class LuzidGrpcClient {
   private readonly channel: Channel
   private _app?: AppClient
+  private _ping?: PingClient
+  private _meta?: MetaClient
   private _mutator?: MutatorClient
   private _rpc?: RpcClient
   private _snapshot?: SnapshotClient
@@ -32,13 +32,10 @@ export class LuzidGrpcClient {
   private _workspace?: WorkspaceClient
 
   constructor(opts?: LuzidGrpcClientOpts) {
-    if (opts?.url != null) {
-      assert(opts.port == null, 'Cannot specify both url and port')
-      this.channel = createChannel(opts.url)
-    } else {
-      const port = opts?.port ?? DEFAULT_GRPC_SERVER_PORT
-      this.channel = createLocalChannel(port)
-    }
+    const host = opts?.host ?? DEFAULT_GRPC_SERVER_HOST
+    const port = opts?.port ?? DEFAULT_GRPC_SERVER_PORT
+    const url = `${host}:${port}`
+    this.channel = createChannel(url)
   }
 
   /**
@@ -54,6 +51,18 @@ export class LuzidGrpcClient {
   }
 
   /**
+   * Provides access to the Luzid Meta service with the following methods:
+   *
+   * - **getMeta**: Returns the meta information for the Luzid backend.
+   */
+  get meta() {
+    if (this._meta == null) {
+      this._meta = new MetaClient(this.channel)
+    }
+    return this._meta
+  }
+
+  /**
    * Provides access to the Luzid Mutator service with the following methods:
    *
    * - **cloneAccount**: Clones an account.
@@ -63,6 +72,19 @@ export class LuzidGrpcClient {
       this._mutator = new MutatorClient(this.channel)
     }
     return this._mutator
+  }
+
+  /**
+   * Provides access to the Ping client which is used to ensure that the Luzid
+   * backend is up via the following methods:
+   *
+   * - **ping**: Online backend will reply with `{ pong: true }`
+   */
+  get ping() {
+    if (this._ping == null) {
+      this._ping = new PingClient(this.channel)
+    }
+    return this._ping
   }
 
   /**

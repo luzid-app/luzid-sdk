@@ -1,6 +1,16 @@
-import { LabelTransactionRequest, LabelTransactionResponse } from '@luzid/grpc'
+import {
+  LabelTransactionRequest,
+  LabelTransactionResponse,
+  RpcTransactionUpdate,
+  TransactionModificationLabeled,
+} from '@luzid/grpc'
 import { LuzidGrpcClient } from '@luzid/grpc-client'
 import { Successful, unwrap } from '../core/utils'
+
+export {
+  RpcTransactionUpdate,
+  TransactionModificationLabeled,
+} from '@luzid/grpc'
 
 export class LuzidTransaction {
   constructor(private readonly client: LuzidGrpcClient) {}
@@ -20,5 +30,20 @@ export class LuzidTransaction {
     const req: LabelTransactionRequest = { signature, label }
     const res = await this.client.transaction.labelTransaction(req)
     return unwrap(res, 'Luzid transaction.label')
+  }
+
+  /**
+   * Subscribes to transaction updates, i.e. when a new transaction
+   * is created.
+   */
+  subTransactions(): AsyncIterable<RpcTransactionUpdate> {
+    return this.client.transaction.subTransactions()
+  }
+
+  /**
+   * Subscribes to transaction labeling events.
+   */
+  subTransactionLabeled(): AsyncIterable<TransactionModificationLabeled> {
+    return this.client.transaction.subTransactionLabeled()
   }
 }

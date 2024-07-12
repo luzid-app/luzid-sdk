@@ -26,6 +26,9 @@ import {
   SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse,
   SnapshotDeleteSnapshotsMatchingRequest,
   SnapshotDeleteSnapshotsMatchingResponse,
+  SnapshotsModifiedSubClient,
+  SnapshotsModified,
+  SnapshotsModifiedSubDefinition,
 } from '@luzid/grpc'
 
 export {
@@ -137,17 +140,34 @@ class SnapshotRestoreClient {
 }
 
 // -----------------
+// SnapshotsModifiedClient
+// -----------------
+class SnapshotsModifiedClient {
+  private readonly client: SnapshotsModifiedSubClient
+
+  constructor(channel: Channel) {
+    this.client = createClient(SnapshotsModifiedSubDefinition, channel)
+  }
+
+  subSnapshotsModified(): AsyncIterable<SnapshotsModified> {
+    return this.client.subSnapshotsModified({})
+  }
+}
+
+// -----------------
 // Consolidated SnapshotClient
 // -----------------
 export class SnapshotClient {
   private readonly getAccountClient: SnapshotGetAccountClient
   private readonly managementClient: SnapshotManagementClient
   private readonly restoreClient: SnapshotRestoreClient
+  private readonly snapshotsModifiedClient: SnapshotsModifiedClient
 
   constructor(channel: Channel) {
     this.getAccountClient = new SnapshotGetAccountClient(channel)
     this.managementClient = new SnapshotManagementClient(channel)
     this.restoreClient = new SnapshotRestoreClient(channel)
+    this.snapshotsModifiedClient = new SnapshotsModifiedClient(channel)
   }
 
   getAccount(
@@ -202,5 +222,9 @@ export class SnapshotClient {
     request: SnapshotRestoreAccountsFromLastUpdatedSnapshotRequest
   ): Promise<SnapshotRestoreAccountsFromLastUpdatedSnapshotResponse> {
     return this.restoreClient.restoreAccountsFromLastUpdatedSnapshot(request)
+  }
+
+  subSnapshotsModified(): AsyncIterable<SnapshotsModified> {
+    return this.snapshotsModifiedClient.subSnapshotsModified()
   }
 }

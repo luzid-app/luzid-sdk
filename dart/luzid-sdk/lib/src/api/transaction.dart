@@ -1,11 +1,13 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:luzid_grpc/luzid_grpc.dart';
 import 'package:luzid_grpc_client/luzid_grpc_client.dart';
+import 'package:luzid_sdk/src/api-types/transaction_labeled.dart';
 import 'package:luzid_sdk/src/api-types/transaction_update.dart';
 import 'package:luzid_sdk/src/core/utils.dart';
 
 export 'package:luzid_sdk/src/api-types/transaction_account.dart';
 export 'package:luzid_sdk/src/api-types/transaction_update.dart';
+export 'package:luzid_sdk/src/api-types/transaction_labeled.dart';
 
 class LuzidTransaction {
   final LuzidGrpcClient _client;
@@ -42,6 +44,13 @@ class LuzidTransaction {
   Stream<TransactionUpdate> subTransactions() {
     return _client.transaction.subTransactions().map((rpc) {
       return TransactionUpdate.from(rpc);
+    });
+  }
+
+  /// Subscribes to updates emitted when any transaction is labeled.
+  Stream<TransactionLabeled> subTransactionLabeled() {
+    return _client.transaction.subTransactionModifiedLabeled().map((rpc) {
+      return TransactionLabeled.from(rpc);
     });
   }
 }

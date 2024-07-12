@@ -15,7 +15,7 @@ jobs:
       - name: Checkout Luzid
         uses: actions/checkout@v4
         with:
-          repository: luzid-app/luzid
+          repository: magicblock-labs/luzid
           path: luzid
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
 
