@@ -1,3 +1,7 @@
+## 0.0.4
+
+ - **FEAT**: adding more methods to support latest luzid (#16).
+
 ## 0.0.3
 
 ## 0.0.2

@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-12
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`luzid_grpc` - `v0.0.3`](#luzid_grpc---v003)
+ - [`luzid_grpc_client` - `v0.0.4`](#luzid_grpc_client---v004)
+ - [`luzid_sdk` - `v0.0.4`](#luzid_sdk---v004)
+
+---
+
+#### `luzid_grpc` - `v0.0.3`
+
+ - **FEAT**: adding more methods to support latest luzid (#16).
+
+#### `luzid_grpc_client` - `v0.0.4`
+
+ - **FEAT**: adding more methods to support latest luzid (#16).
+
+#### `luzid_sdk` - `v0.0.4`
+
+ - **FEAT**: adding more methods to support latest luzid (#16).
+
+
 ## 2024-06-29
 
 ### Changes
