@@ -1,6 +1,6 @@
 {
   "name": "@luzid/sdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "The SDK to control Luzid from Node.js and the Browser.",
   "exports": {
     "types": "./dist/types/luzid-sdk.d.ts",
@@ -50,7 +50,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@luzid/grpc": "^0.0.3",
-    "@luzid/grpc-client": "^0.0.3"
+    "@luzid/grpc": "^0.0.4",
+    "@luzid/grpc-client": "^0.0.5"
   }
 }
