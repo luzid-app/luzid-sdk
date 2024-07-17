@@ -1,6 +1,6 @@
 name: luzid_sdk
 description: Dart SDK for luzid.app.
-version: 0.0.5
+version: 0.0.6
 repository: https://github.com/luzid-app/luzid-sdk
 
 environment:
@@ -9,8 +9,8 @@ environment:
 dependencies:
   equatable: ^2.0.5
   fixnum: ^1.1.0
-  luzid_grpc: ^0.0.3
-  luzid_grpc_client: ^0.0.4
+  luzid_grpc: ^0.0.4
+  luzid_grpc_client: ^0.0.5
 
 dev_dependencies:
   ansicolor: ^2.0.2
