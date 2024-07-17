@@ -1,3 +1,7 @@
+## 0.0.5
+
+ - **FEAT**: include more info for tx + account updates (#17).
+
 ## 0.0.4
 
  - **FEAT**: adding more methods to support latest luzid (#16).
