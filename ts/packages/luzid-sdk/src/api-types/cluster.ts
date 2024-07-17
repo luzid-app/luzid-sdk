@@ -65,6 +65,21 @@ export class Cluster implements LuzidCluster {
     }
   }
 
+  get label(): String {
+    switch (this.grpcCluster) {
+      case GrpcCluster.Development:
+        return 'Development'
+      case GrpcCluster.Testnet:
+        return 'Testnet'
+      case GrpcCluster.MainnetBeta:
+        return 'Mainnet Beta'
+      case GrpcCluster.Devnet:
+        return 'Devnet'
+      default:
+        throw new Error(`Unknown cluster: ${this.grpcCluster}`)
+    }
+  }
+
   toJSON() {
     return clusterToJSON(this.grpcCluster)
   }

@@ -15,6 +15,7 @@ const DEFAULT_GRPC_SERVER_HOST = 'localhost'
 
 export type LuzidGrpcClientOpts = {
   host?: string
+  protocol?: 'http' | 'https'
   port?: number
 }
 
@@ -34,7 +35,8 @@ export class LuzidGrpcClient {
   constructor(opts?: LuzidGrpcClientOpts) {
     const host = opts?.host ?? DEFAULT_GRPC_SERVER_HOST
     const port = opts?.port ?? DEFAULT_GRPC_SERVER_PORT
-    const url = `${host}:${port}`
+    const protocol = opts?.protocol ?? 'http'
+    const url = `${protocol}://${host}:${port}`
     this.channel = createChannel(url)
   }
 
