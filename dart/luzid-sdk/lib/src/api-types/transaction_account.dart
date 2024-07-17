@@ -5,6 +5,7 @@ import 'package:luzid_grpc/luzid_grpc.dart';
 class TransactionAccount extends Equatable {
   final String pubkey;
   final String? label;
+  final bool isProgram;
   final bool isSigner;
   final bool isWritable;
   final bool isFeePayer;
@@ -15,6 +16,7 @@ class TransactionAccount extends Equatable {
   const TransactionAccount(
     this.pubkey,
     this.label,
+    this.isProgram,
     this.isSigner,
     this.isWritable,
     this.isFeePayer,
@@ -28,6 +30,7 @@ class TransactionAccount extends Equatable {
     return TransactionAccount(
       rpc.pubkey,
       rpc.hasLabel() ? rpc.label : null,
+      rpc.isProgram,
       rpc.isSigner,
       rpc.isWritable,
       rpc.isFeePayer,
@@ -45,6 +48,7 @@ class TransactionAccount extends Equatable {
       TransactionAccount {
         pubkey: $pubkey,
         label: $label,
+        isProgram: $isProgram,
         isSigner: $isSigner,
         isWritable: $isWritable,
         isFeePayer: $isFeePayer,
@@ -58,6 +62,7 @@ class TransactionAccount extends Equatable {
   List<Object?> get props => [
         pubkey,
         label,
+        isProgram,
         isSigner,
         isWritable,
         isFeePayer,
