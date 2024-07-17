@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2024-07-17
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`luzid_sdk` - `v0.0.5`](#luzid_sdk---v005)
+
+---
+
+#### `luzid_sdk` - `v0.0.5`
+
+ - **FEAT**: include more info for tx + account updates (#17).
+
+
 ## 2024-07-12
 
 ### Changes
