@@ -30,6 +30,8 @@ export class LuzidValidator {
 
   /**
    * Starts the validator.
+   *
+   * @private
    */
   start(): Promise<Successful<ValidatorOpsResponse>> {
     return this.validatorOps(ValidatorOperation.Start)
@@ -37,6 +39,8 @@ export class LuzidValidator {
 
   /**
    * Stops the validator.
+   *
+   * @private
    */
   stop(): Promise<Successful<ValidatorOpsResponse>> {
     return this.validatorOps(ValidatorOperation.Stop)
@@ -44,6 +48,8 @@ export class LuzidValidator {
 
   /**
    * Restarts the validator.
+   *
+   * @private
    */
   restart(): Promise<Successful<ValidatorOpsResponse>> {
     return this.validatorOps(ValidatorOperation.Restart)

@@ -4,6 +4,12 @@
   "entryPointStrategy": "packages",
   "includeVersion": false,
   "out": "../gh-pages/docs/ts",
+  "exclude": [
+    "packages/build-scripts",
+    "packages/luzid-grpc-connection",
+    "packages/luzid-grpc",
+    "packages/luzid-grpc-client"
+  ],
   "readme": "README.md",
   "name": "Luzid — Application API References",
   "cname": "luzid.app",
