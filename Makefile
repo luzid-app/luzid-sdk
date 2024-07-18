@@ -5,3 +5,5 @@ docs:
 
 docs-deploy: docs
 	$(DIR)/sh/deploy-docs
+
+.PHONY: docs docs-deploy
