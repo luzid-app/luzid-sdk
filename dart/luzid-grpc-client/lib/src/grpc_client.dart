@@ -37,6 +37,11 @@ class LuzidGrpcClientOpts {
   int? port;
 
   LuzidGrpcClientOpts({this.host, this.port});
+
+  @override
+  String toString() {
+    return 'LuzidGrpcClientOpts{host: $host, port: $port}';
+  }
 }
 
 class LuzidGrpcClient {
